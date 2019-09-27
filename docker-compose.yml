@@ -2,7 +2,7 @@ version: "3"
 
 services:
   namenode:
-    image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
+    image: cloudwiz/hadoop-namenode
     container_name: namenode
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
@@ -14,7 +14,7 @@ services:
       - 50070:50070
 
   datanode:
-    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    image: cloudwiz/hadoop-datanode
     container_name: datanode
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
@@ -35,7 +35,7 @@ services:
       - 2181:2181
 
   hbase-master:
-    image: bde2020/hbase-master:1.0.0-hbase1.2.6
+    image: cloudwiz/hbase-master
     container_name: hbase-master
     hostname: hbase-master
     env_file:
@@ -46,7 +46,7 @@ services:
       - 16010:16010
 
   hbase-region:
-    image: bde2020/hbase-regionserver:1.0.0-hbase1.2.6
+    image: cloudwiz/hbase-regionserver
     container_name: hbase-regionserver
     hostname: hbase-regionserver
     env_file:
