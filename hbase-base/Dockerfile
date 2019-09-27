@@ -1,13 +1,12 @@
-FROM openjdk:8
+FROM opennms/openjdk
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends net-tools curl netcat
+RUN yum install -y net-tools curl netcat
 
-ENV HBASE_VERSION 1.2.6
-ENV HBASE_URL http://www.apache.org/dist/hbase/$HBASE_VERSION/hbase-$HBASE_VERSION-bin.tar.gz
+ENV HBASE_VERSION  1.4.10
+ENV HBASE_URL http://192.168.1.206:8080/package/hbase-$HBASE_VERSION-bin.tar.gz
 RUN set -x \
     && curl -fSL "$HBASE_URL" -o /tmp/hbase.tar.gz \
-    && curl -fSL "$HBASE_URL.asc" -o /tmp/hbase.tar.gz.asc \
     && tar -xvf /tmp/hbase.tar.gz -C /opt/ \
     && rm /tmp/hbase.tar.gz*
 
