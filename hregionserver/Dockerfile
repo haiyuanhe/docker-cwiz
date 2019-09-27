@@ -1,4 +1,5 @@
-FROM bde2020/hbase-base:1.0.0-hbase1.2.6
+FROM cloudwiz/hbase-hbase
+MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
