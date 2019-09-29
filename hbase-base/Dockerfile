@@ -1,7 +1,7 @@
 FROM opennms/openjdk
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
-RUN yum install -y net-tools curl nc netcat
+RUN yum install -y net-tools curl nc netcat perl
 
 ENV HBASE_VERSION  1.4.10
 ENV HBASE_URL http://192.168.1.206:8080/package/hbase-$HBASE_VERSION-bin.tar.gz

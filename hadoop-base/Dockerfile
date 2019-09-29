@@ -1,7 +1,7 @@
 FROM opennms/openjdk
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
-RUN yum install -y net-tools curl nc netcat
+RUN yum install -y net-tools curl nc netcat perl
 
 ENV HADOOP_VERSION  2.7.7
 ENV HADOOP_URL http://192.168.1.206:8080/package/hadoop-$HADOOP_VERSION.tar.gz
