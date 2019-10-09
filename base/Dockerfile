@@ -9,7 +9,7 @@ ENV JAVA_HOME /usr/lib/jvm/java
 RUN yum-config-manager --enable cr && \
     yum -y --setopt=tsflags=nodocs update && \
     yum -y install java-${JAVA_VERSION}-openjdk-devel && \
-    yum -y install net-tools curl netcat which perl && \
+    yum -y install net-tools curl netcat which perl nc && \
     yum -y clean all && \
     rm -rf /var/cache/yum
 
