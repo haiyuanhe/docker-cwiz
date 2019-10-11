@@ -4,10 +4,11 @@ services:
   namenode:
     image: cloudwiz/hadoop-namenode
     container_name: namenode
+    hostname: namenode
     volumes:
     - hadoop_namenode:/hadoop/dfs/name
     environment:
-    - CLUSTER_NAME=test
+    - CLUSTER_NAME=prod
     env_file:
     - ./hadoop.env
     ports:
@@ -16,6 +17,7 @@ services:
   datanode:
     image: cloudwiz/hadoop-datanode
     container_name: datanode
+    hostname: datanode
     volumes:
     - hadoop_datanode:/hadoop/dfs/data
     environment:
@@ -24,10 +26,13 @@ services:
     - ./hadoop.env
     ports:
     - 50075:50075
+    depends_on:
+    - namenode
 
-  zoo:
+  zookeeper:
     image: zookeeper:3.4.10
-    container_name: zoo
+    container_name: zookeeper
+    hostname: zookeeper
     environment:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888
@@ -41,23 +46,59 @@ services:
     env_file:
     - ./hadoop.env
     environment:
-      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zoo:2181"
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181"
     ports:
     - 16010:16010
+    depends_on:
+    - namenode
+    - datanode
+    - zookeeper
 
-  hbase-region:
+  hbase-regionserver:
     image: cloudwiz/hbase-regionserver
     container_name: hbase-regionserver
     hostname: hbase-regionserver
     env_file:
     - ./hadoop.env
     environment:
-      HBASE_CONF_hbase_regionserver_hostname: hbase-region
-      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zoo:2181 hbase-master:16010"
+      HBASE_CONF_hbase_regionserver_hostname: hbase-regionserver
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
     ports:
     - 16030:16030
+    depends_on:
+    - namenode
+    - datanode
+    - zookeeper
+    - hbase-master
+
+  elasticsearch:
+    image: elasticsearch:5.4.3
+    container_name: elasticsearch
+    hostname: es
+    env_file:
+    - ./hadoop.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
+    ports:
+    - 9200:9200
+    - 9300:9300
+
+  nginx:
+    image: nginx:1.17.4
+    container_name: nginx
+    hostname: nginx
+    env_file:
+    - ./hadoop.env
+#    volumes:
+#    - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+    - 80:80
+    - 443:443
+
 
 volumes:
   hadoop_namenode:
   hadoop_datanode:
-  hadoop_historyserver:
+  elasticsearch:
+  zookeeper:
+  nginx:
