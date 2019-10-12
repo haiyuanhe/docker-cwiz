@@ -120,9 +120,9 @@ services:
     ports:
     - 4243:4243
     volumes:
-    - ${TAG}/metric-proxy/bin/start.sh:/opt/cloudwiz-metric-proxy/bin/start.sh
-    - ${TAG}/metric-proxy/config/application.yml:/opt/cloudwiz-metric-proxy/config/application.conf
-    - ${TAG}/metric-proxy/config/log4j.properties:/opt/cloudwiz-metric-proxy/config/log4j.properties
+    - ${WORK_PATH}/metric-proxy/bin/start.sh:/opt/cloudwiz-metric-proxy/bin/start.sh
+    - ${WORK_PATH}/metric-proxy/config/application.yml:/opt/cloudwiz-metric-proxy/config/application.conf
+    - ${WORK_PATH}/metric-proxy/config/log4j.properties:/opt/cloudwiz-metric-proxy/config/log4j.properties
 #    - /opt/template/cloudwiz-metric-proxy/conf/opentsdb.conf:/opt/cloudwiz-metric-proxy/conf/application.conf
     depends_on:
     - kafka
@@ -136,9 +136,9 @@ services:
     ports:
     - 4242:4242
     volumes:
-    - ${TAG}/opentsdb/bin/start.sh:/opt/opentsdb/start.sh
-    - ${TAG}/opentsdb/conf/opentsdb.conf:/opt/opentsdb/conf/opentsdb.conf
-    - ${TAG}/opentsdb/conf/logback.xml:/opt/opentsdb/conf/logback.xml
+    - ${WORK_PATH}/opentsdb/bin/start.sh:/opt/opentsdb/start.sh
+    - ${WORK_PATH}/opentsdb/conf/opentsdb.conf:/opt/opentsdb/conf/opentsdb.conf
+    - ${WORK_PATH}/opentsdb/conf/logback.xml:/opt/opentsdb/conf/logback.xml
     depends_on:
     - hbase-regionserver
 #    - metric-proxy
