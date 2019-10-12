@@ -51,9 +51,9 @@ done
 
 # warn if the script was run as root
 USER=$(get_user)
-if [ $USER = "root" -a $_CLEANUP -eq 0 ]; then
-    log_crit "Please run as non-root!"
-fi
+#if [ $USER = "root" -a $_CLEANUP -eq 0 ]; then
+#    log_crit "Please run as non-root!"
+#fi
 
 # if config file was not specified, default to "install.ini"
 if [ -z "$_CFG" ]; then
@@ -372,9 +372,9 @@ function action()
 
 
 # make sure we have a clean environment
-if [ $_CLEANUP -eq 0 ]; then
-    verify_environment
-fi
+#if [ $_CLEANUP -eq 0 ]; then
+#    verify_environment
+#fi
 
 
 next_step "Initialization"
