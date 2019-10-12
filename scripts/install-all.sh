@@ -165,15 +165,15 @@ function verify_directories()
         dirs+=("$log_root")
     fi
 
-    for dir in ${dirs[@]}
-    do
-        if [ ! -d $dir ]; then
-            log_info "Creating directory $dir"
-            make_dir "$dir"
-        elif ! is_dir_empty $dir; then
-            log_crit "Directory $dir not empty"
-        fi
-    done
+#    for dir in ${dirs[@]}
+#    do
+#        if [ ! -d $dir ]; then
+#            log_info "Creating directory $dir"
+#            make_dir "$dir"
+#        elif ! is_dir_empty $dir; then
+#            log_crit "Directory $dir not empty"
+#        fi
+#    done
 
     # install_root, data_root, and log_root have to be all different!
     if [ "$install_root" = "$data_root" ]; then
