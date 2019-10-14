@@ -1,8 +1,10 @@
 FROM cloudwiz/openjdk
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
+ARG PKG_URL
+
 ENV HBASE_VERSION  1.4.10
-ENV HBASE_URL http://192.168.1.206:8080/package/hbase-$HBASE_VERSION-bin.tar.gz
+ENV HBASE_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/hbase-$HBASE_VERSION-bin.tar.gz
 ENV JAVA_HOME /usr/lib/jvm/java
 
 RUN set -x \

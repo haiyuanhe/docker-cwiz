@@ -1,9 +1,12 @@
 FROM cloudwiz/openjdk
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
+ARG PKG_URL
+
 ENV HADOOP_VERSION  2.7.7
-ENV HADOOP_URL http://192.168.1.206:8080/package/hadoop-$HADOOP_VERSION.tar.gz
+ENV HADOOP_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/hadoop-$HADOOP_VERSION.tar.gz
 ENV JAVA_HOME /usr/lib/jvm/java
+
 
 RUN set -x \
     && curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \

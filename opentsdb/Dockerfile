@@ -1,8 +1,9 @@
 FROM cloudwiz/openjdk
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
+ARG PKG_URL
 
-ENV OPENTSDB_URL http://192.168.1.206:8080/package/opentsdb.tar.gz
+ENV OPENTSDB_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/opentsdb.tar.gz
 ENV JAVA_HOME /usr/lib/jvm/java
 
 RUN set -x \
