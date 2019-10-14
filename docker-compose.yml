@@ -71,6 +71,18 @@ services:
     - zookeeper
     - hbase-master
 
+  mysql-server:
+    image: cloudwiz/mysql
+    container_name: mysql-server
+    volumes:
+    - ${WORK_PATH}/tools/mysql/sql/:/sql
+    #- /usr/local/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
+    #- /usr/local/docker/mysql/data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Cloudwiz_p0c
+    ports:
+      - 3306:3306
+
   elasticsearch:
     image: elasticsearch:5.4.3
     container_name: elasticsearch
@@ -109,7 +121,7 @@ services:
 #    volumes:
 #    - kafka:/var/run/docker.sock
     depends_on:
-    - zookeeper
+     - zookeeper
 
   metric-proxy:
     image: cloudwiz/metric-proxy
@@ -142,7 +154,6 @@ services:
     depends_on:
     - hbase-regionserver
 #    - metric-proxy
-
 
 volumes:
   hadoop_namenode:
