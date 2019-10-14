@@ -121,7 +121,7 @@ services:
 #    volumes:
 #    - kafka:/var/run/docker.sock
     depends_on:
-     - zookeeper
+    - zookeeper
 
   metric-proxy:
     image: cloudwiz/metric-proxy
@@ -154,6 +154,7 @@ services:
     depends_on:
     - hbase-regionserver
 #    - metric-proxy
+
 
 volumes:
   hadoop_namenode:
