@@ -8,7 +8,8 @@ RUN set -x \
     && curl -fSL "$URL" -o /tmp/cloudwiz-metric-proxy.tar.gz \
     && tar -xvf /tmp/cloudwiz-metric-proxy.tar.gz -C /opt/ \
     && mkdir -p /opt/cloudwiz-metric-proxy/config \
-    && rm /tmp/cloudwiz-metric-proxy.tar.gz*
+    && rm /tmp/cloudwiz-metric-proxy.tar.gz* \
+    && ln -s /usr/lib/jvm/java  /opt/jdk
 
 
 ENV USER=root
