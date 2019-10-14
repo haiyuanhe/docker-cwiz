@@ -1,7 +1,9 @@
 FROM cloudwiz/openjdk
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
-ENV URL http://192.168.1.206:8080/package/cloudwiz-metric-proxy.tar.gz
+ARG PKG_URL
+
+ENV URL ${PKG_URL:-http://download.cloudwiz.cn/package}/cloudwiz-metric-proxy.tar.gz
 ENV JAVA_HOME /usr/lib/jvm/java
 
 RUN set -x \
