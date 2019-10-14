@@ -71,6 +71,18 @@ services:
     - zookeeper
     - hbase-master
 
+  mysql-server:
+    image: cloudwiz/mysql
+    container_name: mysql-server
+    volumes:
+    - ${WORK_PATH}/tools/mysql/sql/:/sql
+    #- /usr/local/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
+    #- /usr/local/docker/mysql/data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - 3306:3306
+
   elasticsearch:
     image: elasticsearch:5.4.3
     container_name: elasticsearch
