@@ -84,13 +84,13 @@ services:
     - 9300:9300
 
   nginx:
-    image: nginx:1.17.4
+    image: nginx:1.12.1
     container_name: nginx
     hostname: nginx
     env_file:
     - ./hadoop.env
-#    volumes:
-#    - ./nginx.conf:/etc/nginx/nginx.conf
+    volumes:
+    - ${WORK_PATH}/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
     ports:
     - 80:80
     - 443:443
@@ -123,7 +123,7 @@ services:
     - ${WORK_PATH}/metric-proxy/bin/start.sh:/opt/cloudwiz-metric-proxy/bin/start.sh
     - ${WORK_PATH}/metric-proxy/config/application.yml:/opt/cloudwiz-metric-proxy/config/application.conf
     - ${WORK_PATH}/metric-proxy/config/log4j.properties:/opt/cloudwiz-metric-proxy/config/log4j.properties
-#    - /opt/template/cloudwiz-metric-proxy/conf/opentsdb.conf:/opt/cloudwiz-metric-proxy/conf/application.conf
+    - ${WORK_PATH}/startup:/opt/startup
     depends_on:
     - kafka
 
@@ -136,9 +136,10 @@ services:
     ports:
     - 4242:4242
     volumes:
-    - ${WORK_PATH}/opentsdb/bin/start.sh:/opt/opentsdb/start.sh
+    - ${WORK_PATH}/opentsdb/bin/start.sh:/opt/opentsdb/bin/start.sh
     - ${WORK_PATH}/opentsdb/conf/opentsdb.conf:/opt/opentsdb/conf/opentsdb.conf
     - ${WORK_PATH}/opentsdb/conf/logback.xml:/opt/opentsdb/conf/logback.xml
+    - ${WORK_PATH}/startup:/opt/startup
     depends_on:
     - hbase-regionserver
 #    - metric-proxy
