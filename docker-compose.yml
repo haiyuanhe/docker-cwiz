@@ -79,7 +79,7 @@ services:
     #- /usr/local/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
     #- /usr/local/docker/mysql/data/mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: Cloudwiz_p0c
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - 3306:3306
 
