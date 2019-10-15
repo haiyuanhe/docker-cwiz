@@ -9,7 +9,8 @@ ENV JAVA_HOME /usr/lib/jvm/java
 RUN set -x \
     && curl -fSL "$URL" -o /tmp/cloudwiz-metric-proxy.tar.gz \
     && tar -xvf /tmp/cloudwiz-metric-proxy.tar.gz -C /opt/ \
-    && mkdir -p /opt/cloudwiz-metric-proxy/config \
+    && mv /opt/cloudwiz-metric-proxy /opt/metric-proxy \
+    && mkdir -p /opt/metric-proxy/config \
     && rm /tmp/cloudwiz-metric-proxy.tar.gz* \
     && ln -s /usr/lib/jvm/java  /opt/jdk
 
@@ -18,4 +19,4 @@ ENV USER=root
 
 EXPOSE 4243
 
-CMD ["/opt/cloudwiz-metric-proxy/bin/start.sh"]
+CMD ["/opt/metric-proxy/bin/start.sh"]
