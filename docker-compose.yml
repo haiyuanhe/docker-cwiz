@@ -109,6 +109,7 @@ services:
     - ./hadoop.env
     environment:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
+      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
     ports:
     - 9200:9200
     - 9300:9300
@@ -144,13 +145,13 @@ services:
       kafka: 172.19.0.10
       metric-proxy: 172.19.0.11
       opentsdb: 172.19.0.12
+      cmservice: 172.19.0.13
+      log_processor: 172.19.0.14
       #### No such service now 
       alertd: 172.19.0.133 
-      cmservice: 172.19.0.144 
       webfront: 172.19.0.155
       log_analysis: 172.19.0.166
       cloudwiz_user: 172.19.0.177
-      log_processor: 172.19.0.188
       permission: 172.19.0.199
       log_pp: 172.19.0.200
       oneagent: 172.19.0.211
@@ -171,6 +172,7 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M" 
 #    volumes:
 #    - kafka:/var/run/docker.sock
     depends_on:
@@ -216,6 +218,42 @@ services:
     - hbase-regionserver
 #    - metric-proxy
 
+  cmservice:
+    image: cloudwiz/cmservice
+    container_name: cmservice
+    hostname: cmservice
+    env_file:
+    - ./hadoop.env
+    ports:
+    - 9601:9601
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.13
+    volumes:
+    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
+    - ${WORK_PATH}/cmservice/bin/start.sh:/opt/cmservice/bin/start.sh
+    - ${WORK_PATH}/cmservice/conf/cmservice.properties:/opt/cmservice/conf/cmservice.properties
+    - ${WORK_PATH}/cmservice/config/log4j.properties:/opt/cmservice/config/log4j.properties
+    depends_on:
+    - mysql-server
+
+  log_processor:
+    image: cloudwiz/log-processor
+    container_name: log-processor
+    hostname: log-processor
+    env_file:
+    - ./hadoop.env
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.14
+    volumes:
+    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
+    - ${WORK_PATH}/log-processor/bin/start.sh:/opt/log-processor/bin/start.sh
+    - ${WORK_PATH}/log-processor/config/log.processor.properties:/opt/log-processor/config/log.processor.properties
+    - ${WORK_PATH}/log-processor/config/log4j.properties:/opt/log-processor/config/log4j.properties
+    depends_on:
+    - kafka
+    - elasticsearch
 
 volumes:
   hadoop_namenode:
