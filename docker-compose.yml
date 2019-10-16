@@ -136,19 +136,13 @@ services:
       namenode: 172.19.0.2
       datanode: 172.19.0.3
       zookeeper: 172.19.0.4
-      # name not the same
       hbase-master: 172.19.0.5
-      ##master: 172.19.0.5
       hbase-regionserver: 172.19.0.6
-      ##regionserver: 172.19.0.6
       mysql-server: 172.19.0.7
-      ##mysql_master: 172.19.0.7
       elasticsearch: 172.19.0.8
       nginx: 172.19.0.9
       kafka: 172.19.0.10
-      # name not the same
       metric-proxy: 172.19.0.11
-      ##metric_proxy: 172.19.0.11
       opentsdb: 172.19.0.12
       #### No such service now 
       alertd: 172.19.0.133 
@@ -198,7 +192,6 @@ services:
     - ${WORK_PATH}/metric-proxy/bin/start.sh:/opt/metric-proxy/bin/start.sh
     - ${WORK_PATH}/metric-proxy/config/application.yml:/opt/metric-proxy/config/application.conf
     - ${WORK_PATH}/metric-proxy/config/log4j.properties:/opt/metric-proxy/config/log4j.properties
-#    - /opt/template/cloudwiz-metric-proxy/conf/opentsdb.conf:/opt/cloudwiz-metric-proxy/conf/application.conf
     depends_on:
     - kafka
 
