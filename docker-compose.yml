@@ -218,6 +218,7 @@ services:
     - ${WORK_PATH}/opentsdb/bin/start.sh:/opt/opentsdb/bin/start.sh
     - ${WORK_PATH}/opentsdb/conf/opentsdb.conf:/opt/opentsdb/conf/opentsdb.conf
     - ${WORK_PATH}/opentsdb/conf/logback.xml:/opt/opentsdb/conf/logback.xml
+    - ${WORK_PATH}/startup:/opt/startup
     depends_on:
     - hbase-regionserver
 #    - metric-proxy
