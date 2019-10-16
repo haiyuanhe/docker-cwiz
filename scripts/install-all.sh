@@ -445,4 +445,6 @@ do
 
 done
 
+sed -i 's/daemon off;/#daemon off;/' $install_root/nginx/conf/nginx.conf
+
 exit 0

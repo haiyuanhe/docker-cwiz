@@ -1,6 +1,6 @@
 DOCKER_NETWORK = hbase
 ENV_FILE = hadoop.env
-PKG_URL=http://192.168.1.206:8080/package
+PKG_URL=http://download.cloudwiz.cn/package
 build:
 	docker build -t cloudwiz/openjdk ./base
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/hadoop-base ./hadoop-base
