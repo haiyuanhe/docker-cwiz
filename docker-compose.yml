@@ -147,9 +147,9 @@ services:
       opentsdb: 172.19.0.12
       cmservice: 172.19.0.13
       log_processor: 172.19.0.14
+      webfront: 172.19.0.15
       #### No such service now 
       alertd: 172.19.0.133 
-      webfront: 172.19.0.155
       log_analysis: 172.19.0.166
       cloudwiz_user: 172.19.0.177
       permission: 172.19.0.199
@@ -232,6 +232,7 @@ services:
     volumes:
     - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
     - ${WORK_PATH}/cmservice/bin/start.sh:/opt/cmservice/bin/start.sh
+    - ${WORK_PATH}/logs/cmservice/:/log/cmservice/
     - ${WORK_PATH}/cmservice/conf/cmservice.properties:/opt/cmservice/conf/cmservice.properties
     - ${WORK_PATH}/cmservice/config/log4j.properties:/opt/cmservice/config/log4j.properties
     depends_on:
@@ -254,6 +255,21 @@ services:
     depends_on:
     - kafka
     - elasticsearch
+
+  webfront:
+    image: cloudwiz/webfront
+    container_name: webfront
+    hostname: webfront
+    ports:
+    - 3000:3000
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.15
+    volumes:
+    - ${WORK_PATH}/webfront/conf/defaults.ini:/opt/webfront/conf/defaults.ini
+    - ${WORK_PATH}/logs/webfront/:/log/
+    depends_on:
+    - mysql-server
 
 volumes:
   hadoop_namenode:
