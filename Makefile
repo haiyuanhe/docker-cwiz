@@ -14,4 +14,6 @@ build:
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/cmservice ./cmservice
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/log-processor ./log-processor
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/webfront ./webfront
+	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/permission ./permission
+	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/cloudwiz-user ./cloudwiz-user
 	docker build -t cloudwiz/mysql ./mysql
