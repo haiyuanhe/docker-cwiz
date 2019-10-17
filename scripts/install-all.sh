@@ -376,6 +376,10 @@ function action()
 #    verify_environment
 #fi
 
+# add cwiz_static_sql to template
+if [ ! -f "$_TEMPLATE/tools/mysql/sql/cwiz_static.sql" ]; then
+    cp -a ../mysql/cwiz_static.sql $_TEMPLATE/tools/mysql/sql/
+fi
 
 next_step "Initialization"
 
