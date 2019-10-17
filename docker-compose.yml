@@ -148,11 +148,11 @@ services:
       cmservice: 172.19.0.13
       log_processor: 172.19.0.14
       webfront: 172.19.0.15
+      cloudwiz_user: 172.19.0.16
+      permission: 172.19.0.17
       #### No such service now 
       alertd: 172.19.0.133 
       log_analysis: 172.19.0.166
-      cloudwiz_user: 172.19.0.177
-      permission: 172.19.0.199
       log_pp: 172.19.0.200
       oneagent: 172.19.0.211
       python_daemon: 172.19.0.222
@@ -234,7 +234,7 @@ services:
     - ${WORK_PATH}/cmservice/bin/start.sh:/opt/cmservice/bin/start.sh
     - ${WORK_PATH}/logs/cmservice/:/log/cmservice/
     - ${WORK_PATH}/cmservice/conf/cmservice.properties:/opt/cmservice/conf/cmservice.properties
-    - ${WORK_PATH}/cmservice/config/log4j.properties:/opt/cmservice/config/log4j.properties
+    - ${WORK_PATH}/cmservice/conf/log4j.properties:/opt/cmservice/conf/log4j.properties
     depends_on:
     - mysql-server
 
@@ -270,6 +270,37 @@ services:
     - ${WORK_PATH}/logs/webfront/:/log/
     depends_on:
     - mysql-server
+
+  cloudwiz_user:
+    image: cloudwiz/cloudwiz-user
+    container_name: cloudwiz-user
+    hostname: cloudwiz-user
+    ports:
+    - 7002:7002
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.16
+    volumes:
+    - ${WORK_PATH}/cloudwiz-user/web.config.js:/opt/cloudwiz-user/web.config.js
+    depends_on:
+    - permission
+
+  permission:
+    image: cloudwiz/permission
+    container_name: permission
+    hostname: permission
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.17
+    volumes:
+    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
+    - ${WORK_PATH}/permission/bin/start.sh:/opt/permission/bin/start.sh
+    - ${WORK_PATH}/permission/config/application.yml:/opt/permission/config/application.yml
+    - ${WORK_PATH}/permission/config/log4j2.yml:/opt/permission/config/log4j2.yml
+    - ${WORK_PATH}/logs/permission/:/log/
+    depends_on:
+    - mysql-server
+    - webfront
 
 volumes:
   hadoop_namenode:
