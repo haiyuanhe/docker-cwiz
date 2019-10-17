@@ -215,6 +215,7 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 				CREATE USER 'CloudInsight'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
 				GRANT ALL ON *.* TO 'CloudInsight'@'%';
 				source /sql/0010_dump.sql;
+				source /sql/cwiz_static.sql;
 				source /sql/0020_azure.sql;
 				source /sql/0030_metrics.sql;
 				source /sql/0031_send_msg.sql;
