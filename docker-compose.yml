@@ -150,9 +150,9 @@ services:
       webfront: 172.19.0.15
       cloudwiz_user: 172.19.0.16
       permission: 172.19.0.17
+      log_analysis: 172.19.0.18
       #### No such service now 
       alertd: 172.19.0.133 
-      log_analysis: 172.19.0.166
       log_pp: 172.19.0.200
       oneagent: 172.19.0.211
       python_daemon: 172.19.0.222
@@ -301,6 +301,22 @@ services:
     depends_on:
     - mysql-server
     - webfront
+
+  log_analysis:
+    image: cloudwiz/log-analysis
+    container_name: log-analysis
+    hostname: log-analysis
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.18
+    volumes:
+    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
+    - ${WORK_PATH}/log-analysis/bin/start.sh:/opt/log-analysis/bin/start.sh
+    - ${WORK_PATH}/log-analysis/config/log.analysis.properties:/opt/log-analysis/config/log.analysis.properties
+    - ${WORK_PATH}/log-analysis/config/log4j.properties:/opt/log-analysis/config/log4j.properties
+    - ${WORK_PATH}/logs/log-analysis/:/log/log-analysis/
+    depends_on:
+    - mysql-server
 
 volumes:
   hadoop_namenode:
