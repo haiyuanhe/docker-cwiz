@@ -82,7 +82,7 @@ ALERT_GROUP_HISTORY='alert-group-history'
 TOPO_DATA='topo-data'
 
 # LZO requires lzo2 64bit to be installed + the hadoop-gpl-compression jar.
-COMPRESSION=${COMPRESSION-'LZO'}
+COMPRESSION=${COMPRESSION-'GZ'}
 # All compression codec names are upper case (NONE, LZO, SNAPPY, etc).
 COMPRESSION=`echo "$COMPRESSION" | tr a-z A-Z`
 
