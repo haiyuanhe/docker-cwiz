@@ -453,5 +453,6 @@ sed -i 's/daemon off;/#daemon off;/' $install_root/nginx/conf/nginx.conf
 sed -i '/^CMService.HttpHost =/cCMService.HttpHost = 0.0.0.0' $install_root/cmservice/conf/cmservice.properties
 sed -i '/^LogClustering.HttpHost =/cLogClustering.HttpHost = 0.0.0.0' $install_root/log-analysis/config/log.analysis.properties
 sed -i '/^HttpHost =/cHttpHost = 0.0.0.0' $install_root/chartservice/conf/chartservice.properties
+sed -i '/^current_node_name =/ccurrent_node_name = alertd' $install_root/alertd/conf/cloudmon.alerting.conf
 
 exit 0
