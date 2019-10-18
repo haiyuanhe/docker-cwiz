@@ -91,6 +91,7 @@ services:
     container_name: mysql-server
     volumes:
     - ${WORK_PATH}/tools/mysql/sql/:/sql
+    - ${WORK_PATH}/logs/mysql/:/var/log/mysql/
     #- /usr/local/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
     #- /usr/local/docker/mysql/data/mysql:/var/lib/mysql
     environment:
@@ -110,6 +111,8 @@ services:
     environment:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
       ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+    volumes:
+    - ${WORK_PATH}/logs/elasticsearch/:/usr/share/elasticsearch/logs
     ports:
     - 9200:9200
     - 9300:9300
@@ -125,8 +128,10 @@ services:
     - ./hadoop.env
     volumes:
     - ${WORK_PATH}/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-    - ${WORK_PATH}/nginx/:/log/nginx/
     - ${WORK_PATH}/nginx/:/opt/nginx/
+    - ${WORK_PATH}/logs/nginx/:/log/nginx/
+    #- ${WORK_PATH}/logs/nginx/access.log:/log/nginx/access.log
+    #- ${WORK_PATH}/logs/nginx/error.log:/log/nginx/error.log
     ports:
     - 8080:8080
     - 80:80
@@ -177,6 +182,8 @@ services:
       KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M" 
 #    volumes:
 #    - kafka:/var/run/docker.sock
+    volumes:
+    - ${WORK_PATH}/logs/kafka/:/opt/kafka/logs/
     depends_on:
     - zookeeper
 
@@ -194,8 +201,9 @@ services:
     volumes:
     - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
     - ${WORK_PATH}/metric-proxy/bin/start.sh:/opt/metric-proxy/bin/start.sh
-    - ${WORK_PATH}/metric-proxy/config/application.yml:/opt/metric-proxy/config/application.conf
+    - ${WORK_PATH}/metric-proxy/config/application.yml:/opt/metric-proxy/config/application.yml
     - ${WORK_PATH}/metric-proxy/config/log4j.properties:/opt/metric-proxy/config/log4j.properties
+    - ${WORK_PATH}/logs/metric-proxy/:/log/metric-proxy/
     depends_on:
     - kafka
 
@@ -215,6 +223,7 @@ services:
     - ${WORK_PATH}/opentsdb/bin/start.sh:/opt/opentsdb/bin/start.sh
     - ${WORK_PATH}/opentsdb/conf/opentsdb.conf:/opt/opentsdb/conf/opentsdb.conf
     - ${WORK_PATH}/opentsdb/conf/logback.xml:/opt/opentsdb/conf/logback.xml
+    - ${WORK_PATH}/logs/opentsdb/:/log/opentsdb/
     - ${WORK_PATH}/startup:/opt/startup
     depends_on:
     - hbase-regionserver
@@ -254,6 +263,7 @@ services:
     - ${WORK_PATH}/log-processor/bin/start.sh:/opt/log-processor/bin/start.sh
     - ${WORK_PATH}/log-processor/config/log.processor.properties:/opt/log-processor/config/log.processor.properties
     - ${WORK_PATH}/log-processor/config/log4j.properties:/opt/log-processor/config/log4j.properties
+    - ${WORK_PATH}/logs/log-processor/:/log/log-processor/
     depends_on:
     - kafka
     - elasticsearch
