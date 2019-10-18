@@ -152,9 +152,9 @@ services:
       permission: 172.19.0.17
       log_analysis: 172.19.0.18
       chartservice: 172.19.0.19
+      log_pp: 172.19.0.20
       #### No such service now 
       alertd: 172.19.0.133 
-      log_pp: 172.19.0.200
       oneagent: 172.19.0.211
       python_daemon: 172.19.0.222
       hbase_thrift: 172.19.0.233
@@ -332,6 +332,24 @@ services:
     - ${WORK_PATH}/chartservice/conf/chartservice.properties:/opt/chartservice/conf/chartservice.properties
     - ${WORK_PATH}/chartservice/conf/log4j.properties:/opt/chartservice/conf/log4j.properties
     - ${WORK_PATH}/logs/chartservice/:/log/chartservice/
+
+  log_pp:
+    image: cloudwiz/log-pp
+    container_name: log-pp
+    hostname: log-pp
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.20
+    volumes:
+    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
+    - ${WORK_PATH}/log-pp/bin/start.sh:/opt/log-pp/bin/start.sh
+    - ${WORK_PATH}/log-pp/config/log.pp.properties:/opt/log-pp/config/log.pp.properties
+    - ${WORK_PATH}/log-pp/config/log4j.properties:/opt/log-pp/config/log4j.properties
+    - ${WORK_PATH}/log-pp/config/patterns/:/opt/log-pp/config/patterns/
+    - ${WORK_PATH}/logs/log-pp/:/log/log-pp/
+    depends_on:
+    - kafka
+    - opentsdb
 
 volumes:
   hadoop_namenode:
