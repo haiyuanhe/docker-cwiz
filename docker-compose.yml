@@ -151,6 +151,7 @@ services:
       cloudwiz_user: 172.19.0.16
       permission: 172.19.0.17
       log_analysis: 172.19.0.18
+      chartservice: 172.19.0.19
       #### No such service now 
       alertd: 172.19.0.133 
       log_pp: 172.19.0.200
@@ -317,6 +318,20 @@ services:
     - ${WORK_PATH}/logs/log-analysis/:/log/log-analysis/
     depends_on:
     - mysql-server
+
+  chartservice:
+    image: cloudwiz/chartservice
+    container_name: chartservice
+    hostname: chartservice
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.19
+    volumes:
+    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
+    - ${WORK_PATH}/chartservice/bin/start.sh:/opt/chartservice/bin/start.sh
+    - ${WORK_PATH}/chartservice/conf/chartservice.properties:/opt/chartservice/conf/chartservice.properties
+    - ${WORK_PATH}/chartservice/conf/log4j.properties:/opt/chartservice/conf/log4j.properties
+    - ${WORK_PATH}/logs/chartservice/:/log/chartservice/
 
 volumes:
   hadoop_namenode:

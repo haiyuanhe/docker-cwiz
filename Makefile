@@ -17,4 +17,5 @@ build:
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/permission ./permission
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/cloudwiz-user ./cloudwiz-user
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/log-analysis ./log-analysis
+	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/chartservice ./chartservice
 	docker build -t cloudwiz/mysql ./mysql
