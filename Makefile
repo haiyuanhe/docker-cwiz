@@ -19,5 +19,5 @@ build:
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/log-analysis ./log-analysis
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/chartservice ./chartservice
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/log-pp ./log-pp
-	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/oneagent ./oneagent
+	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/alertd ./alertd
 	docker build -t cloudwiz/mysql ./mysql
