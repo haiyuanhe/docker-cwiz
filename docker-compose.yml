@@ -154,8 +154,8 @@ services:
       chartservice: 172.19.0.19
       log_pp: 172.19.0.20
       oneagent: 172.19.0.21
+      alertd: 172.19.0.22
       #### No such service now 
-      alertd: 172.19.0.133 
       python_daemon: 172.19.0.222
       hbase_thrift: 172.19.0.233
 
@@ -368,6 +368,22 @@ services:
     - namenode
     - zookeeper
     - kafka
+
+  alertd:
+    image: cloudwiz/alertd
+    container_name: alertd
+    hostname: alertd
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.22
+    volumes:
+    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
+    - ${WORK_PATH}/alertd/bin/start.sh:/opt/alertd/bin/start.sh
+    - ${WORK_PATH}/alertd/conf/:/opt/alertd/conf/
+    - ${WORK_PATH}/logs/alertd/:/log/alertd/
+    depends_on:
+    - mysql-server
+    - namenode
 
 volumes:
   hadoop_namenode:
