@@ -106,13 +106,19 @@ services:
   elasticsearch:
     image: elasticsearch:5.4.3
     container_name: elasticsearch
-    hostname: es
+    hostname: elasticsearch
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     env_file:
     - ./hadoop.env
     environment:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
-      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
     volumes:
+    - ${WORK_PATH}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    #- ${WORK_PATH}/data/elasticsearch/:/usr/share/elasticsearch/data/
     - ${WORK_PATH}/logs/elasticsearch/:/usr/share/elasticsearch/logs
     ports:
     - 9200:9200
@@ -137,6 +143,7 @@ services:
     - 8080:8080
     - 80:80
     - 443:443
+    - 5044:5044
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.9
@@ -262,8 +269,7 @@ services:
     volumes:
     - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
     - ${WORK_PATH}/log-processor/bin/start.sh:/opt/log-processor/bin/start.sh
-    - ${WORK_PATH}/log-processor/config/log.processor.properties:/opt/log-processor/config/log.processor.properties
-    - ${WORK_PATH}/log-processor/config/log4j.properties:/opt/log-processor/config/log4j.properties
+    - ${WORK_PATH}/log-processor/config/:/opt/log-processor/config/
     - ${WORK_PATH}/logs/log-processor/:/log/log-processor/
     depends_on:
     - kafka
