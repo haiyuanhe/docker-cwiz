@@ -80,6 +80,8 @@ ALERT_RC='alert-rc'
 ALERT_GROUP='alert-group'
 ALERT_GROUP_HISTORY='alert-group-history'
 TOPO_DATA='topo-data'
+ALERT_SENDINFO='alert-sendInfo'
+VSMS_CALLBACK='vsms_callbackInfo'
 
 # LZO requires lzo2 64bit to be installed + the hadoop-gpl-compression jar.
 COMPRESSION=${COMPRESSION-'GZ'}
@@ -222,4 +224,10 @@ create '$ALERT_GROUP_HISTORY',
 
 create '$TOPO_DATA',
   {NAME => 'cf', COMPRESSION => '$COMPRESSION'}
+
+create '$ALERT_SENDINFO',
+  {NAME => 'info', COMPRESSION => '$COMPRESSION'}
+
+create '$VSMS_CALLBACK',
+  {NAME => 'info', COMPRESSION => '$COMPRESSION'}
 EOF
