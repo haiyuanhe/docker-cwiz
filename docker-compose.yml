@@ -6,7 +6,7 @@ services:
     container_name: namenode
     hostname: namenode
     volumes:
-    - hadoop_namenode:/hadoop/dfs/name
+    - ${WORK_PATH}/data/hadoop/dfs/name:/hadoop/dfs/name
     environment:
     - CLUSTER_NAME=prod
     env_file:
@@ -22,7 +22,7 @@ services:
     container_name: datanode
     hostname: datanode
     volumes:
-    - hadoop_datanode:/hadoop/dfs/data
+    - ${WORK_PATH}/data/hadoop/dfs/data:/hadoop/dfs/data
     environment:
       SERVICE_PRECONDITION: "namenode:50070"
     env_file:
@@ -77,6 +77,7 @@ services:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
     ports:
     - 16030:16030
+    - 16020:16020
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.6
@@ -399,8 +400,8 @@ services:
     - namenode
 
 volumes:
-  hadoop_namenode:
-  hadoop_datanode:
+  hadoop_namenode: 
+  hadoop_datanode: 
   elasticsearch:
   zookeeper:
   nginx:
