@@ -108,9 +108,11 @@ done
 
 echo tables=$tables
 
+echo "tables=> $tables    UID_TABLE=> ${UID_TABLE}"
+
 if [[ $tables == *${UID_TABLE}* ]]; then
   echo "no need to recreate opentsdb tables."
-  exit 1
+  exit 0
 fi
 
 exec "$hbh/bin/hbase" shell <<EOF

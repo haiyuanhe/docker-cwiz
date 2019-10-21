@@ -9,4 +9,4 @@ RUN chmod +x /run.sh
 
 EXPOSE 16020 16030
 
-CMD ["/run.sh && /create_table.sh"]
+CMD ["/run.sh"]
