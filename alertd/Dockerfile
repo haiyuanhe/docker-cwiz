@@ -5,6 +5,7 @@ ARG PKG_URL
 
 ENV URL ${PKG_URL:-http://download.cloudwiz.cn/package}/cloudwiz-daemon.tar.gz
 ENV JAVA_HOME /usr/lib/jvm/java
+ENV USER=root
 
 RUN set -x \
     && curl -fSL "$URL" -o /tmp/cloudwiz-daemon.tar.gz \
@@ -13,11 +14,12 @@ RUN set -x \
     && rm /tmp/cloudwiz-daemon.tar.gz* \
     && ln -s /usr/lib/jvm/java  /opt/jdk
 
-
-ENV USER=root
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
 EXPOSE 5001
 EXPOSE 7001
 EXPOSE 9999
 
-CMD ["/opt/alertd/bin/start.sh"]
+ENTRYPOINT ["/start.sh"]
+
