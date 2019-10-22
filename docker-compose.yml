@@ -172,6 +172,8 @@ services:
       #### No such service now 
       python_daemon: 172.19.0.222
       hbase_thrift: 172.19.0.233
+    depends_on:
+    - mysql-server
 
   kafka:
     image: wurstmeister/kafka:2.11-1.0.2
@@ -235,7 +237,6 @@ services:
     - ${WORK_PATH}/startup:/opt/startup
     depends_on:
     - hbase-regionserver
-#    - metric-proxy
 
   cmservice:
     image: cloudwiz/cmservice
@@ -404,6 +405,7 @@ services:
     depends_on:
     - mysql-server
     - namenode
+    - opentsdb
 
 volumes:
   hadoop_namenode: 
