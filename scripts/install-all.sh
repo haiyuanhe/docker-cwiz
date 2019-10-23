@@ -453,5 +453,10 @@ sed -i 's/daemon off;/#daemon off;/' $install_root/nginx/conf/nginx.conf
 sed -i '/^CMService.HttpHost =/cCMService.HttpHost = 0.0.0.0' $install_root/cmservice/conf/cmservice.properties
 sed -i '/^LogClustering.HttpHost =/cLogClustering.HttpHost = 0.0.0.0' $install_root/log-analysis/config/log.analysis.properties
 sed -i '/^HttpHost =/cHttpHost = 0.0.0.0' $install_root/chartservice/conf/chartservice.properties
+sed -i '/^current_node_name =/ccurrent_node_name = alertd' $install_root/alertd/conf/cloudmon.alerting.conf
+sed -i '/^http_server_host =/chttp_server_host = alertd' $install_root/alertd/conf/cloudmon.alerting.conf
+sed -i '/^network.host:/cnetwork.host: elasticsearch' $install_root/elasticsearch/config/elasticsearch.yml
+sed -i '/^path.data:/c#path.data:' $install_root/elasticsearch/config/elasticsearch.yml
+bash $install_root/agent/bin/repackage.sh
 
 exit 0

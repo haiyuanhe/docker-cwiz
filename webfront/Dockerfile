@@ -4,6 +4,7 @@ MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 ARG PKG_URL
 
 ENV URL ${PKG_URL:-http://download.cloudwiz.cn/package}/webfront.tar.gz
+ENV USER=root
 
 RUN set -x \
     && curl -fSL "$URL" -o /tmp/webfront.tar.gz \
@@ -11,8 +12,9 @@ RUN set -x \
     && rm /tmp/webfront.tar.gz* \
     && mkdir /public
 
-ENV USER=root
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
 EXPOSE 3000
 
-CMD ["/opt/webfront/bin/grafana-server","-homepath=/opt/webfront"]
+ENTRYPOINT ["/start.sh"]

@@ -221,6 +221,7 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 				source /sql/0031_send_msg.sql;
 				source /sql/0032_VsmsGroup.sql;
 				source /sql/0033_alert_group.sql;
+				source /sql/0040_taylor_detector.sql;
 				source /sql/0100_report.sql;
 				source /sql/0700_pythond.sql;
 				source /sql/0800_oneagent_table.sql;

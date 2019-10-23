@@ -80,6 +80,8 @@ ALERT_RC='alert-rc'
 ALERT_GROUP='alert-group'
 ALERT_GROUP_HISTORY='alert-group-history'
 TOPO_DATA='topo-data'
+ALERT_SENDINFO='alert-sendInfo'
+VSMS_CALLBACK='vsms_callbackInfo'
 
 # LZO requires lzo2 64bit to be installed + the hadoop-gpl-compression jar.
 COMPRESSION=${COMPRESSION-'GZ'}
@@ -108,9 +110,11 @@ done
 
 echo tables=$tables
 
+echo "tables=> $tables    UID_TABLE=> ${UID_TABLE}"
+
 if [[ $tables == *${UID_TABLE}* ]]; then
   echo "no need to recreate opentsdb tables."
-  exit 1
+  exit 0
 fi
 
 exec "$hbh/bin/hbase" shell <<EOF
@@ -220,4 +224,10 @@ create '$ALERT_GROUP_HISTORY',
 
 create '$TOPO_DATA',
   {NAME => 'cf', COMPRESSION => '$COMPRESSION'}
+
+create '$ALERT_SENDINFO',
+  {NAME => 'info', COMPRESSION => '$COMPRESSION'}
+
+create '$VSMS_CALLBACK',
+  {NAME => 'info', COMPRESSION => '$COMPRESSION'}
 EOF
