@@ -11,6 +11,8 @@ while true;do
     fi
 done
 
-echo "starting alertd ..."
-sleep 10
+for i in {1..50};do
+    echo "starting alertd ... $i"
+    sleep 1
+done
 /opt/alertd/bin/start.sh
