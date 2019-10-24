@@ -457,6 +457,7 @@ sed -i '/^current_node_name =/ccurrent_node_name = alertd' $install_root/alertd/
 sed -i '/^http_server_host =/chttp_server_host = alertd' $install_root/alertd/conf/cloudmon.alerting.conf
 sed -i '/^network.host:/cnetwork.host: elasticsearch' $install_root/elasticsearch/config/elasticsearch.yml
 sed -i '/^path.data:/c#path.data:' $install_root/elasticsearch/config/elasticsearch.yml
+sed -i 's/\/opt\/mysql\/bin\/mysql/mysql/g' /opt/umanager/bin/get_tokens.sh
 bash $install_root/agent/bin/repackage.sh
 
 exit 0
