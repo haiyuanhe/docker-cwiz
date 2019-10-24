@@ -169,6 +169,7 @@ services:
       log_pp: 172.19.0.20
       oneagent: 172.19.0.21
       alertd: 172.19.0.22
+      umanage: 172.19.0.23
       #### No such service now 
       python_daemon: 172.19.0.222
       hbase_thrift: 172.19.0.233
@@ -406,6 +407,20 @@ services:
     - mysql-server
     - namenode
     - opentsdb
+
+  umanager:
+    image: cloudwiz/umanager
+    container_name: umanager
+    hostname: umanager
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.23
+    volumes:
+    - ${WORK_PATH}/umanager/:/opt/umanager/
+    - ${WORK_PATH}/nginx/download/release/singles/:/opt/nginx/download/release/singles/
+    - ${WORK_PATH}/logs/umanager/:/log/umanager/
+    depends_on:
+    - mysql-server
 
 volumes:
   hadoop_namenode: 
