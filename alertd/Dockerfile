@@ -38,7 +38,8 @@ RUN set -x \
     && curl -fSL "$URL/pandoc-2.0.5-linux.tar.gz" -o /tmp/pandoc-2.0.5-linux.tar.gz \
     && tar -xvf /tmp/pandoc-2.0.5-linux.tar.gz -C /opt/ \
     && mv /opt/pandoc-2.0.5 /opt/pandoc \
-    && rm /tmp/pandoc-2.0.5-linux.tar.gz* 
+    && rm /tmp/pandoc-2.0.5-linux.tar.gz* \
+    && mkdir -p /opt/report_tmp/
 
 EXPOSE 5001
 EXPOSE 7001

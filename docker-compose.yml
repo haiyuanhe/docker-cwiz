@@ -352,6 +352,7 @@ services:
     - ${WORK_PATH}/chartservice/conf/chartservice.properties:/opt/chartservice/conf/chartservice.properties
     - ${WORK_PATH}/chartservice/conf/log4j.properties:/opt/chartservice/conf/log4j.properties
     - ${WORK_PATH}/logs/chartservice/:/log/chartservice/
+    - ${WORK_PATH}/report_tmp/:/opt/report_tmp/
 
   log_pp:
     image: cloudwiz/log-pp
@@ -403,6 +404,7 @@ services:
     - ${WORK_PATH}/alertd/bin/start.sh:/opt/alertd/bin/start.sh
     - ${WORK_PATH}/alertd/conf/:/opt/alertd/conf/
     - ${WORK_PATH}/logs/alertd/:/log/alertd/
+    - ${WORK_PATH}/report_tmp/:/opt/report_tmp/
     depends_on:
     - mysql-server
     - namenode

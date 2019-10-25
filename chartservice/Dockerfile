@@ -11,7 +11,8 @@ RUN set -x \
     && tar -xvf /tmp/cloudwiz-chart-service.tar.gz -C /opt/ \
     && mv /opt/cloudwiz-chart-service /opt/chartservice \
     && rm /tmp/cloudwiz-chart-service.tar.gz* \
-    && ln -s /usr/lib/jvm/java  /opt/jdk
+    && ln -s /usr/lib/jvm/java  /opt/jdk \
+    && mkdir -p /opt/report_tmp/
 
 
 ENV USER=root
