@@ -214,6 +214,8 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 				ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
 				CREATE USER 'CloudInsight'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
 				GRANT ALL ON *.* TO 'CloudInsight'@'%';
+                                set names utf8;
+                                set names utf8;
 				source /sql/0010_dump.sql;
 				source /sql/cwiz_static.sql;
 				source /sql/0020_azure.sql;

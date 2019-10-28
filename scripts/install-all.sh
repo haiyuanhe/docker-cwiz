@@ -458,6 +458,8 @@ sed -i '/^http_server_host =/chttp_server_host = alertd' $install_root/alertd/co
 sed -i '/^network.host:/cnetwork.host: elasticsearch' $install_root/elasticsearch/config/elasticsearch.yml
 sed -i '/^path.data:/c#path.data:' $install_root/elasticsearch/config/elasticsearch.yml
 sed -i 's/\/opt\/mysql\/bin\/mysql/mysql/g' /opt/umanager/bin/get_tokens.sh
+sed -i "/^var server =/cvar server = 'http:\/\/chartservice:5012\/chart';"  /opt/alertd/conf/reporting/load.js
+sed -i '/^tmpFolder=/ctmpFolder=\/opt\/report_tmp' $install_root/alertd/conf/cloudmon.alerting.conf
 bash $install_root/agent/bin/repackage.sh
 
 exit 0
