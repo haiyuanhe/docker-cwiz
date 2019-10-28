@@ -1,6 +1,7 @@
 DOCKER_NETWORK = hbase
 ENV_FILE = hadoop.env
-PKG_URL=http://download.cloudwiz.cn/package
+PKG_URL=188.66.20.39:8989
+INSTALL_ROOT=/opt
 build:
 	docker build -t cloudwiz/openjdk ./base
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/hadoop-base ./hadoop-base
@@ -20,4 +21,6 @@ build:
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/chartservice ./chartservice
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/log-pp ./log-pp
 	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/alertd ./alertd
+	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/oneagent ./oneagent
+	docker build --build-arg PKG_URL=${PKG_URL} -t cloudwiz/umanager ./umanager
 	docker build -t cloudwiz/mysql ./mysql
