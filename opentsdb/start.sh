@@ -49,4 +49,4 @@ while true;do
     fi
 done
 
-/opt/opentsdb/bin/start.sh
+${INSTALL_ROOT}/opentsdb/bin/start.sh

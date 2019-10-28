@@ -1,6 +1,6 @@
 #!/bin/sh
 # Small script to setup the HBase tables used by OpenTSDB.
-HBASE_HOME=/opt/hbase-$HBASE_VERSION
+HBASE_HOME=${INSTALL_ROOT}/hbase-$HBASE_VERSION
 NAME=hbase-master
 PORT=16010
 

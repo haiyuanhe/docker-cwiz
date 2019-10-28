@@ -1,6 +1,9 @@
 FROM cloudwiz/hadoop-base
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
+ARG INSTALL_ROOT
+ENV INSTALL_ROOT ${INSTALL_ROOT}
+
 HEALTHCHECK CMD curl -f http://localhost:50070/ || exit 1
 
 ENV HDFS_CONF_dfs_namenode_name_dir=file:///hadoop/dfs/name

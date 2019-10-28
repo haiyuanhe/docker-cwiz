@@ -1,6 +1,9 @@
 FROM cloudwiz/hbase-hbase
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
+ARG INSTALL_ROOT
+ENV INSTALL_ROOT ${INSTALL_ROOT}
+
 COPY health_check.sh /health_check.sh
 RUN chmod +x /health_check.sh
 HEALTHCHECK --interval=4s --timeout=10s --retries=100 CMD /health_check.sh
