@@ -49,4 +49,4 @@ while true;do
     fi
 done
 
-/opt/alertd/bin/start.sh
+${INSTALL_ROOT}/alertd/bin/start.sh

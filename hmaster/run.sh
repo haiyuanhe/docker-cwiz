@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/opt/hbase-$HBASE_VERSION/bin/hbase master start
+${INSTALL_ROOT}/hbase-$HBASE_VERSION/bin/hbase master start

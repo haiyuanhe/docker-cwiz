@@ -2,6 +2,8 @@ FROM cloudwiz/openjdk
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
 ARG PKG_URL
+ARG INSTALL_ROOT
+ENV INSTALL_ROOT ${INSTALL_ROOT}
 
 ENV HADOOP_VERSION  2.7.7
 ENV HADOOP_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/hadoop-$HADOOP_VERSION.tar.gz
@@ -10,16 +12,17 @@ ENV JAVA_HOME /usr/lib/jvm/java
 
 RUN set -x \
     && curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
-    && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
+    && mkdir -p ${INSTALL_ROOT} \
+    && tar -xvf /tmp/hadoop.tar.gz -C ${INSTALL_ROOT} \
     && rm /tmp/hadoop.tar.gz*
 
-RUN ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
+RUN ln -s ${INSTALL_ROOT}/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
 RUN cp /etc/hadoop/mapred-site.xml.template /etc/hadoop/mapred-site.xml
-RUN mkdir /opt/hadoop-$HADOOP_VERSION/logs
+RUN mkdir -p ${INSTALL_ROOT}/hadoop-$HADOOP_VERSION/logs
 
 RUN mkdir /hadoop-data
 
-ENV HADOOP_PREFIX=/opt/hadoop-$HADOOP_VERSION
+ENV HADOOP_PREFIX=${INSTALL_ROOT}/hadoop-$HADOOP_VERSION
 ENV HADOOP_CONF_DIR=/etc/hadoop
 ENV MULTIHOMED_NETWORK=1
 

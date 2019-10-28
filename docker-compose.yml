@@ -135,7 +135,7 @@ services:
     - ./hadoop.env
     volumes:
     - ${WORK_PATH}/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-    - ${WORK_PATH}/nginx/:/opt/nginx/
+    - ${WORK_PATH}/nginx/:${WORK_PATH}/nginx/
     - ${WORK_PATH}/logs/nginx/:/log/nginx/
     #- ${WORK_PATH}/logs/nginx/access.log:/log/nginx/access.log
     #- ${WORK_PATH}/logs/nginx/error.log:/log/nginx/error.log
@@ -194,7 +194,7 @@ services:
 #    volumes:
 #    - kafka:/var/run/docker.sock
     volumes:
-    - ${WORK_PATH}/logs/kafka/:/opt/kafka/logs/
+    - ${WORK_PATH}/logs/kafka/:/kafka/kafka-logs-kafka/
     depends_on:
     - zookeeper
 
@@ -210,10 +210,10 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.11
     volumes:
-    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
-    - ${WORK_PATH}/metric-proxy/bin/start.sh:/opt/metric-proxy/bin/start.sh
-    - ${WORK_PATH}/metric-proxy/config/application.yml:/opt/metric-proxy/config/application.yml
-    - ${WORK_PATH}/metric-proxy/config/log4j.properties:/opt/metric-proxy/config/log4j.properties
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/metric-proxy/bin/start.sh:${WORK_PATH}/metric-proxy/bin/start.sh
+    - ${WORK_PATH}/metric-proxy/config/application.yml:${WORK_PATH}/metric-proxy/config/application.yml
+    - ${WORK_PATH}/metric-proxy/config/log4j.properties:${WORK_PATH}/metric-proxy/config/log4j.properties
     - ${WORK_PATH}/logs/metric-proxy/:/log/metric-proxy/
     depends_on:
     - kafka
@@ -230,12 +230,12 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.12
     volumes:
-    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
-    - ${WORK_PATH}/opentsdb/bin/start.sh:/opt/opentsdb/bin/start.sh
-    - ${WORK_PATH}/opentsdb/conf/opentsdb.conf:/opt/opentsdb/conf/opentsdb.conf
-    - ${WORK_PATH}/opentsdb/conf/logback.xml:/opt/opentsdb/conf/logback.xml
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/opentsdb/bin/start.sh:${WORK_PATH}/opentsdb/bin/start.sh
+    - ${WORK_PATH}/opentsdb/conf/opentsdb.conf:${WORK_PATH}/opentsdb/conf/opentsdb.conf
+    - ${WORK_PATH}/opentsdb/conf/logback.xml:${WORK_PATH}/opentsdb/conf/logback.xml
     - ${WORK_PATH}/logs/opentsdb/:/log/opentsdb/
-    - ${WORK_PATH}/startup:/opt/startup
+    - ${WORK_PATH}/startup:${WORK_PATH}/startup
     depends_on:
     - hbase-regionserver
 
@@ -251,11 +251,11 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.13
     volumes:
-    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
-    - ${WORK_PATH}/cmservice/bin/start.sh:/opt/cmservice/bin/start.sh
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/cmservice/bin/start.sh:${WORK_PATH}/cmservice/bin/start.sh
     - ${WORK_PATH}/logs/cmservice/:/log/cmservice/
-    - ${WORK_PATH}/cmservice/conf/cmservice.properties:/opt/cmservice/conf/cmservice.properties
-    - ${WORK_PATH}/cmservice/conf/log4j.properties:/opt/cmservice/conf/log4j.properties
+    - ${WORK_PATH}/cmservice/conf/cmservice.properties:${WORK_PATH}/cmservice/conf/cmservice.properties
+    - ${WORK_PATH}/cmservice/conf/log4j.properties:${WORK_PATH}/cmservice/conf/log4j.properties
     depends_on:
     - mysql-server
 
@@ -269,9 +269,9 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.14
     volumes:
-    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
-    - ${WORK_PATH}/log-processor/bin/start.sh:/opt/log-processor/bin/start.sh
-    - ${WORK_PATH}/log-processor/config/:/opt/log-processor/config/
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/log-processor/bin/start.sh:${WORK_PATH}/log-processor/bin/start.sh
+    - ${WORK_PATH}/log-processor/config/:${WORK_PATH}/log-processor/config/
     - ${WORK_PATH}/logs/log-processor/:/log/log-processor/
     depends_on:
     - kafka
@@ -287,7 +287,7 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.15
     volumes:
-    - ${WORK_PATH}/webfront/conf/defaults.ini:/opt/webfront/conf/defaults.ini
+    - ${WORK_PATH}/webfront/conf/defaults.ini:${WORK_PATH}/webfront/conf/defaults.ini
     - ${WORK_PATH}/logs/webfront/:/log/
     depends_on:
     - mysql-server
@@ -302,7 +302,7 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.16
     volumes:
-    - ${WORK_PATH}/cloudwiz-user/web.config.js:/opt/cloudwiz-user/web.config.js
+    - ${WORK_PATH}/cloudwiz-user/web.config.js:${WORK_PATH}/cloudwiz-user/web.config.js
     depends_on:
     - permission
 
@@ -314,10 +314,10 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.17
     volumes:
-    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
-    - ${WORK_PATH}/permission/bin/start.sh:/opt/permission/bin/start.sh
-    - ${WORK_PATH}/permission/config/application.yml:/opt/permission/config/application.yml
-    - ${WORK_PATH}/permission/config/log4j2.yml:/opt/permission/config/log4j2.yml
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/permission/bin/start.sh:${WORK_PATH}/permission/bin/start.sh
+    - ${WORK_PATH}/permission/config/application.yml:${WORK_PATH}/permission/config/application.yml
+    - ${WORK_PATH}/permission/config/log4j2.yml:${WORK_PATH}/permission/config/log4j2.yml
     - ${WORK_PATH}/logs/permission/:/log/
     depends_on:
     - mysql-server
@@ -331,10 +331,10 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.18
     volumes:
-    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
-    - ${WORK_PATH}/log-analysis/bin/start.sh:/opt/log-analysis/bin/start.sh
-    - ${WORK_PATH}/log-analysis/config/log.analysis.properties:/opt/log-analysis/config/log.analysis.properties
-    - ${WORK_PATH}/log-analysis/config/log4j.properties:/opt/log-analysis/config/log4j.properties
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/log-analysis/bin/start.sh:${WORK_PATH}/log-analysis/bin/start.sh
+    - ${WORK_PATH}/log-analysis/config/log.analysis.properties:${WORK_PATH}/log-analysis/config/log.analysis.properties
+    - ${WORK_PATH}/log-analysis/config/log4j.properties:${WORK_PATH}/log-analysis/config/log4j.properties
     - ${WORK_PATH}/logs/log-analysis/:/log/log-analysis/
     depends_on:
     - mysql-server
@@ -347,12 +347,12 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.19
     volumes:
-    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
-    - ${WORK_PATH}/chartservice/bin/start.sh:/opt/chartservice/bin/start.sh
-    - ${WORK_PATH}/chartservice/conf/chartservice.properties:/opt/chartservice/conf/chartservice.properties
-    - ${WORK_PATH}/chartservice/conf/log4j.properties:/opt/chartservice/conf/log4j.properties
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/chartservice/bin/start.sh:${WORK_PATH}/chartservice/bin/start.sh
+    - ${WORK_PATH}/chartservice/conf/chartservice.properties:${WORK_PATH}/chartservice/conf/chartservice.properties
+    - ${WORK_PATH}/chartservice/conf/log4j.properties:${WORK_PATH}/chartservice/conf/log4j.properties
     - ${WORK_PATH}/logs/chartservice/:/log/chartservice/
-    - ${WORK_PATH}/report_tmp/:/opt/report_tmp/
+    - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
 
   log_pp:
     image: cloudwiz/log-pp
@@ -362,11 +362,11 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.20
     volumes:
-    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
-    - ${WORK_PATH}/log-pp/bin/start.sh:/opt/log-pp/bin/start.sh
-    - ${WORK_PATH}/log-pp/config/log.pp.properties:/opt/log-pp/config/log.pp.properties
-    - ${WORK_PATH}/log-pp/config/log4j.properties:/opt/log-pp/config/log4j.properties
-    - ${WORK_PATH}/log-pp/config/patterns/:/opt/log-pp/config/patterns/
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/log-pp/bin/start.sh:${WORK_PATH}/log-pp/bin/start.sh
+    - ${WORK_PATH}/log-pp/config/log.pp.properties:${WORK_PATH}/log-pp/config/log.pp.properties
+    - ${WORK_PATH}/log-pp/config/log4j.properties:${WORK_PATH}/log-pp/config/log4j.properties
+    - ${WORK_PATH}/log-pp/config/patterns/:${WORK_PATH}/log-pp/config/patterns/
     - ${WORK_PATH}/logs/log-pp/:/log/log-pp/
     depends_on:
     - kafka
@@ -380,9 +380,9 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.21
     volumes:
-    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
-    - ${WORK_PATH}/oneagent/bin/start.sh:/opt/oneagent/bin/start.sh
-    - ${WORK_PATH}/oneagent/conf/:/opt/oneagent/conf/
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/oneagent/bin/start.sh:${WORK_PATH}/oneagent/bin/start.sh
+    - ${WORK_PATH}/oneagent/conf/:${WORK_PATH}/oneagent/conf/
     - ${WORK_PATH}/logs/oneagent/:/log/
     depends_on:
     - mysql-server
@@ -400,11 +400,11 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.22
     volumes:
-    - ${WORK_PATH}/startup/envs.sh:/opt/startup/envs.sh
-    - ${WORK_PATH}/alertd/bin/start.sh:/opt/alertd/bin/start.sh
-    - ${WORK_PATH}/alertd/conf/:/opt/alertd/conf/
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/alertd/bin/start.sh:${WORK_PATH}/alertd/bin/start.sh
+    - ${WORK_PATH}/alertd/conf/:${WORK_PATH}/alertd/conf/
     - ${WORK_PATH}/logs/alertd/:/log/alertd/
-    - ${WORK_PATH}/report_tmp/:/opt/report_tmp/
+    - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
     depends_on:
     - mysql-server
     - namenode
@@ -418,8 +418,8 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.23
     volumes:
-    - ${WORK_PATH}/umanager/:/opt/umanager/
-    - ${WORK_PATH}/nginx/download/release/singles/:/opt/nginx/download/release/singles/
+    - ${WORK_PATH}/umanager/:${WORK_PATH}/umanager/
+    - ${WORK_PATH}/nginx/download/release/singles/:${WORK_PATH}/nginx/download/release/singles/
     - ${WORK_PATH}/logs/umanager/:/log/umanager/
     depends_on:
     - mysql-server

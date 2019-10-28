@@ -1,6 +1,9 @@
 FROM cloudwiz/hbase-hbase
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
+ARG INSTALL_ROOT
+ENV INSTALL_ROOT ${INSTALL_ROOT}
+
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
 

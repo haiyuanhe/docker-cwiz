@@ -2,21 +2,24 @@ FROM cloudwiz/openjdk
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
 ARG PKG_URL
+ARG INSTALL_ROOT
+ENV INSTALL_ROOT ${INSTALL_ROOT}
 
 ENV URL ${PKG_URL:-http://download.cloudwiz.cn/package}/cloudwiz-cm-service.tar.gz
 ENV JAVA_HOME /usr/lib/jvm/java
 
 RUN set -x \
     && curl -fSL "$URL" -o /tmp/cloudwiz-cm-service.tar.gz \
-    && tar -xvf /tmp/cloudwiz-cm-service.tar.gz -C /opt/ \
-    && mv /opt/cloudwiz-cm-service /opt/cmservice \
-    && mkdir -p /opt/cmservice/config \
+    && mkdir -p ${INSTALL_ROOT} \
+    && tar -xvf /tmp/cloudwiz-cm-service.tar.gz -C ${INSTALL_ROOT} \
+    && mv ${INSTALL_ROOT}/cloudwiz-cm-service ${INSTALL_ROOT}/cmservice \
+    && mkdir -p ${INSTALL_ROOT}/cmservice/config \
     && rm /tmp/cloudwiz-cm-service.tar.gz* \
-    && ln -s /usr/lib/jvm/java  /opt/jdk
+    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
 
 
 ENV USER=root
 
 EXPOSE 9601
 
-CMD ["/opt/cmservice/bin/start.sh"]
+CMD ${INSTALL_ROOT}/cmservice/bin/start.sh

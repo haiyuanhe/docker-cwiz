@@ -9,4 +9,4 @@ while true;do
     sleep 2
 done
 echo "starting webfront ..."
-/opt/webfront/bin/grafana-server -homepath=/opt/webfront
+${INSTALL_ROOT}/webfront/bin/grafana-server -homepath=${INSTALL_ROOT}/webfront
