@@ -1,4 +1,4 @@
-FROM cloudwiz/openjdk
+FROM cloudwiz/openjdk:1.0.0
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
 ARG PKG_URL

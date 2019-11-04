@@ -1,4 +1,4 @@
-FROM cloudwiz/hadoop-base
+FROM cloudwiz/hadoop-base:1.0.0
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
 ARG INSTALL_ROOT
