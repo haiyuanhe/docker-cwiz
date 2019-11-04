@@ -1,4 +1,4 @@
-FROM cloudwiz/hbase-hbase
+FROM cloudwiz/hbase-base
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
 ARG INSTALL_ROOT

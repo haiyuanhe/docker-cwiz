@@ -167,10 +167,10 @@ services:
       log_analysis: 172.19.0.18
       chartservice: 172.19.0.19
       log_pp: 172.19.0.20
-      oneagent: 172.19.0.21
       alertd: 172.19.0.22
       umanage: 172.19.0.23
-      #### No such service now 
+      #### No such service now
+      oneagent: 172.19.0.21
       python_daemon: 172.19.0.222
       hbase_thrift: 172.19.0.233
     depends_on:
@@ -372,23 +372,23 @@ services:
     - kafka
     - opentsdb
 
-  oneagent:
-    image: cloudwiz/oneagent
-    container_name: oneagent
-    hostname: oneagent
-    networks:
-      cwiz_network:
-        ipv4_address: 172.19.0.21
-    volumes:
-    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
-    - ${WORK_PATH}/oneagent/bin/start.sh:${WORK_PATH}/oneagent/bin/start.sh
-    - ${WORK_PATH}/oneagent/conf/:${WORK_PATH}/oneagent/conf/
-    - ${WORK_PATH}/logs/oneagent/:/log/
-    depends_on:
-    - mysql-server
-    - namenode
-    - zookeeper
-    - kafka
+#  oneagent:
+#    image: cloudwiz/oneagent
+#    container_name: oneagent
+#    hostname: oneagent
+#    networks:
+#      cwiz_network:
+#        ipv4_address: 172.19.0.21
+#    volumes:
+#    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+#    - ${WORK_PATH}/oneagent/bin/start.sh:${WORK_PATH}/oneagent/bin/start.sh
+#    - ${WORK_PATH}/oneagent/conf/:${WORK_PATH}/oneagent/conf/
+#    - ${WORK_PATH}/logs/oneagent/:/log/
+#    depends_on:
+#    - mysql-server
+#    - namenode
+#    - zookeeper
+#    - kafka
 
   alertd:
     image: cloudwiz/alertd
