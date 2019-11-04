@@ -2,7 +2,7 @@ version: "3"
 
 services:
   namenode:
-    image: cloudwiz/hadoop-namenode
+    image: cloudwiz/hadoop-namenode:2.7.7
     container_name: namenode
     hostname: namenode
     volumes:
@@ -18,7 +18,7 @@ services:
         ipv4_address: 172.19.0.2
 
   datanode:
-    image: cloudwiz/hadoop-datanode
+    image: cloudwiz/hadoop-datanode:2.7.7
     container_name: datanode
     hostname: datanode
     volumes:
@@ -49,7 +49,7 @@ services:
         ipv4_address: 172.19.0.4
 
   hbase-master:
-    image: cloudwiz/hbase-master
+    image: cloudwiz/hbase-master:1.4.10
     container_name: hbase-master
     hostname: hbase-master
     env_file:
@@ -67,7 +67,7 @@ services:
     - zookeeper
 
   hbase-regionserver:
-    image: cloudwiz/hbase-regionserver
+    image: cloudwiz/hbase-regionserver:1.4.10
     container_name: hbase-regionserver
     hostname: hbase-regionserver
     env_file:
@@ -88,7 +88,7 @@ services:
     - hbase-master
 
   mysql-server:
-    image: cloudwiz/mysql
+    image: cloudwiz/mysql:5.7.24
     container_name: mysql-server
     volumes:
     - ${WORK_PATH}/tools/mysql/sql/:/sql
@@ -199,7 +199,7 @@ services:
     - zookeeper
 
   metric-proxy:
-    image: cloudwiz/metric-proxy
+    image: cloudwiz/metric-proxy:1.0.4
     container_name: metric-proxy
     hostname: metric-proxy
     env_file:
@@ -219,7 +219,7 @@ services:
     - kafka
 
   opentsdb:
-    image: cloudwiz/opentsdb
+    image: cloudwiz/opentsdb:2.3.0
     container_name: opentsdb
     hostname: opentsdb
     env_file:
@@ -240,7 +240,7 @@ services:
     - hbase-regionserver
 
   cmservice:
-    image: cloudwiz/cmservice
+    image: cloudwiz/cmservice:1.4.2
     container_name: cmservice
     hostname: cmservice
     env_file:
@@ -260,7 +260,7 @@ services:
     - mysql-server
 
   log_processor:
-    image: cloudwiz/log-processor
+    image: cloudwiz/log-processor:1.0.1
     container_name: log-processor
     hostname: log-processor
     env_file:
@@ -278,7 +278,7 @@ services:
     - elasticsearch
 
   webfront:
-    image: cloudwiz/webfront
+    image: cloudwiz/webfront:3.5.10
     container_name: webfront
     hostname: webfront
     ports:
@@ -293,7 +293,7 @@ services:
     - mysql-server
 
   cloudwiz_user:
-    image: cloudwiz/cloudwiz-user
+    image: cloudwiz/cloudwiz-user:1.1.7
     container_name: cloudwiz-user
     hostname: cloudwiz-user
     ports:
@@ -307,7 +307,7 @@ services:
     - permission
 
   permission:
-    image: cloudwiz/permission
+    image: cloudwiz/permission:1.0.10
     container_name: permission
     hostname: permission
     networks:
@@ -324,7 +324,7 @@ services:
     - webfront
 
   log_analysis:
-    image: cloudwiz/log-analysis
+    image: cloudwiz/log-analysis:1.0.3
     container_name: log-analysis
     hostname: log-analysis
     networks:
@@ -340,7 +340,7 @@ services:
     - mysql-server
 
   chartservice:
-    image: cloudwiz/chartservice
+    image: cloudwiz/chartservice:1.0.0
     container_name: chartservice
     hostname: chartservice
     networks:
@@ -355,7 +355,7 @@ services:
     - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
 
   log_pp:
-    image: cloudwiz/log-pp
+    image: cloudwiz/log-pp:1.0.1
     container_name: log-pp
     hostname: log-pp
     networks:
@@ -391,7 +391,7 @@ services:
 #    - kafka
 
   alertd:
-    image: cloudwiz/alertd
+    image: cloudwiz/alertd:1.1.13
     container_name: alertd
     hostname: alertd
     ports:
@@ -411,7 +411,7 @@ services:
     - opentsdb
 
   umanager:
-    image: cloudwiz/umanager
+    image: cloudwiz/umanager:1.0.0
     container_name: umanager
     hostname: umanager
     networks:
