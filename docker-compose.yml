@@ -136,7 +136,7 @@ services:
     volumes:
     - ${WORK_PATH}/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
     - ${WORK_PATH}/nginx/:${WORK_PATH}/nginx/
-    - ${WORK_PATH}/logs/nginx/:/log/nginx/
+    - ${WORK_PATH}/logs/nginx/:${WORK_PATH}/logs/nginx/
     #- ${WORK_PATH}/logs/nginx/access.log:/log/nginx/access.log
     #- ${WORK_PATH}/logs/nginx/error.log:/log/nginx/error.log
     ports:
@@ -403,7 +403,7 @@ services:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/alertd/bin/start.sh:${WORK_PATH}/alertd/bin/start.sh
     - ${WORK_PATH}/alertd/conf/:${WORK_PATH}/alertd/conf/
-    - ${WORK_PATH}/logs/alertd/:/log/alertd/
+    - ${WORK_PATH}/logs/alertd/:${WORK_PATH}/logs/alertd/
     - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
     depends_on:
     - mysql-server
@@ -420,7 +420,7 @@ services:
     volumes:
     - ${WORK_PATH}/umanager/:${WORK_PATH}/umanager/
     - ${WORK_PATH}/nginx/download/release/singles/:${WORK_PATH}/nginx/download/release/singles/
-    - ${WORK_PATH}/logs/umanager/:/log/umanager/
+    - ${WORK_PATH}/logs/umanager/:${WORK_PATH}/logs/umanager/
     depends_on:
     - mysql-server
 
