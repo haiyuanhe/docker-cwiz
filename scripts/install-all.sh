@@ -460,6 +460,7 @@ sed -i '/^path.data:/c#path.data:' $install_root/elasticsearch/config/elasticsea
 sed -i 's/\/opt\/mysql\/bin\/mysql/mysql/g' /opt/umanager/bin/get_tokens.sh
 sed -i "/^var server =/cvar server = 'http:\/\/chartservice:5012\/chart';"  /opt/alertd/conf/reporting/load.js
 sed -i '/^tmpFolder=/ctmpFolder=\/opt\/report_tmp' $install_root/alertd/conf/cloudmon.alerting.conf
+sed -i 's/asynchbase-1.7.2.jar/asynchbase-1.8.2.jar/' $install_root/opentsdb/bin/start.sh
 bash $install_root/agent/bin/repackage.sh
 chown -R 101:101 $install_root/nginx/
 
