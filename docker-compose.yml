@@ -7,12 +7,11 @@ services:
     hostname: namenode
     volumes:
     - ${WORK_PATH}/data/hadoop/dfs/name:/hadoop/dfs/name
+    - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hadoop-2.7.7/logs
     environment:
     - CLUSTER_NAME=prod
     env_file:
     - ./hadoop.env
-    ports:
-    - 50070:50070
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.2
@@ -23,12 +22,11 @@ services:
     hostname: datanode
     volumes:
     - ${WORK_PATH}/data/hadoop/dfs/data:/hadoop/dfs/data
+    - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hadoop-2.7.7/logs
     environment:
       SERVICE_PRECONDITION: "namenode:50070"
     env_file:
     - ./hadoop.env
-    ports:
-    - 50075:50075
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.3
@@ -42,8 +40,10 @@ services:
     environment:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888
-    ports:
-    - 2181:2181
+    volumes:
+    - ${WORK_PATH}/data/zookeeper/:/data
+    - ${WORK_PATH}/data/zookeeper/datalog:/datalog
+    - ${WORK_PATH}/logs/zookeeper:/logs/zookeeper.log
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.4
@@ -56,8 +56,8 @@ services:
     - ./hadoop.env
     environment:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181"
-    ports:
-    - 16010:16010
+    volumes:
+    - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hbase-1.4.10/logs
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.5
@@ -75,9 +75,8 @@ services:
     environment:
       HBASE_CONF_hbase_regionserver_hostname: hbase-regionserver
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
-    ports:
-    - 16030:16030
-    - 16020:16020
+    volumes:
+    - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hbase-1.4.10/logs
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.6
@@ -92,13 +91,10 @@ services:
     container_name: mysql-server
     volumes:
     - ${WORK_PATH}/tools/mysql/sql/:/sql
-    - ${WORK_PATH}/logs/mysql/:/var/log/mysql/
-    #- /usr/local/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
-    #- /usr/local/docker/mysql/data/mysql:/var/lib/mysql
+    - ${WORK_PATH}/data/mysql/:/var/lib/mysql
+    - ${WORK_PATH}/logs/mysql/:/var/log/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - 3306:3306
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.7
@@ -120,9 +116,6 @@ services:
     - ${WORK_PATH}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     - ${WORK_PATH}/data/elasticsearch/:/usr/share/elasticsearch/data/
     - ${WORK_PATH}/logs/elasticsearch/:/usr/share/elasticsearch/logs
-    ports:
-    - 9200:9200
-    - 9300:9300
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.8
@@ -137,8 +130,6 @@ services:
     - ${WORK_PATH}/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
     - ${WORK_PATH}/nginx/:${WORK_PATH}/nginx/
     - ${WORK_PATH}/logs/nginx/:${WORK_PATH}/logs/nginx/
-    #- ${WORK_PATH}/logs/nginx/access.log:/log/nginx/access.log
-    #- ${WORK_PATH}/logs/nginx/error.log:/log/nginx/error.log
     ports:
     - 8080:8080
     - 80:80
@@ -191,10 +182,9 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M" 
-#    volumes:
-#    - kafka:/var/run/docker.sock
     volumes:
-    - ${WORK_PATH}/logs/kafka/:/kafka/kafka-logs-kafka/
+    - ${WORK_PATH}/data/kafka/:/kafka/kafka-logs-kafka/
+    - ${WORK_PATH}/logs/kafka/:/opt/kafka_2.11-1.0.2/logs
     depends_on:
     - zookeeper
 
@@ -204,8 +194,6 @@ services:
     hostname: metric-proxy
     env_file:
     - ./hadoop.env
-    ports:
-    - 4243:4243
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.11
@@ -214,7 +202,7 @@ services:
     - ${WORK_PATH}/metric-proxy/bin/start.sh:${WORK_PATH}/metric-proxy/bin/start.sh
     - ${WORK_PATH}/metric-proxy/config/application.yml:${WORK_PATH}/metric-proxy/config/application.yml
     - ${WORK_PATH}/metric-proxy/config/log4j.properties:${WORK_PATH}/metric-proxy/config/log4j.properties
-    - ${WORK_PATH}/logs/metric-proxy/:/log/metric-proxy/
+    - ${WORK_PATH}/logs/metric-proxy/:{WORK_PATH}/logs/metric-proxy/
     depends_on:
     - kafka
 
@@ -224,8 +212,6 @@ services:
     hostname: opentsdb
     env_file:
     - ./hadoop.env
-    ports:
-    - 4242:4242
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.12
@@ -234,7 +220,7 @@ services:
     - ${WORK_PATH}/opentsdb/bin/start.sh:${WORK_PATH}/opentsdb/bin/start.sh
     - ${WORK_PATH}/opentsdb/conf/opentsdb.conf:${WORK_PATH}/opentsdb/conf/opentsdb.conf
     - ${WORK_PATH}/opentsdb/conf/logback.xml:${WORK_PATH}/opentsdb/conf/logback.xml
-    - ${WORK_PATH}/logs/opentsdb/:/log/opentsdb/
+    - ${WORK_PATH}/logs/opentsdb/:{WORK_PATH}/logs/opentsdb/
     - ${WORK_PATH}/startup:${WORK_PATH}/startup
     depends_on:
     - hbase-regionserver
@@ -245,17 +231,15 @@ services:
     hostname: cmservice
     env_file:
     - ./hadoop.env
-    ports:
-    - 9601:9601
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.13
     volumes:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/cmservice/bin/start.sh:${WORK_PATH}/cmservice/bin/start.sh
-    - ${WORK_PATH}/logs/cmservice/:/log/cmservice/
     - ${WORK_PATH}/cmservice/conf/cmservice.properties:${WORK_PATH}/cmservice/conf/cmservice.properties
     - ${WORK_PATH}/cmservice/conf/log4j.properties:${WORK_PATH}/cmservice/conf/log4j.properties
+    - ${WORK_PATH}/logs/cmservice/:{WORK_PATH}/logs/cmservice/
     depends_on:
     - mysql-server
 
@@ -272,7 +256,7 @@ services:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/log-processor/bin/start.sh:${WORK_PATH}/log-processor/bin/start.sh
     - ${WORK_PATH}/log-processor/config/:${WORK_PATH}/log-processor/config/
-    - ${WORK_PATH}/logs/log-processor/:/log/log-processor/
+    - ${WORK_PATH}/logs/log-processor/:{WORK_PATH}/logs/log-processor/
     depends_on:
     - kafka
     - elasticsearch
@@ -281,14 +265,12 @@ services:
     image: cloudwiz/webfront:3.5.10
     container_name: webfront
     hostname: webfront
-    ports:
-    - 3000:3000
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.15
     volumes:
     - ${WORK_PATH}/webfront/conf/defaults.ini:${WORK_PATH}/webfront/conf/defaults.ini
-    - ${WORK_PATH}/logs/webfront/:/log/
+    - ${WORK_PATH}/logs/webfront/:${WORK_PATH}/logs/webfront
     depends_on:
     - mysql-server
 
@@ -296,8 +278,6 @@ services:
     image: cloudwiz/cloudwiz-user:1.1.7
     container_name: cloudwiz-user
     hostname: cloudwiz-user
-    ports:
-    - 7002:7002
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.16
@@ -318,7 +298,7 @@ services:
     - ${WORK_PATH}/permission/bin/start.sh:${WORK_PATH}/permission/bin/start.sh
     - ${WORK_PATH}/permission/config/application.yml:${WORK_PATH}/permission/config/application.yml
     - ${WORK_PATH}/permission/config/log4j2.yml:${WORK_PATH}/permission/config/log4j2.yml
-    - ${WORK_PATH}/logs/permission/:/log/
+    - ${WORK_PATH}/logs/permission/:{WORK_PATH}/logs/permission
     depends_on:
     - mysql-server
     - webfront
@@ -335,7 +315,7 @@ services:
     - ${WORK_PATH}/log-analysis/bin/start.sh:${WORK_PATH}/log-analysis/bin/start.sh
     - ${WORK_PATH}/log-analysis/config/log.analysis.properties:${WORK_PATH}/log-analysis/config/log.analysis.properties
     - ${WORK_PATH}/log-analysis/config/log4j.properties:${WORK_PATH}/log-analysis/config/log4j.properties
-    - ${WORK_PATH}/logs/log-analysis/:/log/log-analysis/
+    - ${WORK_PATH}/logs/log-analysis/:{WORK_PATH}/logs/log-analysis/
     depends_on:
     - mysql-server
 
@@ -351,8 +331,8 @@ services:
     - ${WORK_PATH}/chartservice/bin/start.sh:${WORK_PATH}/chartservice/bin/start.sh
     - ${WORK_PATH}/chartservice/conf/chartservice.properties:${WORK_PATH}/chartservice/conf/chartservice.properties
     - ${WORK_PATH}/chartservice/conf/log4j.properties:${WORK_PATH}/chartservice/conf/log4j.properties
-    - ${WORK_PATH}/logs/chartservice/:/log/chartservice/
     - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
+    - ${WORK_PATH}/logs/chartservice/:{WORK_PATH}/logs/logs/chartservice/
 
   log_pp:
     image: cloudwiz/log-pp:1.0.1
@@ -367,35 +347,15 @@ services:
     - ${WORK_PATH}/log-pp/config/log.pp.properties:${WORK_PATH}/log-pp/config/log.pp.properties
     - ${WORK_PATH}/log-pp/config/log4j.properties:${WORK_PATH}/log-pp/config/log4j.properties
     - ${WORK_PATH}/log-pp/config/patterns/:${WORK_PATH}/log-pp/config/patterns/
-    - ${WORK_PATH}/logs/log-pp/:/log/log-pp/
+    - ${WORK_PATH}/logs/log-pp/:{WORK_PATH}/logs/log-pp/
     depends_on:
     - kafka
     - opentsdb
-
-#  oneagent:
-#    image: cloudwiz/oneagent
-#    container_name: oneagent
-#    hostname: oneagent
-#    networks:
-#      cwiz_network:
-#        ipv4_address: 172.19.0.21
-#    volumes:
-#    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
-#    - ${WORK_PATH}/oneagent/bin/start.sh:${WORK_PATH}/oneagent/bin/start.sh
-#    - ${WORK_PATH}/oneagent/conf/:${WORK_PATH}/oneagent/conf/
-#    - ${WORK_PATH}/logs/oneagent/:/log/
-#    depends_on:
-#    - mysql-server
-#    - namenode
-#    - zookeeper
-#    - kafka
 
   alertd:
     image: cloudwiz/alertd:1.1.13
     container_name: alertd
     hostname: alertd
-    ports:
-    - 5001:5001
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.22
@@ -403,8 +363,8 @@ services:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/alertd/bin/start.sh:${WORK_PATH}/alertd/bin/start.sh
     - ${WORK_PATH}/alertd/conf/:${WORK_PATH}/alertd/conf/
-    - ${WORK_PATH}/logs/alertd/:${WORK_PATH}/logs/alertd/
     - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
+    - ${WORK_PATH}/logs/alertd/:${WORK_PATH}/logs/alertd/
     depends_on:
     - mysql-server
     - namenode
