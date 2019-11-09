@@ -220,8 +220,8 @@ services:
     - ${WORK_PATH}/opentsdb/bin/start.sh:${WORK_PATH}/opentsdb/bin/start.sh
     - ${WORK_PATH}/opentsdb/conf/opentsdb.conf:${WORK_PATH}/opentsdb/conf/opentsdb.conf
     - ${WORK_PATH}/opentsdb/conf/logback.xml:${WORK_PATH}/opentsdb/conf/logback.xml
-    - ${WORK_PATH}/logs/opentsdb/:{WORK_PATH}/logs/opentsdb/
     - ${WORK_PATH}/startup:${WORK_PATH}/startup
+    - ${WORK_PATH}/logs/opentsdb/:${WORK_PATH}/logs/opentsdb/
     depends_on:
     - hbase-regionserver
 
