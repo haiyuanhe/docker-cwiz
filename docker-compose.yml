@@ -332,7 +332,7 @@ services:
     - ${WORK_PATH}/chartservice/conf/chartservice.properties:${WORK_PATH}/chartservice/conf/chartservice.properties
     - ${WORK_PATH}/chartservice/conf/log4j.properties:${WORK_PATH}/chartservice/conf/log4j.properties
     - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
-    - ${WORK_PATH}/logs/chartservice/:{WORK_PATH}/logs/logs/chartservice/
+    - ${WORK_PATH}/logs/chartservice/:{WORK_PATH}/logs/chartservice/
 
   log_pp:
     image: cloudwiz/log-pp:1.0.1
