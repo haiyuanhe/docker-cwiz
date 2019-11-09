@@ -202,7 +202,7 @@ services:
     - ${WORK_PATH}/metric-proxy/bin/start.sh:${WORK_PATH}/metric-proxy/bin/start.sh
     - ${WORK_PATH}/metric-proxy/config/application.yml:${WORK_PATH}/metric-proxy/config/application.yml
     - ${WORK_PATH}/metric-proxy/config/log4j.properties:${WORK_PATH}/metric-proxy/config/log4j.properties
-    - ${WORK_PATH}/logs/metric-proxy/:{WORK_PATH}/logs/metric-proxy/
+    - ${WORK_PATH}/logs/metric-proxy/:${WORK_PATH}/logs/metric-proxy/
     depends_on:
     - kafka
 
@@ -239,7 +239,7 @@ services:
     - ${WORK_PATH}/cmservice/bin/start.sh:${WORK_PATH}/cmservice/bin/start.sh
     - ${WORK_PATH}/cmservice/conf/cmservice.properties:${WORK_PATH}/cmservice/conf/cmservice.properties
     - ${WORK_PATH}/cmservice/conf/log4j.properties:${WORK_PATH}/cmservice/conf/log4j.properties
-    - ${WORK_PATH}/logs/cmservice/:{WORK_PATH}/logs/cmservice/
+    - ${WORK_PATH}/logs/cmservice/:${WORK_PATH}/logs/cmservice/
     depends_on:
     - mysql-server
 
@@ -256,7 +256,7 @@ services:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/log-processor/bin/start.sh:${WORK_PATH}/log-processor/bin/start.sh
     - ${WORK_PATH}/log-processor/config/:${WORK_PATH}/log-processor/config/
-    - ${WORK_PATH}/logs/log-processor/:{WORK_PATH}/logs/log-processor/
+    - ${WORK_PATH}/logs/log-processor/:${WORK_PATH}/logs/log-processor/
     depends_on:
     - kafka
     - elasticsearch
@@ -298,7 +298,7 @@ services:
     - ${WORK_PATH}/permission/bin/start.sh:${WORK_PATH}/permission/bin/start.sh
     - ${WORK_PATH}/permission/config/application.yml:${WORK_PATH}/permission/config/application.yml
     - ${WORK_PATH}/permission/config/log4j2.yml:${WORK_PATH}/permission/config/log4j2.yml
-    - ${WORK_PATH}/logs/permission/:{WORK_PATH}/logs/permission
+    - ${WORK_PATH}/logs/permission/:${WORK_PATH}/logs/permission
     depends_on:
     - mysql-server
     - webfront
@@ -315,7 +315,7 @@ services:
     - ${WORK_PATH}/log-analysis/bin/start.sh:${WORK_PATH}/log-analysis/bin/start.sh
     - ${WORK_PATH}/log-analysis/config/log.analysis.properties:${WORK_PATH}/log-analysis/config/log.analysis.properties
     - ${WORK_PATH}/log-analysis/config/log4j.properties:${WORK_PATH}/log-analysis/config/log4j.properties
-    - ${WORK_PATH}/logs/log-analysis/:{WORK_PATH}/logs/log-analysis/
+    - ${WORK_PATH}/logs/log-analysis/:${WORK_PATH}/logs/log-analysis/
     depends_on:
     - mysql-server
 
@@ -332,7 +332,7 @@ services:
     - ${WORK_PATH}/chartservice/conf/chartservice.properties:${WORK_PATH}/chartservice/conf/chartservice.properties
     - ${WORK_PATH}/chartservice/conf/log4j.properties:${WORK_PATH}/chartservice/conf/log4j.properties
     - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
-    - ${WORK_PATH}/logs/chartservice/:{WORK_PATH}/logs/chartservice/
+    - ${WORK_PATH}/logs/chartservice/:${WORK_PATH}/logs/chartservice/
 
   log_pp:
     image: cloudwiz/log-pp:1.0.1
@@ -347,7 +347,7 @@ services:
     - ${WORK_PATH}/log-pp/config/log.pp.properties:${WORK_PATH}/log-pp/config/log.pp.properties
     - ${WORK_PATH}/log-pp/config/log4j.properties:${WORK_PATH}/log-pp/config/log4j.properties
     - ${WORK_PATH}/log-pp/config/patterns/:${WORK_PATH}/log-pp/config/patterns/
-    - ${WORK_PATH}/logs/log-pp/:{WORK_PATH}/logs/log-pp/
+    - ${WORK_PATH}/logs/log-pp/:${WORK_PATH}/logs/log-pp/
     depends_on:
     - kafka
     - opentsdb
