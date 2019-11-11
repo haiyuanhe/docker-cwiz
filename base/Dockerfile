@@ -6,6 +6,7 @@ ARG JAVA_VERSION=1.8.0
 ARG JAVA_VERSION_DETAIL=${JAVA_VERSION}.191.b12
 ENV JAVA_HOME /usr/lib/jvm/java
 ADD wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
 
 RUN yum-config-manager --enable cr && \
     yum -y --setopt=tsflags=nodocs update && \
