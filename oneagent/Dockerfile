@@ -12,9 +12,7 @@ RUN set -x \
     && curl -fSL "$URL" -o /tmp/oneagent.tar.gz \
     && mkdir -p ${INSTALL_ROOT} \
     && tar -xvf /tmp/oneagent.tar.gz -C ${INSTALL_ROOT} \
-    && rm /tmp/oneagent.tar.gz* \
-    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
-
+    && rm /tmp/oneagent.tar.gz*
 
 ENV USER=root
 

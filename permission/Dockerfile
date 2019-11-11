@@ -13,9 +13,7 @@ RUN set -x \
     && mkdir -p ${INSTALL_ROOT} \
     && tar -xvf /tmp/cloudwiz-permission.tar.gz -C ${INSTALL_ROOT} \
     && mv ${INSTALL_ROOT}/cloudwiz-permission ${INSTALL_ROOT}/permission \
-    && rm /tmp/cloudwiz-permission.tar.gz* \
-    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
-
+    && rm /tmp/cloudwiz-permission.tar.gz*
 
 ENV USER=root
 

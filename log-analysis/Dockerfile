@@ -13,9 +13,7 @@ RUN set -x \
     && mkdir -p ${INSTALL_ROOT} \
     && tar -xvf /tmp/cloudwiz-log-analysis.tar.gz -C ${INSTALL_ROOT} \
     && mv ${INSTALL_ROOT}/cloudwiz-log-analysis ${INSTALL_ROOT}/log-analysis \
-    && rm /tmp/cloudwiz-log-analysis.tar.gz* \
-    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
-
+    && rm /tmp/cloudwiz-log-analysis.tar.gz*
 
 ENV USER=root
 

@@ -14,9 +14,7 @@ RUN set -x \
     && tar -xvf /tmp/cloudwiz-metric-proxy.tar.gz -C ${INSTALL_ROOT}/ \
     && mv ${INSTALL_ROOT}/cloudwiz-metric-proxy ${INSTALL_ROOT}/metric-proxy \
     && mkdir -p ${INSTALL_ROOT}/metric-proxy/config \
-    && rm /tmp/cloudwiz-metric-proxy.tar.gz* \
-    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
-
+    && rm /tmp/cloudwiz-metric-proxy.tar.gz*
 
 ENV USER=root
 

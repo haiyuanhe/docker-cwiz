@@ -13,8 +13,8 @@ RUN set -x \
     && curl -fSL "$OPENTSDB_URL" -o /tmp/opentsdb.tar.gz \
     && mkdir -p ${INSTALL_ROOT} \
     && tar -xvf /tmp/opentsdb.tar.gz -C ${INSTALL_ROOT} \
-    && rm /tmp/opentsdb.tar.gz* \
-    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
+    && rm /tmp/opentsdb.tar.gz*
+
 
 ADD start.sh /start.sh
 RUN chmod +x /start.sh

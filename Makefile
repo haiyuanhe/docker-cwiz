@@ -23,7 +23,7 @@ UMANGER=1.0.0
 MYSQL=5.7.24
 
 build:
-	docker build -t cloudwiz/openjdk:${OPENJDK} ./base
+	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/openjdk:${OPENJDK} ./base
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-base:${HADOOP_BASE} ./hadoop-base
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-base:${HBASE_BASE} ./hbase-base
 	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-namenode:${HADOOP} ./namenode

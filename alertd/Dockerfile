@@ -15,7 +15,6 @@ RUN set -x \
     && tar -xvf /tmp/cloudwiz-daemon.tar.gz -C ${INSTALL_ROOT} \
     && mv ${INSTALL_ROOT}/cloudwiz-daemon ${INSTALL_ROOT}/alertd \
     && rm /tmp/cloudwiz-daemon.tar.gz* \
-    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
 
 ADD start.sh /start.sh
 RUN chmod +x /start.sh

@@ -13,5 +13,5 @@ RUN yum-config-manager --enable cr && \
     yum -y clean all && \
     rm -rf /var/cache/yum
 
-
+RUN ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
 LABEL org.opennms.java.version="OpenJDK Devel ${JAVA_VERSION_DETAIL}"

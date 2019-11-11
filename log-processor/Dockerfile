@@ -14,9 +14,7 @@ RUN set -x \
     && tar -xvf /tmp/cloudwiz-log-processor.tar.gz -C ${INSTALL_ROOT} \
     && mv ${INSTALL_ROOT}/cloudwiz-log-processor ${INSTALL_ROOT}/log-processor \
     && mkdir -p ${INSTALL_ROOT}/log-processor/config \
-    && rm /tmp/cloudwiz-log-processor.tar.gz* \
-    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
-
+    && rm /tmp/cloudwiz-log-processor.tar.gz*
 
 ENV USER=root
 

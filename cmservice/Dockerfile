@@ -14,9 +14,7 @@ RUN set -x \
     && tar -xvf /tmp/cloudwiz-cm-service.tar.gz -C ${INSTALL_ROOT} \
     && mv ${INSTALL_ROOT}/cloudwiz-cm-service ${INSTALL_ROOT}/cmservice \
     && mkdir -p ${INSTALL_ROOT}/cmservice/config \
-    && rm /tmp/cloudwiz-cm-service.tar.gz* \
-    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
-
+    && rm /tmp/cloudwiz-cm-service.tar.gz*
 
 ENV USER=root
 

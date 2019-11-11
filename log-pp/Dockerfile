@@ -13,9 +13,7 @@ RUN set -x \
     && mkdir -p ${INSTALL_ROOT} \
     && tar -xvf /tmp/cloudwiz-log-pp.tar.gz -C ${INSTALL_ROOT} \
     && mv ${INSTALL_ROOT}/cloudwiz-log-pp ${INSTALL_ROOT}/log-pp \
-    && rm /tmp/cloudwiz-log-pp.tar.gz* \
-    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk
-
+    && rm /tmp/cloudwiz-log-pp.tar.gz*
 
 ENV USER=root
 

@@ -14,7 +14,6 @@ RUN set -x \
     && tar -xvf /tmp/cloudwiz-chart-service.tar.gz -C ${INSTALL_ROOT} \
     && mv ${INSTALL_ROOT}/cloudwiz-chart-service ${INSTALL_ROOT}/chartservice \
     && rm /tmp/cloudwiz-chart-service.tar.gz* \
-    && ln -s /usr/lib/jvm/java  ${INSTALL_ROOT}/jdk \
     && mkdir -p ${INSTALL_ROOT}/report_tmp/
 
 
