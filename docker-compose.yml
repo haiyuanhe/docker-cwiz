@@ -245,8 +245,8 @@ services:
 
   log_processor:
     image: cloudwiz/log-processor:1.0.1
-    container_name: log-processor
-    hostname: log-processor
+    container_name: log_processor
+    hostname: log_processor
     env_file:
     - ./hadoop.env
     networks:
@@ -276,8 +276,8 @@ services:
 
   cloudwiz_user:
     image: cloudwiz/cloudwiz-user:1.1.7
-    container_name: cloudwiz-user
-    hostname: cloudwiz-user
+    container_name: cloudwiz_user
+    hostname: cloudwiz_user
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.16
@@ -305,8 +305,8 @@ services:
 
   log_analysis:
     image: cloudwiz/log-analysis:1.0.3
-    container_name: log-analysis
-    hostname: log-analysis
+    container_name: log_analysis
+    hostname: log_analysis
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.18
@@ -336,8 +336,8 @@ services:
 
   log_pp:
     image: cloudwiz/log-pp:1.0.1
-    container_name: log-pp
-    hostname: log-pp
+    container_name: log_pp
+    hostname: log_pp
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.20
