@@ -5,6 +5,7 @@ services:
     image: cloudwiz/hadoop-namenode:2.7.7
     container_name: namenode
     hostname: namenode
+    restart: always
     volumes:
     - ${WORK_PATH}/data/hadoop/dfs/name:/hadoop/dfs/name
     - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hadoop-2.7.7/logs
@@ -20,6 +21,7 @@ services:
     image: cloudwiz/hadoop-datanode:2.7.7
     container_name: datanode
     hostname: datanode
+    restart: always
     volumes:
     - ${WORK_PATH}/data/hadoop/dfs/data:/hadoop/dfs/data
     - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hadoop-2.7.7/logs
@@ -37,6 +39,7 @@ services:
     image: zookeeper:3.4.10
     container_name: zookeeper
     hostname: zookeeper
+    restart: always
     environment:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888
@@ -52,6 +55,7 @@ services:
     image: cloudwiz/hbase-master:1.4.10
     container_name: hbase-master
     hostname: hbase-master
+    restart: always
     env_file:
     - ./hadoop.env
     environment:
@@ -70,6 +74,7 @@ services:
     image: cloudwiz/hbase-regionserver:1.4.10
     container_name: hbase-regionserver
     hostname: hbase-regionserver
+    restart: always
     env_file:
     - ./hadoop.env
     environment:
@@ -89,6 +94,7 @@ services:
   mysql-server:
     image: cloudwiz/mysql:5.7.24
     container_name: mysql-server
+    restart: always
     volumes:
     - ${WORK_PATH}/tools/mysql/sql/:/sql
     - ${WORK_PATH}/data/mysql/:/var/lib/mysql
@@ -103,6 +109,7 @@ services:
     image: elasticsearch:5.4.3
     container_name: elasticsearch
     hostname: elasticsearch
+    restart: always
     ulimits:
       memlock:
         soft: -1
@@ -121,9 +128,10 @@ services:
         ipv4_address: 172.19.0.8
 
   nginx:
-    image: nginx:1.12.1
+    image: nginx:1.16.1
     container_name: nginx
     hostname: nginx
+    restart: always
     env_file:
     - ./hadoop.env
     volumes:
@@ -171,6 +179,7 @@ services:
     image: wurstmeister/kafka:2.11-1.0.2
     container_name: kafka
     hostname: kafka
+    restart: always
     env_file:
     - ./hadoop.env
     ports:
@@ -192,6 +201,7 @@ services:
     image: cloudwiz/metric-proxy:1.0.4
     container_name: metric-proxy
     hostname: metric-proxy
+    restart: always
     env_file:
     - ./hadoop.env
     networks:
@@ -210,6 +220,7 @@ services:
     image: cloudwiz/opentsdb:2.3.0
     container_name: opentsdb
     hostname: opentsdb
+    restart: always
     env_file:
     - ./hadoop.env
     networks:
@@ -229,6 +240,7 @@ services:
     image: cloudwiz/cmservice:1.4.2
     container_name: cmservice
     hostname: cmservice
+    restart: always
     env_file:
     - ./hadoop.env
     networks:
@@ -247,6 +259,7 @@ services:
     image: cloudwiz/log-processor:1.0.1
     container_name: log_processor
     hostname: log_processor
+    restart: always
     env_file:
     - ./hadoop.env
     networks:
@@ -265,6 +278,7 @@ services:
     image: cloudwiz/webfront:3.5.10
     container_name: webfront
     hostname: webfront
+    restart: always
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.15
@@ -278,6 +292,7 @@ services:
     image: cloudwiz/cloudwiz-user:1.1.7
     container_name: cloudwiz_user
     hostname: cloudwiz_user
+    restart: always
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.16
@@ -290,6 +305,7 @@ services:
     image: cloudwiz/permission:1.0.10
     container_name: permission
     hostname: permission
+    restart: always
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.17
@@ -323,6 +339,7 @@ services:
     image: cloudwiz/chartservice:1.0.0
     container_name: chartservice
     hostname: chartservice
+    restart: always
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.19
@@ -338,6 +355,7 @@ services:
     image: cloudwiz/log-pp:1.0.1
     container_name: log_pp
     hostname: log_pp
+    restart: always
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.20
@@ -356,6 +374,7 @@ services:
     image: cloudwiz/alertd:1.1.13
     container_name: alertd
     hostname: alertd
+    restart: always
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.22
@@ -374,6 +393,7 @@ services:
     image: cloudwiz/umanager:1.0.0
     container_name: umanager
     hostname: umanager
+    restart: always
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.23
