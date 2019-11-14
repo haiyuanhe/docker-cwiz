@@ -14,7 +14,7 @@ RUN set -x \
     && mkdir -p ${INSTALL_ROOT} \
     && tar -xvf /tmp/cloudwiz-daemon.tar.gz -C ${INSTALL_ROOT} \
     && mv ${INSTALL_ROOT}/cloudwiz-daemon ${INSTALL_ROOT}/alertd \
-    && rm /tmp/cloudwiz-daemon.tar.gz* \
+    && rm /tmp/cloudwiz-daemon.tar.gz*
 
 ADD start.sh /start.sh
 RUN chmod +x /start.sh
@@ -47,5 +47,5 @@ EXPOSE 5001
 EXPOSE 7001
 EXPOSE 9999
 
-ENTRYPOINT /start.sh
+ENTRYPOINT /wait-for-it.sh opentsdb:4242 --timeout=5 -- /start.sh
 

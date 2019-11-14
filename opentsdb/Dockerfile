@@ -21,4 +21,4 @@ RUN chmod +x /start.sh
 
 EXPOSE 4242
 
-ENTRYPOINT /start.sh
+ENTRYPOINT /wait-for-it.sh mysql:3306 --timeout=5 -- /start.sh

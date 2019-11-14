@@ -26,4 +26,4 @@ RUN set -x \
 ADD start.sh /start.sh
 RUN chmod +x /start.sh
 
-CMD ["/start.sh"]
+CMD ["/wait-for-it.sh","alertd:5001","--timeout=10","--","/start.sh"]

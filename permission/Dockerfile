@@ -19,4 +19,4 @@ ENV USER=root
 
 EXPOSE 4123
 
-CMD ${INSTALL_ROOT}/permission/bin/start.sh
+CMD /wait-for-it.sh mysql:3306 --timeout=5 -- ${INSTALL_ROOT}/permission/bin/start.sh

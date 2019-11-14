@@ -20,4 +20,4 @@ RUN chmod +x /start.sh
 
 EXPOSE 3000
 
-ENTRYPOINT /start.sh
+ENTRYPOINT /wait-for-it.sh permission:4123 --timeout=5 -- /start.sh
