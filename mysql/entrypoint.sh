@@ -255,6 +255,7 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 	fi
 fi
 
+rm $HOME/.mysql_history  && ln -s /dev/null $HOME/.mysql_history
 
 exec "$@"
 				#source /sql/0020_azure.sql;

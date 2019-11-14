@@ -1,9 +1,8 @@
 FROM mysql:5.7.28
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
-ENV MYSQL_ROOT_PASSWORD=Cloudwiz_p0c
+ENV MYSQL_ROOT_PASSWORD=Cloudwiz_huawei_p0c
 RUN apt-get update && apt-get install -y procps && apt-get install -y gawk
-RUN rm $HOME/.mysql_history  && ln -s /dev/null $HOME/.mysql_history
 RUN usermod -s /bin/false mysql && usermod -s /sbin/nologin mysql
 
 RUN chmod 600 /et/mysql/mysql.conf.d/mysqld.cnf

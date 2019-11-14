@@ -24,12 +24,12 @@ RUN mkdir -p /usr/share/fonts/yahei/
 ADD msyh.ttf /usr/share/fonts/yahei/msyh.ttf
 
 RUN set -x \
+    && yum -y install libXrender libXext fontconfig mkfontscale\
     && chmod +x /usr/share/fonts/yahei/msyh.ttf \
     && cd /usr/share/fonts/yahei/ \
     && mkfontscale \
     && mkfontdir \
     && fc-cache -fv \
-    && yum -y install libXrender libXext fontconfig \
     && curl -fSL "$URL/phantomjs-2.1.1-linux-x86_64.tar.gz" -o /tmp/phantomjs-2.1.1-linux-x86_64.tar.gz \
     && tar -xvf /tmp/phantomjs-2.1.1-linux-x86_64.tar.gz -C ${INSTALL_ROOT}/ \
     && mv ${INSTALL_ROOT}/phantomjs-2.1.1-linux-x86_64 ${INSTALL_ROOT}/phantomjs \
