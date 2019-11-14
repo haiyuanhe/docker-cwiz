@@ -212,9 +212,13 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 			echo "Initializing import sqls"
 			echo "$MYSQL_ROOT_PASSWORD"
 			"${mysql[@]}" <<-EOSQL
-				ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
-				CREATE USER 'CloudInsight'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
-				GRANT ALL ON *.* TO 'CloudInsight'@'%';
+				CREATE USER 'admin'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
+				CREATE USER 'CloudInsight'@'172.19.%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
+				ALTER USER 'admin'@'localhost' PASSWORD EXPIRE INTERVAL 9999 DAYS;
+				ALTER USER 'CloudInsight'@'172.19.%' PASSWORD EXPIRE INTERVAL 9999 DAYS;
+				GRANT ALL ON *.* TO 'CloudInsight'@'172.19.%';
+				GRANT ALL ON *.* TO 'admin'@'localhost';
+				REVOKE SUPER ON *.* FROM 'CloudInsight'@'172.19.%';
                                 set names utf8;
                                 set names utf8;
 				source /sql/0010_dump.sql;
@@ -232,6 +236,10 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 				source /sql/0802_oneagent_plugin.sql;
 				source /sql/0900_log_pp.sql;
 				source /sql/0910_permission.sql;
+				DROP USER 'mysql.session'@'localhost';
+				DROP USER 'mysql.sys'@'localhost';
+				DROP USER 'root'@'%';
+				DROP USER 'root'@'localhost';
 			EOSQL
 			touch /tmp/.initialied
 		fi

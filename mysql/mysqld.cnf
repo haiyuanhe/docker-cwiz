@@ -20,13 +20,32 @@
 # http://dev.mysql.com/doc/mysql/en/server-system-variables.html
 
 [mysqld]
+user = mysql
 pid-file	= /var/run/mysqld/mysqld.pid
 socket		= /var/run/mysqld/mysqld.sock
 datadir		= /var/lib/mysql
-#log-error	= /var/log/mysql/error.log
+log-error	= /var/log/mysql/error.log
 # By default we only accept connections from localhost
 #bind-address	= 127.0.0.1
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links=0
 
-sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+local-infile=0
+log_bin=1
+log_bin_basename=/logs/binlog/mysql-bin
+default_password_lifetime=90
+
+plugin-load-add=validate_password.so
+validate-password=FORCE_PLUS_PERMANENT
+validate_password_length=14
+validate_password_mixed_case_count=1
+validate_password_number_count=1
+validate_password_special_char_count=1
+validate_password_policy=MEDIUM
+
+master_info_repository=TABLE
+wait_timeout=28801
+interactive_timeout=28801
+
+expire_logs_days=2
+sql_mode=STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION,NO_AUTO_CREATE_USER
