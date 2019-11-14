@@ -22,4 +22,4 @@ RUN set -x && \
     mkdir -p ${INSTALL_ROOT} && \
     tar -xvf /tmp/java.tar.gz -C ${INSTALL_ROOT} && \
     mv ${INSTALL_ROOT}/jdk8*  ${INSTALL_ROOT}/jdk && \
-    rm -rf /tmp
+    rm -rf /tmp/*
