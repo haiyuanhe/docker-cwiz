@@ -214,8 +214,8 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 			"${mysql[@]}" <<-EOSQL
 				CREATE USER 'admin'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
 				CREATE USER 'CloudInsight'@'172.19.%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
-				ALTER USER 'admin'@'localhost' PASSWORD EXPIRE INTERVAL 9999 DAYS;
-				ALTER USER 'CloudInsight'@'172.19.%' PASSWORD EXPIRE INTERVAL 9999 DAYS;
+				ALTER USER 'admin'@'localhost' PASSWORD EXPIRE INTERVAL 9999 DAY;
+				ALTER USER 'CloudInsight'@'172.19.%' PASSWORD EXPIRE INTERVAL 9999 DAY;
 				GRANT ALL ON *.* TO 'CloudInsight'@'172.19.%';
 				GRANT ALL ON *.* TO 'admin'@'localhost';
 				REVOKE SUPER ON *.* FROM 'CloudInsight'@'172.19.%';
@@ -256,6 +256,11 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 fi
 
 rm $HOME/.mysql_history  && ln -s /dev/null $HOME/.mysql_history
+sudo chmod 600 /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo chown -R mysql:mysql /var/lib/mysql
+sudo chmod 700 /var/lib/mysql
+sudo chown -R mysql:mysql /var/log/mysql/
+sudo chmod 600 /var/log/mysql/
 
 exec "$@"
 				#source /sql/0020_azure.sql;

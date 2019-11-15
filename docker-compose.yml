@@ -92,10 +92,12 @@ services:
     - hbase-master
 
   mysql-server:
-    image: cloudwiz/mysql:5.7.24
+    image: cloudwiz/mysql:5.7.28
     container_name: mysql-server
     restart: always
+    user: mysql
     volumes:
+    - ./mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
     - ${WORK_PATH}/tools/mysql/sql/:/sql
     - ${WORK_PATH}/data/mysql/:/var/lib/mysql
     - ${WORK_PATH}/logs/mysql/:/var/log/mysql

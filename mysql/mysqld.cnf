@@ -31,8 +31,8 @@ log-error	= /var/log/mysql/error.log
 symbolic-links=0
 
 local-infile=0
-log_bin=1
-log_bin_basename=/logs/binlog/mysql-bin
+server-id=1
+log_bin=/logs/binlog/mysql-bin
 default_password_lifetime=90
 
 plugin-load-add=validate_password.so
