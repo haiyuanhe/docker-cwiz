@@ -256,11 +256,11 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 fi
 
 rm $HOME/.mysql_history  && ln -s /dev/null $HOME/.mysql_history
-sudo chmod 600 /etc/mysql/mysql.conf.d/mysqld.cnf
-sudo chown -R mysql:mysql /var/lib/mysql
-sudo chmod 700 /var/lib/mysql
-sudo chown -R mysql:mysql /var/log/mysql/
-sudo chmod 600 /var/log/mysql/
+chmod 600 /etc/mysql/mysql.conf.d/mysqld.cnf
+chown -R mysql:mysql /var/lib/mysql
+chmod 700 /var/lib/mysql
+chown -R mysql:mysql /var/log/mysql/
+chmod 600 /var/log/mysql/
 
 exec "$@"
 				#source /sql/0020_azure.sql;
