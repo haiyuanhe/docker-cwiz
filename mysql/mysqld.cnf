@@ -1,33 +1,9 @@
-# Copyright (c) 2014, 2016, Oracle and/or its affiliates. All rights reserved.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; version 2 of the License.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-
-#
-# The MySQL  Server configuration file.
-#
-# For explanations see
-# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
-
 [mysqld]
 user = mysql
 pid-file	= /var/run/mysqld/mysqld.pid
 socket		= /var/run/mysqld/mysqld.sock
 datadir		= /var/lib/mysql
 log-error	= /var/log/mysql/error.log
-# By default we only accept connections from localhost
-#bind-address	= 127.0.0.1
-# Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links=0
 
 local-infile=0
@@ -36,7 +12,7 @@ log_bin=/logs/binlog/mysql-bin
 default_password_lifetime=90
 
 plugin-load-add=validate_password.so
-validate-password=FORCE_PLUS_PERMANENT
+validate-password=OFF
 validate_password_length=14
 validate_password_mixed_case_count=1
 validate_password_number_count=1
@@ -49,3 +25,8 @@ interactive_timeout=28801
 
 expire_logs_days=2
 sql_mode=STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION,NO_AUTO_CREATE_USER
+
+
+[client]
+port = 3306
+socket = /var/run/mysqld/mysqld.sock

@@ -88,6 +88,17 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" -a "$(id -u)" = '0' ]; then
 	mkdir -p "$DATADIR"
 	chown -R mysql:mysql "$DATADIR"
 	chown -R mysql:mysql /sql
+    rm $HOME/.mysql_history 2>/dev/null && ln -s /dev/null $HOME/.mysql_history
+    chmod 640 /etc/mysql/my.cnf
+    mkdir -p /logs/binlog
+    chown -R mysql:mysql /logs
+#    chmod 640 /logs
+    chown -R mysql:mysql /etc/mysql
+    chown -R mysql:mysql /var/log/mysql
+#    chmod 640 /var/log/mysql/
+    chown -R mysql:mysql /var/lib/mysql
+    chmod 700 /var/lib/mysql
+
 	exec gosu mysql "$BASH_SOURCE" "$@"
 fi
 
@@ -251,16 +262,11 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 			exit 1
 		fi
 
+		sed -i '/^validate-password=/cvalidate-password=ON' /etc/mysql/my.cnf
+
 		echo 'MySQL init process done. Ready for start up.'
 	fi
 fi
-
-rm $HOME/.mysql_history  && ln -s /dev/null $HOME/.mysql_history
-chmod 600 /etc/mysql/mysql.conf.d/mysqld.cnf
-chown -R mysql:mysql /var/lib/mysql
-chmod 700 /var/lib/mysql
-chown -R mysql:mysql /var/log/mysql/
-chmod 600 /var/log/mysql/
 
 exec "$@"
 				#source /sql/0020_azure.sql;
