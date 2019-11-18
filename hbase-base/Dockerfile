@@ -7,7 +7,7 @@ ENV INSTALL_ROOT ${INSTALL_ROOT}
 
 ENV HBASE_VERSION  1.4.10
 ENV HBASE_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/hbase-$HBASE_VERSION-bin.tar.gz
-ENV JAVA_HOME /usr/lib/jvm/java
+ENV JAVA_HOME ${INSTALL_ROOT}/jdk
 
 RUN set -x \
     && curl -fSL "$HBASE_URL" -o /tmp/hbase.tar.gz \

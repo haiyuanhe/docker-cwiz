@@ -7,7 +7,7 @@ ENV INSTALL_ROOT ${INSTALL_ROOT}
 
 ENV HADOOP_VERSION  2.7.7
 ENV HADOOP_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/hadoop-$HADOOP_VERSION.tar.gz
-ENV JAVA_HOME /usr/lib/jvm/java
+ENV JAVA_HOME ${INSTALL_ROOT}/jdk
 
 
 RUN set -x \
