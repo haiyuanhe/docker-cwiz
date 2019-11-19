@@ -97,7 +97,7 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" -a "$(id -u)" = '0' ]; then
     chown -R mysql:mysql /var/log/mysql
 #    chmod 640 /var/log/mysql/
     chown -R mysql:mysql /var/lib/mysql
-    chmod 700 /var/lib/mysql
+#    chmod 700 /var/lib/mysql
 
 	exec gosu mysql "$BASH_SOURCE" "$@"
 fi
