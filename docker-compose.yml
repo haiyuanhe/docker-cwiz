@@ -137,9 +137,9 @@ services:
         container_name: redis
         networks:
             cwiz_network:
-                ipv4_address: 172.19.0.9
+                ipv4_address: 172.19.0.24
 
-  pythond:
+  python-daemon:
       image: pythond:2.0.0
       restart: unless-stopped
       ports:
@@ -157,7 +157,7 @@ services:
       container_name: pythond
       networks:
           cwiz_network:
-              ipv4_address: 172.19.0.10
+              ipv4_address: 172.19.0.25
 
   nginx:
     image: nginx:1.16.1
@@ -200,9 +200,9 @@ services:
       log_pp: 172.19.0.20
       alertd: 172.19.0.22
       umanage: 172.19.0.23
+      python_daemon: 172.19.0.25
       #### No such service now
       oneagent: 172.19.0.21
-      python_daemon: 172.19.0.222
       hbase_thrift: 172.19.0.233
     depends_on:
     - mysql-server
