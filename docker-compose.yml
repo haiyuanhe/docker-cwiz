@@ -128,6 +128,37 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.8
 
+  redis:
+        image: redis
+        restart: unless-stopped
+        hostname: redis
+        ports:
+          - "6379:6379"
+        container_name: redis
+        networks:
+            cwiz_network:
+                ipv4_address: 172.19.0.9
+
+  pythond:
+      image: pythond:2.0.0
+      restart: unless-stopped
+      ports:
+        - "8100:8100"
+      command: "gunicorn -c gunicorn.conf.py --env DJANGO_SETTINGS_MODULE=pythond.settings pythond.wsgi"
+      depends_on:
+        - mysql-server
+        - redis
+        - opentsdb
+        - hbase-master
+      volumes:
+        - ${WORK_PATH}/logs/pythond:/log/python-daemon
+        - ${WORK_PATH}/pythond/pythond/settings.py:${WORK_PATH}/pythond/pythond/settings.py
+        - ${WORK_PATH}/pythond/init_config.ini:${WORK_PATH}/pythond/init_config.ini
+      container_name: pythond
+      networks:
+          cwiz_network:
+              ipv4_address: 172.19.0.10
+
   nginx:
     image: nginx:1.16.1
     container_name: nginx
