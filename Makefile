@@ -43,3 +43,4 @@ build:
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/alertd:${CWIZ_DAEMON} ./alertd
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/umanager:${UMANGER} ./umanager
 	docker build -t cloudwiz/mysql:${MYSQL} ./mysql
+	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/pythond:${PYTHOND} ./pythond
