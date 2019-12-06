@@ -95,7 +95,6 @@ services:
     image: cloudwiz/mysql:5.7.28
     container_name: mysql-server
     restart: always
-    user: mysql
     volumes:
     - ${WORK_PATH}/tools/mysql/sql/:/sql
     - ${WORK_PATH}/data/mysql/:/var/lib/mysql
@@ -128,37 +127,6 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.8
 
-  redis:
-        image: redis
-        restart: unless-stopped
-        hostname: redis
-        ports:
-          - "6379:6379"
-        container_name: redis
-        networks:
-            cwiz_network:
-                ipv4_address: 172.19.0.24
-
-  python-daemon:
-      image: pythond:2.0.0
-      restart: unless-stopped
-      ports:
-        - "8100:8100"
-      command: "gunicorn -c gunicorn.conf.py --env DJANGO_SETTINGS_MODULE=pythond.settings pythond.wsgi"
-      depends_on:
-        - mysql-server
-        - redis
-        - opentsdb
-        - hbase-master
-      volumes:
-        - ${WORK_PATH}/logs/pythond:/log/python-daemon
-        - ${WORK_PATH}/pythond/pythond/settings.py:${WORK_PATH}/pythond/pythond/settings.py
-        - ${WORK_PATH}/pythond/init_config.ini:${WORK_PATH}/pythond/init_config.ini
-      container_name: pythond
-      networks:
-          cwiz_network:
-              ipv4_address: 172.19.0.25
-
   nginx:
     image: nginx:1.16.1
     container_name: nginx
@@ -171,6 +139,7 @@ services:
     - ${WORK_PATH}/nginx/:${WORK_PATH}/nginx/
     - ${WORK_PATH}/logs/nginx/:${WORK_PATH}/logs/nginx/
     ports:
+    - 3308:3308
     - 8080:8080
     - 80:80
     - 443:443
@@ -315,6 +284,7 @@ services:
       cwiz_network:
         ipv4_address: 172.19.0.15
     volumes:
+    #- /tmp/webfront:${WORK_PATH}/webfront
     - ${WORK_PATH}/webfront/conf/defaults.ini:${WORK_PATH}/webfront/conf/defaults.ini
     - ${WORK_PATH}/logs/webfront/:${WORK_PATH}/logs/webfront
     depends_on:
