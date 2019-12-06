@@ -12,9 +12,9 @@ ENV JAVA_HOME ${INSTALL_ROOT}/jdk
 RUN set -x \
     && curl -fSL "$HBASE_URL" -o /tmp/hbase.tar.gz \
     && mkdir -p ${INSTALL_ROOT} \
-    && tar -xvf /tmp/hbase.tar.gz -C ${INSTALL_ROOT} \
-    $$ rm -rf ${INSTALL_ROOT}/hbase-$HBASE_VERSION/docs
-    && rm /tmp/hbase.tar.gz*
+    && tar -zxvf /tmp/hbase.tar.gz -C ${INSTALL_ROOT} \
+    && rm -rf ${INSTALL_ROOT}/hbase-$HBASE_VERSION/docs \
+    && rm -rf /tmp/hbase.tar.gz*
 
 RUN ln -s ${INSTALL_ROOT}/hbase-$HBASE_VERSION/conf /etc/hbase
 RUN mkdir ${INSTALL_ROOT}/hbase-$HBASE_VERSION/logs

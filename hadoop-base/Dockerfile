@@ -14,7 +14,7 @@ RUN set -x \
     && curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
     && mkdir -p ${INSTALL_ROOT} \
     && tar -xvf /tmp/hadoop.tar.gz -C ${INSTALL_ROOT} \
-    && rm /tmp/hadoop.tar.gz*
+    && rm -rf /tmp/hadoop.tar.gz*
 
 RUN ln -s ${INSTALL_ROOT}/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
 RUN cp /etc/hadoop/mapred-site.xml.template /etc/hadoop/mapred-site.xml
