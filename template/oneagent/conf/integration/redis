@@ -1,0 +1,37 @@
+{
+    "id": "redis",
+    "alias": "Redis",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "redisdb.conf",
+            "enable": "false"
+        },
+        {
+            "version": "redisdb.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "redisdb.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "redisdb.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "redis-server",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "redis"
+        }
+    ],
+    "stateMetrics":""
+}

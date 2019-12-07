@@ -1,0 +1,37 @@
+{
+    "id": "rabbitmq",
+    "alias": "RabbitMQ",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "rabbit_mq.conf",
+            "enable": "false"
+        },
+        {
+            "version": "rabbit_mq.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "rabbitmq.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "rabbitmq.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "rabbitmq-server",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "rabbitmq"
+        }
+    ],
+    "stateMetrics":""
+}

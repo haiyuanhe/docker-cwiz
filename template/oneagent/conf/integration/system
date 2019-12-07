@@ -1,0 +1,53 @@
+{
+    "id": "system",
+    "alias": "System",
+    "type" : "System",
+    "metrics": [
+        {
+            "version": "cpus_pctusage.py",
+            "enable": "true"
+        },
+        {
+            "version": "cpus_pctusage.conf",
+            "enable": "true"
+        },
+        {
+            "version": "iostats.py",
+            "enable": "true"
+        },
+        {
+            "version": "iostats.conf",
+            "enable": "true"
+        },
+        {
+            "version": "machine_summary.py",
+            "enable": "true"
+        },
+        {
+            "version": "machine_summary.conf",
+            "enable": "true"
+        },
+        {
+            "version": "netstat.py",
+            "enable": "true"
+        },
+        {
+            "version": "netstat.conf",
+            "enable": "true"
+        },
+        {
+            "version": "procstats_new.py",
+            "enable": "true"
+        },
+        {
+            "version": "procstats_new.conf",
+            "enable": "true"
+        }
+    ],
+    "ddagent": [
+        {
+            "enable": "true"
+        }
+    ],
+    "stateMetrics":"collector.state"
+}

@@ -1,0 +1,61 @@
+<html>
+<head>
+<meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="%s"></script>
+    <script src="%s"></script>
+</head>
+    <body>
+         <div id="main" style="width:800px;height:300px;"></div>
+         <script type="text/javascript">
+             var myChart = echarts.init(document.getElementById('main'));
+
+            data = %s;
+            var serverList = _.keys(data);
+
+            option = {
+                 animation: false,
+                                backgroundColor: "white",
+                                title: {
+                                    left: 'center',
+                                    text: 'RegionServer数量'
+                                },
+                                legend: {
+                                    data: serverList,
+                                    y:'bottom'
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: []
+                                },
+                                yAxis: {
+                                    type: 'value',
+                                },
+
+                                series: []
+            };
+
+             x = [];
+                        _.each(serverList, function(h) {
+                            option.series.push({
+                                name: h,
+                                type: 'line',
+                                data: _.map(data[h], 'value')
+                            });
+
+                            x = _.union(x, _.map(data[h], 'date'));
+                        });
+
+                        option.xAxis.data = x;
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
+            function getImage() {
+                return myChart.getDataURL({type: "png"});
+            }
+         </script>
+    </body>
+</html>

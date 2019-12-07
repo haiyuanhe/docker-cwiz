@@ -1,0 +1,37 @@
+{
+    "id": "kafka",
+    "alias": "Kafka",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "kafka.conf",
+            "enable": "false"
+        },
+        {
+            "version": "kafka.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "kafka.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "kafka.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "kafka.Kafka",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "kafka"
+        }
+    ],
+    "stateMetrics":""
+}

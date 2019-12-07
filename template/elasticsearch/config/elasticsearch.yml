@@ -1,0 +1,21 @@
+cluster.name: cloudwiz
+node.name: "es_<:host_ip:>"
+bootstrap.memory_lock: true
+bootstrap.system_call_filter: false
+network.host: <:host_ip:>
+#discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: [<:elasticsearch_hosts_comma_separated:>]
+node.data: true
+node.master: true
+#node.heap: "2GB"
+path.data: <:data_root:>/elasticsearch
+thread_pool.bulk.queue_size: 1000
+
+indices.memory.index_buffer_size: 30%
+
+# reject requests that have an explicit index specified in the request body
+rest.action.multi.allow_explicit_index: true
+
+# allow grafana to access elasticsearch
+http.cors.enabled: true
+http.cors.allow-origin: "*"

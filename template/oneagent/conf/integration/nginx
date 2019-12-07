@@ -1,0 +1,40 @@
+{
+    "id": "nginx",
+    "alias": "Nginx",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "nginx.conf",
+            "enable": "false"
+        },
+        {
+            "version": "nginx.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "nginx.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "nginx.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "nginx: master process",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "nginxaccess"
+        },{
+            "name": "logtype",
+            "value": "nginxerror"
+        }
+    ],
+    "stateMetrics":""
+}

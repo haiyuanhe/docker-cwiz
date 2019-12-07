@@ -1,0 +1,82 @@
+###################### Filebeat Configuration Example #########################
+
+# This file is an example configuration file highlighting only the most common
+# options. The filebeat.full.yml file from the same directory contains all the
+# supported options with more comments. You can use it as a reference.
+#
+# You can find the full configuration reference here:
+# https://www.elastic.co/guide/en/beats/filebeat/index.html
+
+#=========================== Filebeat prospectors =============================
+
+filebeat.prospectors:
+
+# Each - is a prospector. Most options can be set at the prospector level, so
+# you can use different prospectors for various configurations.
+# Below are the prospector specific configurations.
+
+- input_type: log
+
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - <:agent_root:>/cloudwiz-agent/altenv/var/log/jstack.log*
+
+  document_type: jstack
+  fields.client: <orgid>
+  fields.orgid: <orgid>
+  fields.sysid: <sysid>
+  fields.token: <token>
+  fields_under_root: true
+  close_*: true
+  tail_files: true
+
+
+#================================ General =====================================
+
+# The name of the shipper that publishes the network data. It can be used to group
+# all the transactions sent by a single shipper in the web interface.
+#name:
+
+# The tags of the shipper are included in their own field with each
+# transaction published.
+#tags: ["service-X", "web-tier"]
+
+# Optional fields that you can specify to add additional information to the
+# output.
+#fields:
+#  env: staging
+
+#================================ Outputs =====================================
+
+# Configure what outputs to use when sending the data collected by the beat.
+# Multiple outputs may be used.
+
+#-------------------------- Kafka output ------------------------------
+output.logstash:
+  # Array of hosts to connect to.
+  hosts: [<log-server-host-port>]
+  ssl.enabled: false
+  ssl.certificate_authorities: ["<:agent_root:>/cloudwiz-agent/filebeat/ca.crt"]
+  ssl.certificate: "<:agent_root:>/cloudwiz-agent/filebeat/client.crt"
+  ssl.key: "<:agent_root:>/cloudwiz-agent/filebeat/client.key"
+  ssl.supported_protocols: "TLSv1.2"
+
+
+#================================ Logging =====================================
+
+# Sets log level. The default log level is info.
+# Available log levels are: critical, error, warning, info, debug
+#logging.level: debug
+
+# At debug level, you can selectively enable logging only for some components.
+# To enable all selectors use ["*"]. Examples of other selectors are "beat",
+# "publish", "service".
+#logging.selectors: ["*"]
+
+logging.level: info
+logging.to_files: true
+logging.to_syslog: false
+logging.files:
+  path: <:agent_root:>/cloudwiz-agent/altenv/var/log
+  name: filebeat.log
+  keepfiles: 4

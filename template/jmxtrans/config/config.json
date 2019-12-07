@@ -1,0 +1,55 @@
+{
+  "servers": [
+    {
+      "alias": "centos0",
+      "port": "7200",
+      "host": "172.16.16.100",
+      "url": "service:jmx:rmi:///jndi/rmi://172.16.16.100:7200/server",
+      "username": "",
+      "password": "",
+      "queries": [
+        {
+          "outputWriters": [
+            {
+              "@class": "com.googlecode.jmxtrans.model.output.OpenTSDBWriterFactory",
+              "host": "<:nginx_ip:>",
+              "port": "4244",
+              "orgId": "1",
+              "sysId": "1",
+              "addHostnameTag" : true,
+              "flushStrategy" : "always"
+            }
+          ],
+          "resultAlias": "java.threads",
+          "obj": "java.lang:type=Threading",
+          "attr": [
+            "ThreadCount"
+          ]
+        },
+        {
+          "outputWriters": [
+            {
+              "@class": "com.googlecode.jmxtrans.model.output.OpenTSDBWriterFactory",
+              "host": "<:nginx_ip:>",
+              "port": "4244",
+              "orgId": "1",
+              "sysId": "1",
+              "addHostnameTag" : true,
+              "flushStrategy" : "always",
+              "paths": [
+                "committed",
+                "used"
+              ]
+            }
+          ],
+          "resultAlias": "java.memory",
+          "obj": "java.lang:type=Memory",
+          "attr": [
+            "HeapMemoryUsage",
+            "NonHeapMemoryUsage"
+          ]
+        }
+      ]
+    }
+  ]
+}

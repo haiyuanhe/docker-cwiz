@@ -1,0 +1,37 @@
+{
+    "id": "elasticsearch",
+    "alias": "Elasticsearch",
+    "type": "Service",
+    "metrics": [
+        {
+            "version": "elasticsearchstat.conf",
+            "enable": "false"
+        },
+        {
+            "version": "elasticsearchstat.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "elastic.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "elastic.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "org.elasticsearch.bootstrap.Elasticsearch",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "elastic"
+        }
+    ],
+    "stateMetrics": ""
+}

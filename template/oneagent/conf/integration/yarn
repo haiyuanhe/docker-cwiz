@@ -1,0 +1,37 @@
+{
+    "id": "yarn",
+    "alias": "Yarn",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "yarn.conf",
+            "enable": "false"
+        },
+        {
+            "version": "yarn.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "yarn.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "yarn.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "resourcemanager",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "yarn"
+        }
+    ],
+    "stateMetrics":"yarn.status"
+}

@@ -1,0 +1,62 @@
+<html>
+<head>
+<meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="%s"></script>
+    <script src="%s"></script>
+</head>
+    <body>
+        <div id="main" style="width:800px;height:300px;"></div>
+         <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('main'));
+
+            data = %s;
+
+            var dateList = data.map(function (item) {
+                return item['o1'];
+            });
+            var valueList = data.map(function (item) {
+                return item['o2'];
+            });
+
+            option = {
+                // Make gradient line here
+                visualMap: {
+                    show: false,
+                    type: 'continuous',
+                    min: 0,
+                    max: 100,
+                    color: ['green', 'yellow', 'red']
+                },
+                textStyle: {
+                    fontFamily: 'arial, "Microsoft Yahei", sans-serif'
+                },
+                animation: false,
+                backgroundColor: "white",
+                title: {
+                    left: 'center',
+                    text: '健康指数图'
+                },
+                xAxis: {
+                    data: dateList
+                },
+                yAxis: {
+                    splitLine: {show: false}
+                },
+                series: {
+                    type: 'line',
+                    showSymbol: false,
+                    data: valueList
+                }
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
+            function getImage() {
+                return myChart.getDataURL({type: "png"});
+            }
+         </script>
+    </body>
+</html>

@@ -1,0 +1,37 @@
+{
+    "id": "sqlserver",
+    "alias": "Sqlserver",
+    "type": "Service",
+    "metrics": [
+        {
+            "version": "win32_sqlserver.conf",
+            "enable": "false"
+        },
+        {
+            "version": "win32_sqlserver.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "sqlserver.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "sqlserver.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "sqlserver.exe",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "sqlserver"
+        }
+    ],
+    "stateMetrics":""
+}

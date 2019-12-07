@@ -1,0 +1,7 @@
+# There's no configuration necessary for this check.
+init_config:
+  enable: False
+  min_collection_interval: 60
+
+instances:
+  - tags: []

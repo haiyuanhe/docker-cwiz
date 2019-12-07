@@ -1,0 +1,37 @@
+{
+    "id": "map.reduce",
+    "alias": "MapReduce",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "map_reduce.conf",
+            "enable": "false"
+        },
+        {
+            "version": "map_reduce.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "mapreduce.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "mapreduce.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "Mapreducemapreduce",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "mapreduce"
+        }
+    ],
+    "stateMetrics":""
+}

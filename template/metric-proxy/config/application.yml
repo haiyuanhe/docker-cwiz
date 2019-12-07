@@ -1,0 +1,97 @@
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
+spring:
+  jackson:
+    deserialization:
+      USE_BIG_DECIMAL_FOR_FLOATS: true
+    serialization:
+      WRITE_BIGDECIMAL_AS_PLAIN: true
+  profiles:
+    active: dev
+  datasource:
+        url: jdbc:mysql://<:nginx_ip:>:3308/oneagent?useUnicode=true&characterEncoding=utf-8
+        username: <:mysql_username:>
+        password: ENC(<:mysql_password:>)
+        initial-size: 10
+        max-active: 1000
+        max-Idle: 5
+        min-Idle: 1
+        max-wait: 60000
+        remove-abandoned: true
+        remove-abandoned-timeout: 180
+        log-abandoned: true
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: select 1
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: true
+        maxOpen-prepared-statements: 20
+
+server:
+  port: 4243
+  authEnable: true
+  ssl:
+    key-store: <:install_root:>/certs/metric-proxy/server.jks
+    key-password: ENC(<:ssl_password:>)
+    key-store-password: ENC(<:ssl_password:>)
+    trust-store: <:install_root:>/certs/metric-proxy/serverTrust.jks
+    trust-store-password: ENC(<:ssl_password:>)
+    enabled: <:ssl_enable:>
+
+secret:
+  key: <:secret_key:>
+
+opentsdb:
+  url: <:nginx_protocol:>://<:nginx_ip:>:<:nginx_port:>/_tsdb
+  readTimeoutMs: 1000
+  connectTimeoutMs: 2000
+  ssl:
+    key-store: <:install_root:>/certs/nginx/client.jks
+    key-password: <:ssl_password:>
+    key-store-password: <:ssl_password:>
+    trust-store: <:install_root:>/certs/nginx/clientTrust.jks
+    trust-store-password: <:ssl_password:>
+    enabled: <:ssl_enable:>
+
+
+kafka:
+  socket: <:nginx_ip:>:9094
+  partition: 4
+  producerRetries: 3
+  pollMaxRecord: 500
+  consumerNum: 2
+  pollIntervalMs: 5000
+
+
+mysql:
+  grafana_name: <:grafana_database:>
+
+zuul:
+  sensitiveHeaders: Authorization
+  ignored-headers: Access-Control-Allow-Credentials,Access-Control-Allow-Origin,Vary,X-Frame-Options
+  host:
+    max-per-route-connections: 50
+    max-total-connections: 200
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+  retryable: false
+  routes:
+      query:
+        path: /api/query
+        url: <:nginx_protocol:>://<:nginx_ip:>:<:nginx_port:>/_tsdb
+      suggest:
+        path: /api/suggest
+        url: <:nginx_protocol:>://<:nginx_ip:>:<:nginx_port:>/_tsdb
+  include-debug-header: true
+
+eureka:
+  client:
+    enabled: false
+
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true

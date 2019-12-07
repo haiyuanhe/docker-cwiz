@@ -1,0 +1,37 @@
+{
+    "id": "hbase.master",
+    "alias": "HbaseMaster",
+    "type": "Service",
+    "metrics": [
+        {
+            "version": "hbase_master.py",
+            "enable": "false"
+        },
+        {
+            "version": "hbase_master.conf",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "hbase_master.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "hbase_master.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "org.apache.hadoop.hbase.master.HMaster",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "hbase.master"
+        }
+    ],
+    "stateMetrics": ""
+}

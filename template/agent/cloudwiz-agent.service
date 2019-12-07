@@ -1,0 +1,13 @@
+[Unit]
+  Description=Cloudwiz agent
+  After=network.target
+
+[Service]
+  Type=forking
+  ExecStart=<:agent_root:>/cloudwiz-agent/cloudwiz-agent start
+  ExecStop=<:agent_root:>/cloudwiz-agent/cloudwiz-agent stop
+  ExecReload=<:agent_root:>/cloudwiz-agent/cloudwiz-agent restart
+  Restart=always
+
+[Install]
+  WantedBy=multi-user.target

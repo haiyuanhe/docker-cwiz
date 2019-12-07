@@ -1,0 +1,37 @@
+{
+    "id": "hbase.regionserver",
+    "alias": "HbaseRegionserver",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "hbase_regionserver.py",
+            "enable": "false"
+        },
+        {
+            "version": "hbase_regionserver.conf",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+            {
+                "version": "hbase_regionserver.yaml",
+                "enable": "false"
+            }
+        ],
+    "log": [
+        {
+            "version": "hbase_regionserver.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "org.apache.hadoop.hbase.regionserver.HRegionServer",
+    "properties": [
+            {
+                "name": "logtype",
+                "value": "hbase.regionserver"
+            }
+    ],
+    "stateMetrics":""
+}

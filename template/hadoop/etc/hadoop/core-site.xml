@@ -1,0 +1,16 @@
+<configuration>
+ <property>
+  <name>fs.default.name</name>
+  <value>hdfs://<:namenode_ip:>:<:hadoop_namenode_port:></value>
+ </property>
+ <property>
+  <name>io.compression.codecs</name>
+  <value>org.apache.hadoop.io.compress.GzipCodec,com.hadoop.compression.lzo.LzoCodec,com.hadoop.compression.lzo.LzopCodec</value>
+  <description>A list of the compression codec classes that can be used
+  for compression/decompression.</description>
+ </property>
+ <property>
+  <name>io.compression.codec.lzo.class</name>
+  <value>com.hadoop.compression.lzo.LzoCodec</value>
+ </property>
+</configuration>

@@ -1,0 +1,99 @@
+<html>
+<head>
+<meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="%s"></script>
+    <script src="%s"></script>
+</head>
+    <body>
+        <div id="main" style="width:800px;height:300px;"></div>
+         <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('main'));
+
+            d = %s;
+            data = d.data;
+
+            // 避免host过多造成混乱，只展示TopN数据
+            data = showTopN(data, 5);
+
+            var hostList = _.keys(data);
+
+            option = {
+                animation: false,
+                backgroundColor: "white",
+                title: {
+                    left: 'center',
+                    text: d.title
+                },
+                legend: {
+                    data: hostList,
+                    y:'bottom'
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}%%'
+                    }
+                },
+                textStyle: {
+                    fontFamily: 'arial, "Microsoft Yahei", sans-serif'
+                },
+                series: []
+            };
+
+            x = [];
+            _.each(hostList, function(h) {
+                option.series.push({
+                    name: h,
+                    type: 'line',
+                    data: _.map(data[h], 'value')
+                });
+
+                x = _.union(x, _.map(data[h], 'date'));
+            });
+
+            option.xAxis.data = x;
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
+            function showTopN(data, n) {
+               var lastValArr = new Array();
+               var toHidden = new Array();
+
+               for (var host in data){
+                   var valArr = data[host];
+                   lastValArr.push(valArr[valArr.length - 1].value);
+               }
+
+               lastValArr.sort(sortNumber);
+
+               for (var host in data){
+                   var valArr = data[host];
+                   if (valArr[valArr.length - 1].value < lastValArr[n - 1]) {
+                       toHidden.push(host);
+                   }
+               }
+
+               if (toHidden.length) {
+                   for (var i = toHidden.length - 1; i >= 0; i--) {
+                       delete data[toHidden[i]];
+                   }
+               }
+               return data;
+             }
+            function sortNumber(a,b) {
+                return b - a;
+            }
+            function getImage() {
+                return myChart.getDataURL({type: "png"});
+            }
+         </script>
+    </body>
+</html>

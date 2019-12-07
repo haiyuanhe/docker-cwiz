@@ -1,0 +1,70 @@
+<html>
+<head>
+<meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="%s"></script>
+    <script src="%s"></script>
+</head>
+    <body>
+        <div id="main" style="width:800px;height:300px;"></div>
+         <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('main'));
+
+            data = %s;
+
+            var hostList = _.keys(data);
+
+            option = {
+                animation: false,
+                backgroundColor: "white",
+                title: {
+                    left: 'center',
+                    text: '数据库大小'
+                },
+                legend: {
+                    data: hostList,
+                    y:'bottom'
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value',
+                    scale: true,
+                    axisLabel: {
+                        formatter: function (value) {
+                          return value / 1000000 + ' MB';
+                          }
+                    }
+                },
+                textStyle: {
+                    fontFamily: 'arial, "Microsoft Yahei", sans-serif'
+                },
+                series: []
+            };
+
+            x = [];
+            _.each(hostList, function(h) {
+                option.series.push({
+                    name: h,
+                    type: 'line',
+                    data: _.map(data[h], 'value')
+                });
+
+                x = _.union(x, _.map(data[h], 'date'));
+            });
+
+            option.xAxis.data = x;
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
+            function getImage() {
+                return myChart.getDataURL({type: 'png'});
+            }
+         </script>
+    </body>
+</html>

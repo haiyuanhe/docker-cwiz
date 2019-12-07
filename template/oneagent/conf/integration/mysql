@@ -1,0 +1,41 @@
+{
+    "id": "mysql",
+    "alias": "Mysql",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "mysql.conf",
+            "enable": "false"
+        },
+        {
+            "version": "mysql.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "mysql.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "mysql.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "mysqld",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "mysql"
+        },
+        {
+          "name": "logtype",
+          "value": "slow-mysql"
+        }
+    ],
+    "stateMetrics":""
+}

@@ -1,0 +1,37 @@
+{
+    "id": "tomcat",
+    "alias": "Tomcat",
+    "type": "Service",
+    "metrics": [
+        {
+            "version": "tomcat.conf",
+            "enable": "false"
+        },
+        {
+            "version": "tomcat.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "tomcat.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "tomcat.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "org.apache.catalina.startup.Bootstrap",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "tomcat"
+        }
+    ],
+    "stateMetrics":""
+}

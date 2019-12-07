@@ -1,0 +1,31 @@
+{
+    "id": "weblogic",
+    "alias": "Weblogic",
+    "type": "Service",
+    "metrics": [
+        {
+            "version": "weblogic.conf",
+            "enable": "false"
+        },
+        {
+            "version": "weblogic.py",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "weblogic.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "weblogic",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "weblogic"
+        }
+    ],
+    "stateMetrics":""
+}

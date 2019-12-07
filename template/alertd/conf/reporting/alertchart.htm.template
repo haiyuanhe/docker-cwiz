@@ -1,0 +1,78 @@
+<html>
+<head>
+<meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="%s"></script>
+    <script src="%s"></script>
+</head>
+    <body>
+        <div id="main" style="width:800px;height:300px;"></div>
+         <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('main'));
+
+            var data = %s;
+
+            // data format: <date, criticalCount, warningCount>
+            var dateList = data.map(function (item) {
+                return item['date'];
+            });
+            var valueList = data.map(function (item) {
+                return item['critical'];
+            });
+            var value2List = data.map(function (item) {
+                return item['warning'];
+            });
+
+            option = {
+                title: {
+                    left: 'center',
+                    text: '历史告警图'
+                },
+                legend: {
+                  x: 'center',
+                  y: '10%%',
+                    data: ['严重', '警告'],
+                },
+                color: ['red', 'orange'],
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : dateList
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:'严重',
+                        type:'bar',
+                        stack: '1',
+                        data:valueList
+                    },
+                    {
+                        name:'警告',
+                        type:'bar',
+                        stack: '1',
+                        data:value2List
+                    }
+                ],
+                textStyle: {
+                    fontFamily: 'arial, "Microsoft Yahei", sans-serif'
+                },
+                animation: false,
+                backgroundColor: "white"
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
+            function getImage() {
+                return myChart.getDataURL({type: "png"});
+            }
+         </script>
+    </body>
+</html>

@@ -1,0 +1,61 @@
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://<:nginx_ip:>:3308/<:grafana_database:>?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: <:mysql_username:>
+    password: <:mysql_password:>
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  session:
+      store-type: jdbc
+
+  freemarker:
+    charset: UTF-8
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+    content-type: text/html
+    enabled: true
+    cache: false
+    checkTemplateLocation: false
+
+server:
+  port: 4123
+  ssl:
+    key-store: <:install_root:>/certs/permission/server.jks
+    key-password: ENC(<:ssl_password:>)
+    key-store-password: ENC(<:ssl_password:>)
+    trust-store: <:install_root:>/certs/permission/serverTrust.jks
+    trust-store-password: ENC(<:ssl_password:>)
+    enabled: <:ssl_enable:>
+
+secret:
+  key: <:secret_key:>
+
+rest:
+  ssl:
+    key-store: <:install_root:>/certs/nginx/client.jks
+    key-password: <:ssl_password:>
+    key-store-password: <:ssl_password:>
+    trust-store: <:install_root:>/certs/nginx/clientTrust.jks
+    trust-store-password: <:ssl_password:>
+    enabled: <:ssl_enable:>
+
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+grafana:
+  grafanaUrl: <:nginx_protocol:>://<:nginx_ip:>:3002
+  datasourcePrefix: <:nginx_protocol:>://<:nginx_ip:>:<:nginx_port:>
+

@@ -1,0 +1,37 @@
+{
+    "id": "zookeeper",
+    "alias": "Zookeeper",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "zookeeper.conf",
+            "enable": "false"
+        },
+        {
+            "version": "zookeeper.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "zk.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "zk.yaml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "org.apache.zookeeper.server.quorum.QuorumPeerMain",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "zookeeper"
+        }
+    ],
+    "stateMetrics":"zookeeper.state"
+}
