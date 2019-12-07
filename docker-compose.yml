@@ -138,6 +138,7 @@ services:
     - ${WORK_PATH}/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
     - ${WORK_PATH}/nginx/:${WORK_PATH}/nginx/
     - ${WORK_PATH}/logs/nginx/:${WORK_PATH}/logs/nginx/
+    - ${WORK_PATH}/certs/:${WORK_PATH}/certs/
     ports:
     - 3308:3308
     - 8080:8080
@@ -214,6 +215,8 @@ services:
     - ${WORK_PATH}/metric-proxy/config/application.yml:${WORK_PATH}/metric-proxy/config/application.yml
     - ${WORK_PATH}/metric-proxy/config/log4j.properties:${WORK_PATH}/metric-proxy/config/log4j.properties
     - ${WORK_PATH}/logs/metric-proxy/:${WORK_PATH}/logs/metric-proxy/
+    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+    - ${WORK_PATH}/certs/metric-proxy/:${WORK_PATH}/certs/metric-proxy/
     depends_on:
     - kafka
 
@@ -253,6 +256,8 @@ services:
     - ${WORK_PATH}/cmservice/conf/cmservice.properties:${WORK_PATH}/cmservice/conf/cmservice.properties
     - ${WORK_PATH}/cmservice/conf/log4j.properties:${WORK_PATH}/cmservice/conf/log4j.properties
     - ${WORK_PATH}/logs/cmservice/:${WORK_PATH}/logs/cmservice/
+    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+    - ${WORK_PATH}/certs/cmservice/:${WORK_PATH}/certs/cmservice/
     depends_on:
     - mysql-server
 
@@ -271,6 +276,8 @@ services:
     - ${WORK_PATH}/log-processor/bin/start.sh:${WORK_PATH}/log-processor/bin/start.sh
     - ${WORK_PATH}/log-processor/config/:${WORK_PATH}/log-processor/config/
     - ${WORK_PATH}/logs/log-processor/:${WORK_PATH}/logs/log-processor/
+    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+    - ${WORK_PATH}/certs/log-processor/:${WORK_PATH}/certs/log-processor/
     depends_on:
     - kafka
     - elasticsearch
@@ -287,6 +294,8 @@ services:
     #- /tmp/webfront:${WORK_PATH}/webfront
     - ${WORK_PATH}/webfront/conf/defaults.ini:${WORK_PATH}/webfront/conf/defaults.ini
     - ${WORK_PATH}/logs/webfront/:${WORK_PATH}/logs/webfront
+    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+    - ${WORK_PATH}/certs/webfront/:${WORK_PATH}/certs/webfront/
     depends_on:
     - mysql-server
 
@@ -300,6 +309,8 @@ services:
         ipv4_address: 172.19.0.16
     volumes:
     - ${WORK_PATH}/cloudwiz-user/web.config.js:${WORK_PATH}/cloudwiz-user/web.config.js
+    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+    - ${WORK_PATH}/certs/cloudwiz-user/:${WORK_PATH}/certs/cloudwiz-user/
     depends_on:
     - permission
 
@@ -317,6 +328,8 @@ services:
     - ${WORK_PATH}/permission/config/application.yml:${WORK_PATH}/permission/config/application.yml
     - ${WORK_PATH}/permission/config/log4j2.yml:${WORK_PATH}/permission/config/log4j2.yml
     - ${WORK_PATH}/logs/permission/:${WORK_PATH}/logs/permission
+    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+    - ${WORK_PATH}/certs/permission/:${WORK_PATH}/certs/permission/
     depends_on:
     - mysql-server
     - webfront
@@ -334,6 +347,8 @@ services:
     - ${WORK_PATH}/log-analysis/config/log.analysis.properties:${WORK_PATH}/log-analysis/config/log.analysis.properties
     - ${WORK_PATH}/log-analysis/config/log4j.properties:${WORK_PATH}/log-analysis/config/log4j.properties
     - ${WORK_PATH}/logs/log-analysis/:${WORK_PATH}/logs/log-analysis/
+    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+    - ${WORK_PATH}/certs/log-analysis/:${WORK_PATH}/certs/log-analysis/
     depends_on:
     - mysql-server
 
@@ -368,6 +383,8 @@ services:
     - ${WORK_PATH}/log-pp/config/log4j.properties:${WORK_PATH}/log-pp/config/log4j.properties
     - ${WORK_PATH}/log-pp/config/patterns/:${WORK_PATH}/log-pp/config/patterns/
     - ${WORK_PATH}/logs/log-pp/:${WORK_PATH}/logs/log-pp/
+    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+    - ${WORK_PATH}/certs/log-pp/:${WORK_PATH}/certs/log-pp/
     depends_on:
     - kafka
     - opentsdb
@@ -386,6 +403,8 @@ services:
     - ${WORK_PATH}/alertd/conf/:${WORK_PATH}/alertd/conf/
     - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
     - ${WORK_PATH}/logs/alertd/:${WORK_PATH}/logs/alertd/
+    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+    - ${WORK_PATH}/certs/alertd/:${WORK_PATH}/certs/alertd/
     depends_on:
     - mysql-server
     - namenode
