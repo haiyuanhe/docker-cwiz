@@ -1,6 +1,6 @@
 DOCKER_NETWORK = hbase
 ENV_FILE = hadoop.env
-PKG_URL=188.66.20.39:8989
+PKG_URL=161.189.24.242:8989
 INSTALL_ROOT=/opt/cwiz
 
 OPENJDK=1.0.0
@@ -43,4 +43,3 @@ build:
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/alertd:${CWIZ_DAEMON} ./alertd
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/umanager:${UMANGER} ./umanager
 	docker build -t cloudwiz/mysql:${MYSQL} ./mysql
-	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/pythond:${PYTHOND} ./pythond
