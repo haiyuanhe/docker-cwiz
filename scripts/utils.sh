@@ -489,14 +489,6 @@ function ask_mysql_credential()
         MYSQL_USERNAME=$_username
     fi
 
-    read -s -p "Please enter MySQL password: " _password
-    echo
-
-    if [ -z "$_password" ]; then
-        log_info "Empty password entered. It will not be used."
-    else
-        MYSQL_PASSWORD=$(echo -n "$_password" | base64)
-    fi
 }
 
 # check if first argument is parent directory
@@ -752,7 +744,7 @@ function install_java()
        log_crit "Package ${local_pkg_dir}/${local_java_pkg} does not exist"
     else
         log_info "Unpacking ${local_pkg_dir}/${local_java_pkg}... "
-        tar -xvf ${local_pkg_dir}/${local_java_pkg} -C ${install_root}/encrypt
+        tar -xf ${local_pkg_dir}/${local_java_pkg} -C ${install_root}/encrypt
         mv ${install_root}/encrypt/jdk8* ${install_root}/encrypt/jdk
     fi
 
