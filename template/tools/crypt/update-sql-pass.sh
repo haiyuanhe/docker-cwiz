@@ -42,10 +42,7 @@ if [ "$ans" = "y" ]; then
         done
 
     # update mysql pass in database
-    echo "new_pass: ${new_pass}"
-    echo "old_pass: ${decrypt_pass}"
     sql="set password for 'CloudInsight'@'172.19.%' = password('${new_pass}');flush privileges;"
-    echo $sql
     docker exec -it mysql-server /bin/bash -c "/usr/bin/mysql -h 172.19.0.7 -uCloudInsight -p${decrypt_pass} -e \"${sql}\""
     if [ "$?" != "0" ]; then
         echo "ERROR: update mysql password failed !!"
@@ -62,12 +59,15 @@ if [ "$ans" = "y" ]; then
     secret_key="DBj1X8tVSUnQGfSdbo1LhgzjFPa5yUYA"
     mysql_password=${new_pass}
     encrypt_mysql_pass=$(${java_path} -cp ${crypt_jar} ${java_class} ${secret_key} encrypt ${mysql_password})
+    new_base_pass=$(echo -n ${new_pass} | base64 )
 
     # udpate mysql pass in configs
     echo "update configs ..."
 
-    sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/alertd/conf/cloudmon.alerting.conf && echo "yes"
-    sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/log-analysis/config/log.analysis.properties  && echo "yes"
+    sed -i "/^tsd.mysql.password/ctsd.mysql.password = ${new_base_pass}" <:install_root:>/opentsdb/conf/opentsdb.conf
+    sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/alertd/conf/cloudmon.alerting.conf
+    sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/cmservice/conf/cmservice.properties
+    sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/log-analysis/config/log.analysis.properties
     sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/log-pp/config/log.pp.properties
     sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/log-processor/config/log.processor.properties
     sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/metric-proxy/config/application.yml
@@ -77,6 +77,7 @@ if [ "$ans" = "y" ]; then
     sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/webfront/conf/defaults.ini
     sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/tools/crypt/utils.sh
     sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/tools/setup/verify_etc_hosts.sh
+    sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/umanager/bin/um_daemon.py
     sed -i "s%${mysql_old_password}%${encrypt_mysql_pass}%g" <:install_root:>/umanager/bin/um_daemon.py
 
 else
