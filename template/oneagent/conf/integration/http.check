@@ -1,0 +1,25 @@
+{
+    "id": "http.check",
+    "alias": "http.check",
+    "type" : "None",
+    "metrics": [
+        {
+            "version": "response_time.conf",
+            "enable": "false"
+        },
+        {
+            "version": "response_time.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "http_check.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [],
+    "event": [],
+    "custom": [],
+    "stateMetrics":""
+}

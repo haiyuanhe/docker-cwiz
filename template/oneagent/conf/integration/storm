@@ -1,0 +1,31 @@
+{
+    "id": "storm",
+    "alias": "Storm",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "storm.conf",
+            "enable": "false"
+        },
+        {
+            "version": "storm.py",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "storm.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "storm",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "storm"
+        }
+    ],
+    "stateMetrics":""
+}

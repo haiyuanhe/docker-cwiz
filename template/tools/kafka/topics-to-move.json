@@ -1,0 +1,4 @@
+{
+  "topics": [{"topic": "filebeat.1.1"}, {"topic": "metrics.1.1"}],
+  "version": 1
+}

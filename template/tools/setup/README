@@ -1,0 +1,69 @@
+一 准备工作
+	1. 准备安装包 将qy.tar.gz 放到相应的机器上 (现在默认是单点机器安装所有的内容. 如果想将es 分开 安装方式一样, 只是修改一下nginx 和 supervisord 的启动内容即可. )
+	2. 确认host 是否能够ping
+	3. 确认该用户不是root 账号! 建议使用非root 账号. 
+	4. 确认是否有足够的空间. 
+	5. 确认是否存在防火墙. 
+	6. export MYSQL_PASSWORD=Cloud
+	7. export MYSQL_USERNAME=CloudInsight
+	8. 解压 qy.tar.gz 
+
+二 开始安装
+	1. 进入 /qy/scripts
+	2. export MYSQL_PASSWORD=Cloud
+	3. export MYSQL_USERNAME=CloudInsight
+	4. 修改 install.ini
+		install_root = "/home/hehaiyuan"  (安装到什么目录)
+		data_root = "/home/hehaiyuan/opt/data"  (数据存放目录)
+		log_root = "/tmp/log" (日志目录)
+		package_dir = "/tmp/qy/packages"  (qy 文件夹所在的目录)
+		platform = RedHat (默认不变)
+		hostip = "192.168.1.137"  (本机ip)
+	5. 进入 /qy/template
+		按照本机器的情况, 修改相应的项目的内存设置大小. 
+		alertd  --> alertd/bin/start.sh
+		cmservice --> cmservice/bin/start.sh
+		es  ---> start.sh 中的 ES_HEAP_SIZE  
+		log-cluster
+		log-processes
+		opentsdb
+	6.开始安装
+		进入 scirpt 中 直接运行./run 开始安装
+	7.输入 ip:3000 进入查看
+		准备安装探针作为测试
+	备注:
+		安装不会有任何ssh 询问密码等操作. 一旦被中断, 安装脚本立刻退出, 即安装失败. 若想重新安装, 请将 install_root  data_root log_root 中的所有内容全部删除. 即可重新安装, 不会有任何依赖的内容存在, 请放心重装. 	
+
+三 安装探针
+	1. 解压  agent.tar.gz 
+	2. mkdir -p /tmp/publish/RedHat
+	3. mv agent.tar.gz agent.tar.gz.md5 /tmp/publish/RedHat
+	4. ORG_TOKEN=0f320e7db4a2d8ba0a3229753bf7c90d821479da CLIENT_ID=1 SYSTEM_ID=1 METRIC_SERVER_HOST=192.168.1.215 ALERTD_SERVER=http://192.168.1.215:5002 INSTALL_DIR=/tmp/publish/ PORT=4242 ./deploy_agent_self_defined_dir.sh
+
+	复制安装指南中的手动安装探针命令 同时加入参数 INSTALL_DIR  和PORT 即可 手动安装探针.
+
+	5. 配置 filebeat
+		需要修改地方比较多, 请谨记:
+			1. 修改 kafka 地址       hosts: ["<ip>:9092"]
+			2. 修改ssl  			 	ssl.enabled: false
+			3. 删除clientid 或者不管.
+			4. 修改orgid
+			5. 修改sysid
+			6. 修改token
+
+	6. 启动 探针. 在 cloudwiz-agent 目录下 有一个 cloudwiz-agent 
+		 能够直接控制探针 start | stop
+		 $ ./cloudwiz-agent start | stop | restart 
+	7. 检查日志是否发送回来 10分钟左右 !!!!
+	备注: 如何判断是否发送成功, 请看 altenv/var/log/filebeat.log 如果没有error 即表示发送成功. 同理 collector 一样. 
+		   另外, 这个探针非常新 , 使用了psutil 来替换了之前的一些指标, 如果觉得指标不够可以随时enable . 之前的探针都存在. 
+
+四 webfront 设置
+	1. 导入报警规则 , 设置一些默认的报警规则.
+	2. 导入kpi 点击配置管理 --- >kpi --> 导入kpi
+	3. 设置服务发现. 参考 servic.json 在配置管理 ---> 服务列表 ---> 添加拓展服务来进行设置. 
+	4. 导入dashboard 模板
+		1. 在安装指南 ---> 安装探针 能够导入 机器默认模板. (如果io 使用率 没有的话是因为没有安装iostat命令)
+		2. 在安装服务之后 --> 能够导入一些这个服务的dashboard. 
+
+

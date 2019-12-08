@@ -1,0 +1,37 @@
+{
+    "id": "docker",
+    "alias": "Docker",
+    "type": "Service",
+    "metrics": [
+        {
+            "version": "dockerd.conf",
+            "enable": "false"
+        },
+        {
+            "version": "dockerd.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "docker_daemon.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "docker.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "dockerd",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "docker"
+        }
+    ],
+    "stateMetrics": ""
+}

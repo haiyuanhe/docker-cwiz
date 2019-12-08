@@ -365,7 +365,13 @@ function action()
         else
             # install regular service
             #install_service "$service"
+            if [ "$service" = "alertd" ]; then
+                check_mysql_pass_encrypt 
+            fi
             update_template "$service"
+            if [ "$service" = "nginx" ]; then
+                check_nginx_ssl 
+            fi
         fi
     fi
 }
@@ -463,5 +469,5 @@ sed -i "/^tmpFolder=/ctmpFolder=${install_root}\/report_tmp" $install_root/alert
 sed -i 's/asynchbase-1.7.2.jar/asynchbase-1.8.2.jar/' $install_root/opentsdb/bin/start.sh
 bash $install_root/agent/bin/repackage.sh
 chown -R 101:101 $install_root/nginx/
-
+bash $install_root/tools/certs/create-ssl-all-x.sh
 exit 0

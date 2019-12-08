@@ -1,0 +1,7 @@
+init_config:
+      enable: False
+      min_collection_interval: 60
+
+instances:
+    - host: localhost
+      port: 22222

@@ -1,0 +1,17 @@
+<configuration>
+     <property>
+         <name>dfs.replication</name>
+         <value>2</value>
+     </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:///var/hadoop/datanode/</value>
+        <description>DataNode directory for storing data chunks.</description>
+    </property>
+
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>file:///var/hadoop/namenode/</value>
+        <description>NameNode directory for namespace and transaction logs storage.</description>
+    </property>
+</configuration>

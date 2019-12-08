@@ -1,0 +1,19 @@
+{
+    "id": "hbase.regionserver.info",
+    "alias": "HbaseRegionserver",
+    "type" : "None",
+    "metrics": [
+        {
+            "version": "hbase_regionserver.py",
+            "enable": "false"
+        },
+        {
+            "version": "hbase_regionserver.conf",
+            "enable": "false"
+        }
+    ],
+    "log": [],
+    "event": [],
+    "custom": [],
+    "logTypeList": []
+}

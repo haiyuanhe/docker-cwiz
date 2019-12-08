@@ -1,0 +1,37 @@
+{
+    "id": "haproxy",
+    "alias": "Haproxy",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "haproxy_dev.conf",
+            "enable": "false"
+        },
+        {
+            "version": "haproxy_dev.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "haproxy.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "haproxy.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "haproxy",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "haproxy"
+        }
+    ],
+    "stateMetrics":""
+}

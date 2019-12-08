@@ -1,0 +1,27 @@
+[mysqld]
+basedir = <:install_root:>/mysql 
+datadir = <:data_root:>/mysql
+port = 3306 
+socket = <:install_root:>/mysql/mysql.sock 
+log-error = <:log_root:>/mysql/mysql_errors.log
+pid-file = <:install_root:>/mysql/mysql.pid
+user = mysql
+# lower_case_table_names =1
+
+# slave configurations
+server-id = <:host_id_plus_one:>
+bind-address = <:host_ip:>
+log_bin = <:data_root:>/mysql/mysql-bin.log
+relay-log = <:data_root:>/mysql/mysql-relay-bin.log
+
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+# join_buffer_size = 128M
+# sort_buffer_size = 2M
+# read_rnd_buffer_size = 2M 
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 
+
+[client]
+port = 3306
+socket = <:install_root:>/mysql/mysql.sock

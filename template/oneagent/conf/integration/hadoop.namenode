@@ -1,0 +1,37 @@
+{
+    "id": "hadoop.namenode",
+    "alias": "HadoopNamenode",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "hadoop_name_node.yaml",
+            "enable": "false"
+        },
+        {
+            "version": "hadoop_name_node.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "hdfs_namenode.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "hdfs_namenode.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "org.apache.hadoop.hdfs.server.namenode.NameNode",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "namenode"
+        }
+    ],
+    "stateMetrics":""
+}

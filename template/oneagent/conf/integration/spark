@@ -1,0 +1,37 @@
+{
+    "id": "spark",
+    "alias": "Spark",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "spark.conf",
+            "enable": "false"
+        },
+        {
+            "version": "spark.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "spark.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "spark.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "spark",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "spark"
+        }
+    ],
+    "stateMetrics":""
+}

@@ -1,0 +1,22 @@
+{
+    "id": "host.topn",
+    "alias": "Process",
+    "type" : "System",
+    "metrics": [
+        {
+            "version": "host_topn.py",
+            "enable": "true"
+        },
+        {
+            "version": "host_topn.conf",
+            "enable": "true"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "host_topn.yaml",
+            "enable": "true"
+        }
+    ],
+    "stateMetrics":""
+}

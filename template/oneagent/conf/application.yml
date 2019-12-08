@@ -1,0 +1,71 @@
+server:
+  port: 8888
+  pluginPath: <:install_root:>/oneagent/conf/plugin
+  integrationPath: <:install_root:>/oneagent/conf/integration
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://<:nginx_ip:>:3308/oneagent?useUnicode=true&characterEncoding=utf-8
+    username: <:mysql_username:>
+    password: ENC(<:mysql_password:>)
+    initial-size: 10
+    max-active: 1000
+    max-Idle: 5
+    min-Idle: 1
+    max-wait: 60000
+    remove-abandoned: true
+    remove-abandoned-timeout: 180
+    log-abandoned: true
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 300000
+    validation-query: select 1
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    pool-prepared-statements: true
+    maxOpen-prepared-statements: 20
+
+database:
+  grafana: grafana
+
+alertd:
+  url: http://<:nginx_ip:>:<:nginx_port:>/_alertd
+  hostScan: ${alertd.url}/cmdb/agent/host/scan
+
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+hbase:
+  config:
+     hbase.zookeeper.quorum: <:nginx_ip:>:2182
+     hbase.zookeeper.property.dataDir: <:install_root:>/zookeeper/data
+     hbase.rootdir: hdfs://<:namenode_ip:>:<:hadoop_namenode_port:>/hbase
+     hbase.cluster.distributed: true
+     fs.default.name: hdfs://<:namenode_ip:>:<:hadoop_namenode_port:>
+
+logging:
+  level:
+    com.cloudwiz.oneagent.dao: info
+
+salt:
+  saltApi: http://<:salt_api_host:>:<:salt_api_port:>
+  user: saltapi
+  password: saltapi
+  #file-roots-base: /srv/salt/
+  ssl: false
+  oneagent-api: http://<:nginx_ip:>:<:nginx_port:>/_oneagent/plugin/data
+  timeout: 1

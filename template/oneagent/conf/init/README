@@ -1,0 +1,9 @@
+## 初始化
+
+### 1.初始化sql
+
+
+### 2.文件状态管理
+命令行:
+salt "host2*" state.apply pillar='{"bin":[{"name":"/tmp/123.json","source":"https://raw.githubusercontent.com/wangy1931/cloudwiz-agent/master/collectors/builtin/cpus_pctusage.py?token=ARKbAw2IJWVKImNazjyawtGeC0FwpGYyks5cgRgWwA%3D%3D","hash":"md5=9bb106e1dfc728cc087265950351d24c"}]}'
+通过命令注入.能够快速同步多个文件配置.

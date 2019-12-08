@@ -1,0 +1,93 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>ECharts</title>
+<!-- 引入 echarts.js -->
+<script src="%s"></script>
+<script src="%s"></script>
+</head>
+<body>
+    <div id="main" style="width:800px;height:300px;"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main'));
+
+        d = %s;
+        data = d.data;
+
+        var hostList = _.keys(data);
+
+        option = {
+            animation: false,
+            backgroundColor: "white",
+            title:{
+                left: 'center',
+                text: d.title
+            },
+            legend:{
+                data: hostList,
+                y: 'bottom'
+            },
+            xAxis:{
+                type: 'category',
+                data: []
+            },
+            yAxis:{
+                type: 'value',
+                axisLabel:{
+                    formatter: function (value) {
+                                    var texts = [];
+                                    if(value == 1){
+                                        texts.push('绿色');
+                                    }
+                                    else if (value == 2) {
+                                        texts.push('黄色');
+                                    }
+                                    else if (value == 3) {
+                                        texts.push('红色');
+                                    }
+                                    return texts;
+                    }
+
+                }
+            },
+            series: []
+
+        };
+        x = [];
+        _.each(hostList, function(h){
+            option.series.push({
+                name: h,
+                type: 'bar',
+                data: _.map(data[h],'value'),
+                itemStyle:{
+                            normal:{
+                            color:function(params){
+                                   if(params.value == 1 ){
+                                        // 绿色
+                                        return "#64BD3D";
+                                   }else if(params.value == 2){
+                                       return "#EFE42A";
+                                   }else if(params.value == 3){
+                                       return "#C33531";
+                                   }
+                                 }
+                            }
+                }
+            });
+
+            x= _.union(x, _.map(data[h], 'date'));
+        });
+
+        option.xAxis.data = x;
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+        function getImage() {
+            return myChart.getDataURL({type: "png"});
+        }
+    </script>
+
+
+</body>
+</html>

@@ -740,3 +740,77 @@ function record_svc_version()
     file_name=${file_path##*/}
     echo "${service_name} ---> ${file_name}" >> $record_file
 }
+
+#install_java_for_encrypt
+function install_java()
+{
+    if [ ! -d "${install_root}/encrypt" ]; then
+       mkdir -p ${install_root}/encrypt
+    fi
+
+    if [ ! -f "${local_pkg_dir}/${local_java_pkg}" ]; then
+       log_crit "Package ${local_pkg_dir}/${local_java_pkg} does not exist"
+    else
+        log_info "Unpacking ${local_pkg_dir}/${local_java_pkg}... "
+        tar -xvf ${local_pkg_dir}/${local_java_pkg} -C ${install_root}/encrypt
+        mv ${install_root}/encrypt/jdk8* ${install_root}/encrypt/jdk
+    fi
+
+    if [ ! -f "${local_pkg_dir}/${local_encrypt_jar}" ]; then
+       log_crit "Package ${local_pkg_dir}/${local_encrypt_jar} does not exist"
+    else
+        log_info "Moving ${local_pkg_dir}/${local_encrypt_jar} to ${install_root}/encrypt... "
+        cp -a ${local_pkg_dir}/${local_encrypt_jar} ${install_root}/encrypt
+    fi
+}
+
+#encrypt MySQL password
+function encrypt_MySQLPass()
+{
+    local java_path="${install_root}/encrypt/jdk/bin/java"
+    local crypt_jar="${install_root}/encrypt/${local_encrypt_jar}"
+    local java_class="com.cloudwiz.crypt.AesCrypt"
+
+    export mysql_base_password=$(echo -n ${mysql_password} | base64)
+    encrypt_pass=$(${java_path} -cp ${crypt_jar} ${java_class} ${secret_key} encrypt ${mysql_password})
+    export mysql_password=${encrypt_pass}
+}
+
+#encrypt SSL password
+function encrypt_SSLPass()
+{
+    local java_path="${install_root}/encrypt/jdk/bin/java"
+    local crypt_jar="${install_root}/encrypt/${local_encrypt_jar}"
+    local java_class="com.cloudwiz.crypt.AesCrypt"
+
+    encrypt_pass=$(${java_path} -cp ${crypt_jar} ${java_class} ${secret_key} encrypt ${ssl_password})
+    export ssl_password=${encrypt_pass}
+}
+
+#use_nginx_ssl_conf
+function use_nginx_ssl_conf()
+{
+    mv -f ${install_root}/nginx/conf/nginx_ssl.conf ${install_root}/nginx/conf/nginx.conf 
+}
+
+#check mysql_pass encrypt
+function check_mysql_pass_encrypt()
+{
+    # mysql_pass ssl_pass encrypt
+    if [ "$ssl_enable" == "true" ]; then
+        log_info "install java for encrypt..."
+        install_java
+        log_info "MySQL_Pass encrypt..."
+        encrypt_MySQLPass
+        encrypt_SSLPass
+    fi
+}
+
+#change nginx_conf if ssl is enabled
+function check_nginx_ssl()
+{
+    if [ "$ssl_enable" == "true" ]; then
+        log_info "ssl is enabled , use nginx.ssl.conf..."
+        use_nginx_ssl_conf
+    fi
+}

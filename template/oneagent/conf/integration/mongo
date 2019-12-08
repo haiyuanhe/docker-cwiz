@@ -1,0 +1,37 @@
+{
+    "id": "mongo",
+    "alias": "MongoDB",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "mongo3.py",
+            "enable": "false"
+        },
+        {
+            "version": "mongo3.conf",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "mongo.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "mongo.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "mongo"
+        }
+    ],
+    "stateMetrics":""
+}

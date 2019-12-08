@@ -1,0 +1,31 @@
+{
+    "id": "opentsdb",
+    "alias": "Opentsdb",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "opentsdb.conf",
+            "enable": "false"
+        },
+        {
+            "version": "opentsdb.py",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "opentsdb.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "net.opentsdb.tools.TSDMain",
+    "properties": [
+            {
+                "name": "logtype",
+                "value": "tsd"
+            }
+    ],
+    "stateMetrics":""
+}

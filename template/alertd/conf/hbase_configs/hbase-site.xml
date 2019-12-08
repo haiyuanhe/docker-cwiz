@@ -1,0 +1,21 @@
+<?xml-stylesheet type="text/xsl" href="configuration.xsl" ?>
+  <configuration>
+    <property>
+      <name>hbase.zookeeper.quorum</name>
+      <value><:nginx_ip:>:2182</value>
+    </property>
+    <property>
+      <name>hbase.zookeeper.property.dataDir</name>
+      <value><:install_root:>/zookeeper/data</value>
+      <description>Property from ZooKeeper config zoo.cfg. The directory where the snapshot is stored.
+      </description>
+    </property>
+    <property>
+      <name>hbase.rootdir</name>
+      <value>hdfs://<:namenode_ip:>:<:hadoop_namenode_port:>/hbase</value>
+    </property>
+    <property>
+      <name>hbase.cluster.distributed</name>
+      <value>true</value>
+    </property>
+  </configuration>

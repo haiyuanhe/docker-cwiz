@@ -1,0 +1,31 @@
+{
+    "id": "hive",
+    "alias": "Hive",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "hive.py",
+            "enable": "false"
+        },
+        {
+            "version": "hive.conf",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "hive.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "hive"
+        }
+    ],
+    "stateMetrics":""
+}

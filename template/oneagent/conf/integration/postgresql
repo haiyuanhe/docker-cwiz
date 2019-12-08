@@ -1,0 +1,37 @@
+{
+    "id": "postgresql",
+    "alias": "Postgresql",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "postgresql.conf",
+            "enable": "false"
+        },
+        {
+            "version": "postgresql.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "postgresql.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "postgresql.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "postmaster",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "postgresql"
+        }
+    ],
+    "stateMetrics":""
+}

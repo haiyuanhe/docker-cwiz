@@ -1,0 +1,36 @@
+{
+    "id": "vcenter",
+    "alias": "Vcenter",
+    "type": "Remote",
+    "metrics": [
+        {
+            "version": "vcenter.conf",
+            "enable": "false"
+        },
+        {
+            "version": "vcenter.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "vsphere.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "vsphere.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "vcenter"
+        }
+    ],
+    "stateMetrics":""
+}

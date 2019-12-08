@@ -1,0 +1,9 @@
+init_config:
+  enable: True
+  min_collection_interval: 60
+
+instances:
+  ## @param N - int - required
+  ## The max process
+  #
+  - N: 20

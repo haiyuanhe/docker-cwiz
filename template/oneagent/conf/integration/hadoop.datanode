@@ -1,0 +1,39 @@
+{
+    "id": "hadoop.datanode",
+    "alias": "HadoopDatanode",
+    "type": "Service",
+    "metrics": [
+        {
+            "version": "hadoop_datanode.yaml",
+            "path": "%CWIZ_HOME/modules/datadog/agent/conf.d/",
+            "enable": "false"
+        },
+        {
+            "version": "hadoop_datanode.py",
+            "path": "%CWIZ_HOME/modules/datadog/agent/checks.d",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "hdfs_datanode.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "hdfs_datanode.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "org.apache.hadoop.hdfs.server.datanode.DataNode",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "datanode"
+        }
+    ],
+    "stateMetrics": ""
+}

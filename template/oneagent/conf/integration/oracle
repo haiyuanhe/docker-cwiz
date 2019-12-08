@@ -1,0 +1,37 @@
+{
+    "id": "oracle",
+    "alias": "Oracle",
+    "type" : "Service",
+    "metrics": [
+        {
+            "version": "oracle.conf",
+            "enable": "false"
+        },
+        {
+            "version": "oracle.py",
+            "enable": "false"
+        }
+    ],
+    "ddagent": [
+        {
+            "version": "oracle.yaml",
+            "enable": "false"
+        }
+    ],
+    "log": [
+        {
+            "version": "oracle.yml",
+            "enable": "false"
+        }
+    ],
+    "event": [],
+    "custom": [],
+    "commandMatcher": "orcl",
+    "properties": [
+        {
+            "name": "logtype",
+            "value": "oracle"
+        }
+    ],
+    "stateMetrics":""
+}
