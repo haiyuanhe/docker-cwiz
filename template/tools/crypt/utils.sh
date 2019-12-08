@@ -35,6 +35,7 @@ function decrypt_SSLPass()
     local java_class="com.cloudwiz.crypt.AesCrypt"
     local secret_key="<:secret_key:>"
     local ssl_password="<:ssl_password:>"
+    export ssl_old_password="<:ssl_password:>"
 
     export ssl_decrypt_pass=$(${java_path} -cp ${alertd_jar} ${java_class} ${secret_key} decrypt ${ssl_password})
 }
