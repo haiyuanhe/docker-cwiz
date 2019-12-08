@@ -11,7 +11,11 @@ echo "==========================================================================
 decrypt_SSLPass
 
 host_ip=*
-store_pass=${ssl_decrypt_pass}
+if [ "abc$1" = "abc" ]; then
+    store_pass=${ssl_decrypt_pass}
+else
+    store_pass=$1
+fi
 keytool_path=<:install_root:>/encrypt/jdk/bin/keytool
 server_conf_path=<:install_root:>/tools/certs/ssl/server.conf
 client_conf_path=<:install_root:>/tools/certs/ssl/client.conf

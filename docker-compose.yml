@@ -99,8 +99,6 @@ services:
     - ${WORK_PATH}/tools/mysql/sql/:/sql
     - ${WORK_PATH}/data/mysql/:/var/lib/mysql
     - ${WORK_PATH}/logs/mysql/:/var/log/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.7

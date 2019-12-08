@@ -4,9 +4,11 @@
 function setup_global_common()
 {
     # collect mysql credential first
-    if [ -z $mysql_username -o -z $mysql_password ]; then
+    if [ -z $mysql_username ]; then
         ask_mysql_credential
     fi
+    
+    mysql_password=$(echo -n "Q2xvdWR3aXpfcDBj" | base64 -d)
 
     log_info "install_root = $install_root"
     log_info "data_root = $data_root"
