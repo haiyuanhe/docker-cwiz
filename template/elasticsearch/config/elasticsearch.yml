@@ -19,3 +19,4 @@ rest.action.multi.allow_explicit_index: true
 # allow grafana to access elasticsearch
 http.cors.enabled: true
 http.cors.allow-origin: "*"
+
