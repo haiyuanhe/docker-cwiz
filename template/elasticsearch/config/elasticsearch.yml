@@ -1,6 +1,6 @@
 cluster.name: cloudwiz
 node.name: "es_<:host_ip:>"
-bootstrap.memory_lock: true
+bootstrap.memory_lock: false
 bootstrap.system_call_filter: false
 network.host: <:host_ip:>
 #discovery.zen.ping.multicast.enabled: false
