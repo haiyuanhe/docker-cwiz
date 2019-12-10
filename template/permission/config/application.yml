@@ -59,3 +59,10 @@ grafana:
   grafanaUrl: <:nginx_protocol:>://<:nginx_ip:>:3002
   datasourcePrefix: <:nginx_protocol:>://<:nginx_ip:>:<:nginx_port:>
 
+
+huawei:
+  opsHost: <:huawei_url:>/NorthGatewayService/authorityservice/AuthorityService
+  checkToken: ${huawei.opsHost}/rest/api/v1/north/getToken
+  getUserInfo: ${huawei.opsHost}/rest/api/v1/north/userinfo
+  ak: <:huawei_ak:>
+  sk: <:huawei_sk:>
