@@ -468,7 +468,7 @@ sed -i "/^var server =/cvar server = 'http:\/\/chartservice:5012\/chart';"  $ins
 sed -i "/^tmpFolder=/ctmpFolder=${install_root}\/report_tmp" $install_root/alertd/conf/cloudmon.alerting.conf
 sed -i 's/asynchbase-1.7.2.jar/asynchbase-1.8.2.jar/' $install_root/opentsdb/bin/start.sh
 sed -i "/^WORK_PATH=/cWORK_PATH=${install_root}" ../.env
-#bash $install_root/agent/bin/repackage.sh
+bash $install_root/agent/bin/repackage.sh
 chown -R 101:101 $install_root/nginx/
 bash $install_root/tools/certs/create-ssl-all-x.sh
 exit 0
