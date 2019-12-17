@@ -11,7 +11,7 @@ ENV JAVA_HOME ${INSTALL_ROOT}/jdk
 
 RUN apt-get -y update && apt-get install -y net-tools netcat perl \
     && apt-get clean all \
-    && rm -rf /var/cache/ \
+    && rm -rf /var/cache/
 
 RUN set -x \
     && curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
