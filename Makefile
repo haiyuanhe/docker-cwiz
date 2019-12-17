@@ -23,6 +23,8 @@ UMANGER=1.0.0
 MYSQL=5.7.28
 
 build:
+    cp -f ./base/wait-for-it.sh ./webfront
+    cp -f ./base/wait-for-it.sh ./cloudwiz-user
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/openjdk:${OPENJDK} ./base
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-base:${HADOOP_BASE} ./hadoop-base
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-base:${HBASE_BASE} ./hbase-base
