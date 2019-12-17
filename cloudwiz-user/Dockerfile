@@ -1,13 +1,16 @@
-FROM centos:7
+From ubuntu:latest
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
 ARG PKG_URL
 ARG INSTALL_ROOT
 ENV INSTALL_ROOT ${INSTALL_ROOT}
+ADD wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
 
 ENV NODE_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/node-v10.0.0-linux-x64.tgz
 ENV URL ${PKG_URL:-http://download.cloudwiz.cn/package}/cloudwiz-user.tar.gz
 
+RUN apt-get -y update && apt-get install -y curl && apt-get clean all
 RUN set -x \
     && curl -fSL "$NODE_URL" -o /tmp/node-v10.0.0-linux-x64.tgz \
     && mkdir -p ${INSTALL_ROOT} \

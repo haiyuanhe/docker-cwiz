@@ -1,13 +1,16 @@
-FROM cloudwiz/openjdk:1.0.0
+From ubuntu:latest
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
 ARG PKG_URL
 ARG INSTALL_ROOT
 ENV INSTALL_ROOT ${INSTALL_ROOT}
+ADD wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
 
 ENV URL ${PKG_URL:-http://download.cloudwiz.cn/package}/webfront.tar.gz
 ENV USER=root
 
+RUN apt-get -y update && apt-get install -y curl && apt-get clean all
 RUN set -x \
     && curl -fSL "$URL" -o /tmp/webfront.tar.gz \
     && mkdir -p ${INSTALL_ROOT} \

@@ -9,6 +9,10 @@ ENV HBASE_VERSION  1.4.10
 ENV HBASE_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/hbase-$HBASE_VERSION-bin.tar.gz
 ENV JAVA_HOME ${INSTALL_ROOT}/jdk
 
+RUN apt-get -y update && apt-get install -y net-tools netcat perl \
+    && apt-get clean all \
+    && rm -rf /var/cache/ \
+
 RUN set -x \
     && curl -fSL "$HBASE_URL" -o /tmp/hbase.tar.gz \
     && mkdir -p ${INSTALL_ROOT} \

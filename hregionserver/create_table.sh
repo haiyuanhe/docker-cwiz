@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Small script to setup the HBase tables used by OpenTSDB.
 HBASE_HOME=${INSTALL_ROOT}/hbase-$HBASE_VERSION
 NAME=hbase-master

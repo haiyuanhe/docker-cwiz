@@ -24,7 +24,9 @@ RUN mkdir -p /usr/share/fonts/yahei/
 ADD msyh.ttf /usr/share/fonts/yahei/msyh.ttf
 
 RUN set -x \
-    && yum -y install libXrender libXext fontconfig mkfontscale\
+    && apt-get -y update && apt-get install -y libxrender-dev libxext-dev fontconfig  xfonts-utils\
+    && apt-get clean all \
+    && rm -rf /var/cache/ \
     && chmod +x /usr/share/fonts/yahei/msyh.ttf \
     && cd /usr/share/fonts/yahei/ \
     && mkfontscale \
@@ -41,6 +43,7 @@ RUN set -x \
     && tar -xvf /tmp/pandoc-2.0.5-linux.tar.gz -C ${INSTALL_ROOT} \
     && mv ${INSTALL_ROOT}/pandoc-2.0.5 ${INSTALL_ROOT}/pandoc \
     && rm /tmp/pandoc-2.0.5-linux.tar.gz* \
+    && rm -rf /tmp/* \
     && mkdir -p ${INSTALL_ROOT}/report_tmp/
 
 EXPOSE 5001
