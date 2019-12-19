@@ -138,10 +138,6 @@ services:
     - ${WORK_PATH}/logs/nginx/:${WORK_PATH}/logs/nginx/
     - ${WORK_PATH}/certs/:${WORK_PATH}/certs/
     ports:
-    - 3308:3308
-    - 8080:8080
-    - 4343:4343
-    - 80:80
     - 443:443
     - 5044:5044
     networks:
@@ -183,8 +179,6 @@ services:
     restart: always
     env_file:
     - ./hadoop.env
-    ports:
-    - 9092:9092
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.10
