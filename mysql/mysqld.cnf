@@ -1,4 +1,5 @@
 [mysqld]
+bind-address = mysql-server
 user = mysql
 pid-file	= /var/run/mysqld/mysqld.pid
 socket		= /var/run/mysqld/mysqld.sock
