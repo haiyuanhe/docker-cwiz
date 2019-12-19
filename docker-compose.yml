@@ -292,20 +292,20 @@ services:
     depends_on:
     - mysql-server
 
-  cloudwiz_user:
-    image: cloudwiz/cloudwiz-user:1.1.7
-    container_name: cloudwiz_user
-    hostname: cloudwiz_user
-    restart: always
-    networks:
-      cwiz_network:
-        ipv4_address: 172.19.0.16
-    volumes:
-    - ${WORK_PATH}/cloudwiz-user/web.config.js:${WORK_PATH}/cloudwiz-user/web.config.js
-    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
-    - ${WORK_PATH}/certs/cloudwiz-user/:${WORK_PATH}/certs/cloudwiz-user/
-    depends_on:
-    - permission
+#  cloudwiz_user:
+#    image: cloudwiz/cloudwiz-user:1.1.7
+#    container_name: cloudwiz_user
+#    hostname: cloudwiz_user
+#    restart: always
+#    networks:
+#      cwiz_network:
+#        ipv4_address: 172.19.0.16
+#    volumes:
+#    - ${WORK_PATH}/cloudwiz-user/web.config.js:${WORK_PATH}/cloudwiz-user/web.config.js
+#    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+#    - ${WORK_PATH}/certs/cloudwiz-user/:${WORK_PATH}/certs/cloudwiz-user/
+#    depends_on:
+#    - permission
 
   permission:
     image: cloudwiz/permission:1.0.10
@@ -403,20 +403,20 @@ services:
     - namenode
     - opentsdb
 
-  umanager:
-    image: cloudwiz/umanager:1.0.0
-    container_name: umanager
-    hostname: umanager
-    restart: always
-    networks:
-      cwiz_network:
-        ipv4_address: 172.19.0.23
-    volumes:
-    - ${WORK_PATH}/umanager/:${WORK_PATH}/umanager/
-    - ${WORK_PATH}/nginx/download/release/singles/:${WORK_PATH}/nginx/download/release/singles/
-    - ${WORK_PATH}/logs/umanager/:${WORK_PATH}/logs/umanager/
-    depends_on:
-    - mysql-server
+#  umanager:
+#    image: cloudwiz/umanager:1.0.0
+#    container_name: umanager
+#    hostname: umanager
+#    restart: always
+#    networks:
+#      cwiz_network:
+#        ipv4_address: 172.19.0.23
+#    volumes:
+#    - ${WORK_PATH}/umanager/:${WORK_PATH}/umanager/
+#    - ${WORK_PATH}/nginx/download/release/singles/:${WORK_PATH}/nginx/download/release/singles/
+#    - ${WORK_PATH}/logs/umanager/:${WORK_PATH}/logs/umanager/
+#    depends_on:
+#    - mysql-server
 
 volumes:
   hadoop_namenode: 
