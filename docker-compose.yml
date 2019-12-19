@@ -42,7 +42,7 @@ services:
     restart: always
     environment:
       ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=172.19.0.4:2888:3888;2181
+      ZOO_SERVERS: server.1=172.19.0.4:2888:3888
     volumes:
     - ${WORK_PATH}/data/zookeeper/:/data
     - ${WORK_PATH}/data/zookeeper/datalog:/datalog
