@@ -28,10 +28,6 @@
     </property>
     <!-- secondarynamenode need this port -->
     <property>
-        <name>dfs.namenode.rpc-address</name>
-        <value>{{fs_defaultFS}}</value>
-    </property>
-    <property>
         <name>dfs.block.access.token.enable</name>
         <value>true</value>
     </property>

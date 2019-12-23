@@ -1,8 +1,4 @@
 <configuration>
- <property>
-  <name>fs.defaultFS</name>
-  <value>hdfs://{{fs_defaultFS}}</value>
- </property>
  <!-- kerberos -->
  <property>
   <name>hadoop.security.authentication</name>
