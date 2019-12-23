@@ -23,8 +23,9 @@ RUN chmod +x /start.sh
 RUN mkdir -p /usr/share/fonts/yahei/
 ADD msyh.ttf /usr/share/fonts/yahei/msyh.ttf
 
+ENV DEBIAN_FRONTEND noninteractive
 RUN set -x \
-    && apt-get -y update && apt-get install -y libxrender-dev libxext-dev fontconfig  xfonts-utils\
+    && apt-get -y update && apt-get install -y libxrender-dev libxext-dev fontconfig  xfonts-utils krb5-user\
     && apt-get clean all \
     && rm -rf /var/cache/ \
     && chmod +x /usr/share/fonts/yahei/msyh.ttf \
