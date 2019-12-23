@@ -42,7 +42,7 @@ services:
     restart: always
     environment:
       ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=0.0.0.0:2888:3888
+      ZOO_SERVERS: server.1=172.19.0.4:2888:3888
     volumes:
     - ${WORK_PATH}/data/zookeeper/:/data
     - ${WORK_PATH}/data/zookeeper/datalog:/datalog
@@ -138,10 +138,6 @@ services:
     - ${WORK_PATH}/logs/nginx/:${WORK_PATH}/logs/nginx/
     - ${WORK_PATH}/certs/:${WORK_PATH}/certs/
     ports:
-    - 3308:3308
-    - 8080:8080
-    - 4343:4343
-    - 80:80
     - 443:443
     - 5044:5044
     networks:
@@ -183,8 +179,6 @@ services:
     restart: always
     env_file:
     - ./hadoop.env
-    ports:
-    - 9092:9092
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.10
@@ -298,20 +292,20 @@ services:
     depends_on:
     - mysql-server
 
-  cloudwiz_user:
-    image: cloudwiz/cloudwiz-user:1.1.7
-    container_name: cloudwiz_user
-    hostname: cloudwiz_user
-    restart: always
-    networks:
-      cwiz_network:
-        ipv4_address: 172.19.0.16
-    volumes:
-    - ${WORK_PATH}/cloudwiz-user/web.config.js:${WORK_PATH}/cloudwiz-user/web.config.js
-    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
-    - ${WORK_PATH}/certs/cloudwiz-user/:${WORK_PATH}/certs/cloudwiz-user/
-    depends_on:
-    - permission
+#  cloudwiz_user:
+#    image: cloudwiz/cloudwiz-user:1.1.7
+#    container_name: cloudwiz_user
+#    hostname: cloudwiz_user
+#    restart: always
+#    networks:
+#      cwiz_network:
+#        ipv4_address: 172.19.0.16
+#    volumes:
+#    - ${WORK_PATH}/cloudwiz-user/web.config.js:${WORK_PATH}/cloudwiz-user/web.config.js
+#    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+#    - ${WORK_PATH}/certs/cloudwiz-user/:${WORK_PATH}/certs/cloudwiz-user/
+#    depends_on:
+#    - permission
 
   permission:
     image: cloudwiz/permission:1.0.10
@@ -409,20 +403,20 @@ services:
     - namenode
     - opentsdb
 
-  umanager:
-    image: cloudwiz/umanager:1.0.0
-    container_name: umanager
-    hostname: umanager
-    restart: always
-    networks:
-      cwiz_network:
-        ipv4_address: 172.19.0.23
-    volumes:
-    - ${WORK_PATH}/umanager/:${WORK_PATH}/umanager/
-    - ${WORK_PATH}/nginx/download/release/singles/:${WORK_PATH}/nginx/download/release/singles/
-    - ${WORK_PATH}/logs/umanager/:${WORK_PATH}/logs/umanager/
-    depends_on:
-    - mysql-server
+#  umanager:
+#    image: cloudwiz/umanager:1.0.0
+#    container_name: umanager
+#    hostname: umanager
+#    restart: always
+#    networks:
+#      cwiz_network:
+#        ipv4_address: 172.19.0.23
+#    volumes:
+#    - ${WORK_PATH}/umanager/:${WORK_PATH}/umanager/
+#    - ${WORK_PATH}/nginx/download/release/singles/:${WORK_PATH}/nginx/download/release/singles/
+#    - ${WORK_PATH}/logs/umanager/:${WORK_PATH}/logs/umanager/
+#    depends_on:
+#    - mysql-server
 
 volumes:
   hadoop_namenode: 
