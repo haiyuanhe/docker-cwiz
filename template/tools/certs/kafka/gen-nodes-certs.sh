@@ -15,13 +15,10 @@ STOREPASS='Cloudwiz_p0c'
 # export keytool=<:install_root:>/jdk/bin/keytool
 export keytool=/usr/bin/keytool
 
-# mkdir -p <:install_root:>/certs/kafka
-# ROOT_CERT_PATH=<:install_root:>/certs/kafka
-# clear old certs
-# rm -rf <:install_root:>/certs/kafka/*
-mkdir -p /Users/mars/dev/work/YunXing/source/docker-cwiz/test/certs/kafka
-ROOT_CERT_PATH=/Users/mars/dev/work/YunXing/source/docker-cwiz/test/certs/kafka
-rm -rf /Users/mars/dev/work/YunXing/source/docker-cwiz/test/certs/kafka/*
+mkdir -p <:install_root:>/certs/kafka
+ROOT_CERT_PATH=<:install_root:>/certs/kafka
+clear old certs
+rm -rf <:install_root:>/certs/kafka/*
 
 echo "password: $STOREPASS" > $ROOT_CERT_PATH/README.txt
 
