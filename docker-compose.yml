@@ -16,6 +16,10 @@ services:
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.2
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   datanode:
     image: cloudwiz/hadoop-datanode:2.7.7
@@ -34,6 +38,10 @@ services:
         ipv4_address: 172.19.0.3
     depends_on:
     - namenode
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   zookeeper:
     image: zookeeper:3.4.10
@@ -50,6 +58,10 @@ services:
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.4
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   hbase-master:
     image: cloudwiz/hbase-master:1.4.10
@@ -69,6 +81,10 @@ services:
     - namenode
     - datanode
     - zookeeper
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   hbase-regionserver:
     image: cloudwiz/hbase-regionserver:1.4.10
@@ -90,6 +106,10 @@ services:
     - datanode
     - zookeeper
     - hbase-master
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   mysql-server:
     image: cloudwiz/mysql:5.7.28
@@ -99,9 +119,14 @@ services:
     - ${WORK_PATH}/tools/mysql/sql/:/sql
     - ${WORK_PATH}/data/mysql/:/var/lib/mysql
     - ${WORK_PATH}/logs/mysql/:/var/log/mysql
+    - ${WORK_PATH}/data/binlog/:/logs/binlog
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.7
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   elasticsearch:
     image: elasticsearch:5.4.3
@@ -124,6 +149,10 @@ services:
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.8
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   nginx:
     image: nginx:1.16.1
@@ -171,6 +200,10 @@ services:
       hbase_thrift: 172.19.0.233
     depends_on:
     - mysql-server
+    logging:
+      driver: local
+      options:
+        max-size: 50m
 
   kafka:
     image: wurstmeister/kafka:2.11-1.0.2
@@ -191,6 +224,10 @@ services:
     - ${WORK_PATH}/logs/kafka/:/opt/kafka_2.11-1.0.2/logs
     depends_on:
     - zookeeper
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   metric-proxy:
     image: cloudwiz/metric-proxy:1.0.4
@@ -212,6 +249,10 @@ services:
     - ${WORK_PATH}/certs/metric-proxy/:${WORK_PATH}/certs/metric-proxy/
     depends_on:
     - kafka
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   opentsdb:
     image: cloudwiz/opentsdb:2.3.0
@@ -232,6 +273,10 @@ services:
     - ${WORK_PATH}/logs/opentsdb/:${WORK_PATH}/logs/opentsdb/
     depends_on:
     - hbase-regionserver
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   cmservice:
     image: cloudwiz/cmservice:1.4.2
@@ -253,6 +298,10 @@ services:
     - ${WORK_PATH}/certs/cmservice/:${WORK_PATH}/certs/cmservice/
     depends_on:
     - mysql-server
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   log_processor:
     image: cloudwiz/log-processor:1.0.1
@@ -274,6 +323,10 @@ services:
     depends_on:
     - kafka
     - elasticsearch
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   webfront:
     image: cloudwiz/webfront:3.5.10
@@ -291,6 +344,10 @@ services:
     - ${WORK_PATH}/certs/webfront/:${WORK_PATH}/certs/webfront/
     depends_on:
     - mysql-server
+    logging:
+      driver: local
+      options:
+        max-size: 50m
 
 #  cloudwiz_user:
 #    image: cloudwiz/cloudwiz-user:1.1.7
@@ -326,6 +383,10 @@ services:
     depends_on:
     - mysql-server
     - webfront
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   log_analysis:
     image: cloudwiz/log-analysis:1.0.3
@@ -344,6 +405,10 @@ services:
     - ${WORK_PATH}/certs/log-analysis/:${WORK_PATH}/certs/log-analysis/
     depends_on:
     - mysql-server
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   chartservice:
     image: cloudwiz/chartservice:1.0.0
@@ -360,6 +425,10 @@ services:
     - ${WORK_PATH}/chartservice/conf/log4j.properties:${WORK_PATH}/chartservice/conf/log4j.properties
     - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
     - ${WORK_PATH}/logs/chartservice/:${WORK_PATH}/logs/chartservice/
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   log_pp:
     image: cloudwiz/log-pp:1.0.1
@@ -381,6 +450,10 @@ services:
     depends_on:
     - kafka
     - opentsdb
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   alertd:
     image: cloudwiz/alertd:1.1.13
@@ -402,6 +475,10 @@ services:
     - mysql-server
     - namenode
     - opentsdb
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
 #  umanager:
 #    image: cloudwiz/umanager:1.0.0
