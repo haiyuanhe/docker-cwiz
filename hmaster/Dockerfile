@@ -1,4 +1,4 @@
-FROM cloudwiz/hbase-base:1.0.0
+FROM cloudwiz/hbase-base-kerberos:1.4.10
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
 ARG INSTALL_ROOT

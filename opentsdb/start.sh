@@ -1,5 +1,42 @@
 #!/bin/bash
 
+KERBEROS_REALM=${KERBEROS_REALM:-'CWIZ.COM'}
+KERBEROS_HABSE_CLIENT_PRIMARY=${KERBEROS_HABSE_CLIENT_PRIMARY:-'hbase'}
+HBASE_ZK_QUORUM=${HBASE_ZK_QUORUM}
+
+# Enable sasl
+echo "" >> "$INSTALL_ROOT/conf/opentsdb.conf"
+
+(
+    function updateConfig() {
+        key=$1
+        value=$2
+        file=$3
+
+        # Omit $value here, in case there is sensitive information
+        echo "[Configuring] '$key' in '$file'"
+
+        # If config exists in file, replace it. Otherwise, append to file.
+        if grep -E -q "^#?$key=" "$file"; then
+            sed -r -i "s@^#?$key=.*@$key=$value@g" "$file" #note that no config values may contain an '@' char
+        else
+            echo "$key=$value" >> "$file"
+        fi
+    }
+
+    if [[ ! -z "$HBASE_ZK_QUORUM" ]]; then
+        updateConfig "tsd.storage.hbase.zk_quorum" "${HBASE_ZK_QUORUM}" "$INSTALL_ROOT/conf/opentsdb.conf"
+    fi
+    updateConfig "hbase.security.auth.enable" "true" "$INSTALL_ROOT/conf/opentsdb.conf"
+    updateConfig "hbase.security.authentication" "kerberos" "$INSTALL_ROOT/conf/opentsdb.conf"
+    updateConfig "hbase.kerberos.regionserver.principal" "${KERBEROS_HABSE_CLIENT_PRIMARY}/_HOST@${KERBEROS_REALM}" "$INSTALL_ROOT/conf/opentsdb.conf"
+    updateConfig "hbase.sasl.clientconfig" "HBaseClient" "$INSTALL_ROOT/conf/opentsdb.conf"
+    sed -i '/^export JVMFLAGS="-Djava.security.auth.login.config=.*\/jaas.conf/d' $INSTALL_ROOT/bin/start.sh
+    sed -i 's/enablesystemassertions $JVMFLAGS/enablesystemassertions/' $INSTALL_ROOT/bin/start.sh
+    sed -i '/^OPENTSDB_HOME=/a\export JVMFLAGS="-Djava.security.auth.login.config=$OPENTSDB_HOME/conf/jaas.conf"' $INSTALL_ROOT/bin/start.sh
+    sed -i 's/enablesystemassertions/& $JVMFLAGS/' $INSTALL_ROOT/bin/start.sh
+}
+
 # make sure HMaster is ready
 echo "Waiting for HMaster to get ready"
 NAME=hbase-master

@@ -8,6 +8,8 @@ HADOOP_BASE=1.0.0
 HBASE_BASE=1.0.0
 HADOOP=2.7.7
 HBASE=1.4.10
+KAFKA=2.11-1.0.2
+ELASTICSEARCH=5.4.3
 METRIC_PROXY=1.0.4
 OPENTSDB=2.3.0
 CMSERVICE=1.4.2
@@ -26,14 +28,23 @@ build:
 	cp -f ./base/wait-for-it.sh ./webfront
 	cp -f ./base/wait-for-it.sh ./cloudwiz-user
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/openjdk:${OPENJDK} ./base
-	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-base:${HADOOP_BASE} ./hadoop-base
-	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-base:${HBASE_BASE} ./hbase-base
-	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-namenode:${HADOOP} ./namenode
-	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-datanode:${HADOOP} ./datanode
-	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-master:${HBASE} ./hmaster
-	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-regionserver:${HBASE} ./hregionserver
+	# docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-base:${HADOOP_BASE} ./hadoop-base
+	# docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-base:${HBASE_BASE} ./hbase-base
+	# docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-namenode:${HADOOP} ./namenode
+	# docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-datanode:${HADOOP} ./datanode
+	# docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-master:${HBASE} ./hmaster
+	# docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-regionserver:${HBASE} ./hregionserver
+	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-base-kerberos:${HADOOP_BASE} ./hadoop-base
+	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-base-kerberos:${HBASE_BASE} ./hbase-base
+	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-namenode-kerberos:${HADOOP} ./namenode
+	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-datanode-kerberos:${HADOOP} ./datanode
+	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-master-kerberos:${HBASE} ./hmaster
+	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-regionserver-kerberos:${HBASE} ./hregionserver
+	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/opentsdb-kerberos:${OPENTSDB} ./opentsdb
+	docker build -t cloudwiz/kafka-kerberos:${KAFKA} ./kafka
+	# docker build -t cloudwiz/elasticsearch-ssl:${ELASTICSEARCH} ./elasticsearch
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/metric-proxy:${METRIC_PROXY} ./metric-proxy
-	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/opentsdb:${OPENTSDB} ./opentsdb
+	# docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/opentsdb:${OPENTSDB} ./opentsdb
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/cmservice:${CMSERVICE} ./cmservice
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/log-processor:${LOG_PROCESSOR} ./log-processor
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/webfront:${WEBFRONT} ./webfront

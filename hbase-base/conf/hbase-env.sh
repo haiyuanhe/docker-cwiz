@@ -1,0 +1,1 @@
+export HBASE_OPTS="-XX:+UseConcMarkSweepGC -Djava.net.preferIPv4Stack=true -Djava.asecurity.auth.login.config=/etc/hbase/jaas.conf"

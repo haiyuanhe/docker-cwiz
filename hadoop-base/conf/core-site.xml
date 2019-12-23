@@ -1,0 +1,39 @@
+<configuration>
+ <property>
+  <name>fs.defaultFS</name>
+  <value>hdfs://{{fs_defaultFS}}</value>
+ </property>
+ <!-- kerberos -->
+ <property>
+  <name>hadoop.security.authentication</name>
+  <value>kerberos</value>
+ </property>
+ <property>
+  <name>hadoop.security.authorization</name>
+  <value>true</value>
+ </property>
+ <property>
+  <name>hadoop.security.auth_to_local</name>
+  <value>
+   RULE:[2:$1@$0](hbase@.*)s/.*/{{user}}/
+   RULE:[2:$1@$0](hdfs@.*)s/.*/{{user}}/
+   DEFAULT
+  </value>
+ </property>
+ <property>
+  <name>hadoop.proxyuser.{{user}}.hosts</name>
+  <value>*</value>
+ </property>
+ <property>
+  <name>hadoop.proxyuser.{{user}}.groups</name>
+  <value>*</value>
+ </property>
+ <property>
+  <name>hadoop.proxyuser.HTTP.hosts</name>
+  <value>*</value>
+ </property>
+ <property>
+  <name>hadoop.proxyuser.HTTP.groups</name>
+  <value>*</value>
+ </property>
+</configuration>
