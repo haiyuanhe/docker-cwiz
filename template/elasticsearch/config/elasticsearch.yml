@@ -25,7 +25,7 @@ searchguard.ssl.transport.keystore_password: xxx
 searchguard.ssl.transport.truststore_filepath: truststore.jks
 searchguard.ssl.transport.truststore_password: xxx
 searchguard.ssl.transport.enforce_hostname_verification: false
-searchguard.ssl.http.enabled: xxx
+searchguard.ssl.http.enabled: <:ssl_enable:>
 searchguard.ssl.http.keystore_filepath: server.jks
 searchguard.ssl.http.keystore_password: xxx
 searchguard.ssl.http.truststore_filepath: truststore.jks
