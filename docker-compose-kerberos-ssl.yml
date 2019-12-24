@@ -370,6 +370,49 @@ services:
     depends_on:
       - hbase-regionserver
 
+  log_processor:
+    image: cloudwiz/log-processor:1.0.1
+    container_name: log_processor
+    hostname: log_processor
+    restart: always
+    env_file:
+      - ./hadoop.env
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.14
+    volumes:
+      - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+      - ${WORK_PATH}/log-processor/bin/start.sh:${WORK_PATH}/log-processor/bin/start.sh
+      - ${WORK_PATH}/log-processor/config/:${WORK_PATH}/log-processor/config/
+      - ${WORK_PATH}/logs/log-processor/:${WORK_PATH}/logs/log-processor/
+      - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/log-processor/:${WORK_PATH}/certs/log-processor/
+      - ${WORK_PATH}/certs/elasticsearch/truststore.jks:${WORK_PATH}/certs/elasticsearch/truststore.jks
+      - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:${WORK_PATH}/certs/elasticsearch/sgadmin.jks
+    depends_on:
+      - kafka
+      - elasticsearch
+
+  log_analysis:
+    image: cloudwiz/log-analysis:1.0.3
+    container_name: log_analysis
+    hostname: log_analysis
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.18
+    volumes:
+      - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+      - ${WORK_PATH}/log-analysis/bin/start.sh:${WORK_PATH}/log-analysis/bin/start.sh
+      - ${WORK_PATH}/log-analysis/config/log.analysis.properties:${WORK_PATH}/log-analysis/config/log.analysis.properties
+      - ${WORK_PATH}/log-analysis/config/log4j.properties:${WORK_PATH}/log-analysis/config/log4j.properties
+      - ${WORK_PATH}/logs/log-analysis/:${WORK_PATH}/logs/log-analysis/
+      - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/log-analysis/:${WORK_PATH}/certs/log-analysis/
+      - ${WORK_PATH}/certs/elasticsearch/truststore.jks:${WORK_PATH}/certs/elasticsearch/truststore.jks
+      - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:${WORK_PATH}/certs/elasticsearch/sgadmin.jks
+    depends_on:
+      - mysql-server
+
   alertd:
     image: cloudwiz/alertd-kerberos-ssl:1.1.13
     container_name: alertd
