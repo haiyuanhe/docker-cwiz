@@ -1,6 +1,8 @@
 #!/bin/bash
 
-#set -e
+set -x
+
+export keytool=<:install_root:>/jdk/bin/keytool
 
 . <:install_root:>/tools/crypt/utils.sh
 decrypt_SSLPass

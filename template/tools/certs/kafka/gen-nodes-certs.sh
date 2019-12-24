@@ -1,19 +1,14 @@
 #!/bin/bash
 
-# . <:install_root:>/tools/crypt/utils.sh
-# decrypt_SSLPass
-# if [ "abc$1" = "abc" ]; then
-#     STOREPASS=${ssl_decrypt_pass}
-# else
-#     STOREPASS=$1
-# fi
-STOREPASS='Cloudwiz_p0c'
-# rand (){
-#   openssl rand -hex 20
-# }
+. <:install_root:>/tools/crypt/utils.sh
+decrypt_SSLPass
+if [ "abc$1" = "abc" ]; then
+    STOREPASS=${ssl_decrypt_pass}
+else
+    STOREPASS=$1
+fi
 
-# export keytool=<:install_root:>/jdk/bin/keytool
-export keytool=/usr/bin/keytool
+export keytool=<:install_root:>/jdk/bin/keytool
 
 mkdir -p <:install_root:>/certs/kafka
 ROOT_CERT_PATH=<:install_root:>/certs/kafka
