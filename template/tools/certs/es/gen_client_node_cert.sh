@@ -32,7 +32,7 @@ keytool -genkey \
         -validity  712 \
         -keypass $KS_PASS \
         -storepass $KS_PASS \
-        -dname "CN=$CLIENT_NAME, OU=client, O=client, L=Test, C=DE"
+        -dname "CN=$CLIENT_NAME"
 
 echo Generating certificate signing request for node $CLIENT_NAME
 
@@ -43,7 +43,7 @@ keytool -certreq \
         -keyalg     rsa \
         -keypass $KS_PASS \
         -storepass $KS_PASS \
-        -dname "CN=$CLIENT_NAME, OU=client, O=client, L=Test, C=DE"
+        -dname "CN=$CLIENT_NAME"
 
 echo "Sign certificate request with CA"
 cd $CERT_ROOT

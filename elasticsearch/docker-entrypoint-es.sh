@@ -4,16 +4,20 @@ install_plugins() {
     read -r -a plugins_list <<< "$(tr ',;' ' ' <<< "$ELASTICSEARCH_PLUGINS")"
     echo "Installing plugins: ${plugins_list[*]}"
     for plugin in "${plugins_list[@]}"; do
-            elasticsearch-plugin install -b -v "$plugin"
-            # elasticsearch-plugin install -b -v "$plugin" >/dev/null 2>&1
+            grep "$plugin" /install_plugins
+            if [[ $? -ne 0 ]]; then
+                elasticsearch-plugin install -b -v "$plugin"
+                # elasticsearch-plugin install -b -v "$plugin" >/dev/null 2>&1
+                if [[ $? -eq 0 ]]; then
+                    echo "$plugin" >> /install_plugins
+                fi
+            fi
     done
 }
 
 CONFIG="/usr/share/elasticsearch/config/elasticsearch.yml"
 
 #Issue newline to config file in case there is not one already
-echo "" >> $CONFIG
-
 (
     function updateConfig() {
         key=$1
@@ -49,6 +53,9 @@ echo "" >> $CONFIG
 )
 
 if [[ ! -z "$ELASTICSEARCH_PLUGINS" ]]; then
+    if [[ ! -f /install_plugins ]]; then
+        touch /install_plugins
+    fi
     install_plugins
 fi
 

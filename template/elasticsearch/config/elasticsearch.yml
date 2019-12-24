@@ -30,5 +30,4 @@ searchguard.ssl.http.keystore_filepath: server.jks
 searchguard.ssl.http.keystore_password: xxx
 searchguard.ssl.http.truststore_filepath: truststore.jks
 searchguard.ssl.http.truststore_password: xxx
-searchguard.authcz.admin_dn:
-  - sgadmin
+searchguard.authcz.admin_dn: CN=sgadmin

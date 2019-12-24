@@ -38,7 +38,7 @@ echo "" >> "$OPENTSDB_HOME/conf/opentsdb.conf"
     sed -i 's/enablesystemassertions $JVMFLAGS/enablesystemassertions/' $OPENTSDB_HOME/bin/start.sh
     sed -i '/^OPENTSDB_HOME=/a\export JVMFLAGS="-Djava.security.auth.login.config=$OPENTSDB_HOME/conf/jaas.conf"' $OPENTSDB_HOME/bin/start.sh
     sed -i 's/enablesystemassertions/& $JVMFLAGS/' $OPENTSDB_HOME/bin/start.sh
-}
+)
 
 cat > "$OPENTSDB_HOME/conf/jaas.conf" << EOF
 HBaseClient {
