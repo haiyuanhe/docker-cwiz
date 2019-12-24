@@ -1,0 +1,413 @@
+version: "2"
+
+services:
+  kerberos:
+    image: cloudwiz/kerberos:1.0.0
+    restart: always
+    container_name: kerberos01
+    hostname: kerberos01
+    volumes: 
+      - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
+      - ${WORK_PATH}/kerberos:/kerberos
+    environment:
+      KERBEROS_PRIMARY: root zookeeper HTTP hdfs hbase kafka
+      KERBEROS_HOST: zookeeper namenode datanode hbase-master hbase-regionserver kafka opentsdb alertd
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.40
+
+  namenode:
+    image: cloudwiz/hadoop-namenode-kerberos:2.7.7
+    container_name: namenode
+    hostname: namenode
+    restart: always
+    ports:
+      - "50070:50070"
+    volumes:
+      - ${WORK_PATH}/data/hadoop/dfs/name:/data/dfs/namenode
+      - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hadoop-2.7.7/logs
+      - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
+      - ${WORK_PATH}/kerberos:/kerberos
+    environment:
+      - CLUSTER_NAME=prod
+    env_file:
+      - ./hadoop.env
+    extra_hosts:
+      - "datanode:172.19.0.3"
+      - "hbase-master:172.19.0.5"
+      - "hbase-regionserver:172.19.0.6"
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.2
+    depends_on:
+      - kerberos
+
+  datanode:
+    image: cloudwiz/hadoop-datanode-kerberos:2.7.7
+    container_name: datanode
+    hostname: datanode
+    restart: always
+    volumes:
+      - ${WORK_PATH}/data/hadoop/dfs/data:/data/dfs/datanode
+      - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hadoop-2.7.7/logs
+      - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
+      - ${WORK_PATH}/kerberos:/kerberos
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    env_file:
+      - ./hadoop.env
+    extra_hosts:
+      - "namenode:172.19.0.2"
+      - "hbase-master:172.19.0.5"
+      - "hbase-regionserver:172.19.0.6"
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.3
+    depends_on:
+      - namenode
+      - kerberos
+
+  zookeeper:
+    image: cloudwiz/zookeeper-kerberos:3.4.10
+    container_name: zookeeper
+    hostname: zookeeper
+    restart: always
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888
+    volumes:
+      - ${WORK_PATH}/data/zookeeper/:/data
+      - ${WORK_PATH}/data/zookeeper/datalog:/datalog
+      - ${WORK_PATH}/logs/zookeeper/:/logs/
+      - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
+      - ${WORK_PATH}/kerberos:/kerberos
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.4
+
+  hbase-master:
+    image: cloudwiz/hbase-master-kerberos:1.4.10
+    container_name: hbase-master
+    hostname: hbase-master
+    restart: always
+    env_file:
+      - ./hadoop.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181"
+    ports:
+      - "16010:16010"
+    volumes:
+      - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hbase-1.4.10/logs
+      - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
+      - ${WORK_PATH}/kerberos:/kerberos
+    extra_hosts: 
+      - "namenode:172.19.0.2"
+      - "datanode:172.19.0.3"
+      - "zookeeper:172.19.0.4"
+      - "hbase-regionserver:172.19.0.6"
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.5
+    depends_on:
+      - kerberos
+      - namenode
+      - datanode
+      - zookeeper
+
+  hbase-regionserver:
+    image: cloudwiz/hbase-regionserver-kerberos:1.4.10
+    container_name: hbase-regionserver
+    hostname: hbase-regionserver
+    restart: always
+    env_file:
+      - ./hadoop.env
+    environment:
+      HBASE_CONF_hbase_regionserver_hostname: hbase-regionserver
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
+    ports:
+      - "16030:16030"
+    volumes:
+      - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hbase-1.4.10/logs
+      - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
+      - ${WORK_PATH}/kerberos:/kerberos
+    extra_hosts:
+      - "namenode:172.19.0.2"
+      - "datanode:172.19.0.3"
+      - "zookeeper:172.19.0.4"
+      - "hbase-master:172.19.0.5"
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.6
+    depends_on:
+      - kerberos
+      - namenode
+      - datanode
+      - zookeeper
+      - hbase-master
+
+  mysql-server:
+    image: cloudwiz/mysql:5.7.28
+    container_name: mysql-server
+    restart: always
+    volumes:
+    - ${WORK_PATH}/opt/cwiz/tools/mysql/sql/:/sql
+    - ${WORK_PATH}/data/mysql/:/var/lib/mysql
+    - ${WORK_PATH}/logs/mysql/:/var/log/mysql
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.7
+
+  # elasticsearch:
+  #   image: elasticsearch:5.4.3
+  #   container_name: elasticsearch
+  #   hostname: elasticsearch
+  #   restart: always
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   env_file:
+  #   - ./hadoop.env
+  #   environment:
+  #     SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
+  #     ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+  #     # 需要安装的插件列表,分割多个插件
+  #     ELASTICSEARCH_PLUGINS: https://repo1.maven.org/maven2/com/floragunn/search-guard-5/5.4.3-16/search-guard-5-5.4.3-16.zip
+  #     # SSL_searchguard_ssl_transport_keystore_filepath: 'centos111-keystore.jks'
+  #     # SSL_searchguard_ssl_transport_keystore_password: 'xxx'
+  #     # SSL_searchguard_ssl_transport_truststore_filepath: 'truststore.jks'
+  #     # SSL_searchguard_ssl_transport_truststore_password: 'xxx'
+  #     # SSL_searchguard_ssl_transport_enforce_hostname_verification: 'false'
+  #     # SSL_searchguard_ssl_http_enabled: 'true'
+  #     # SSL_searchguard_ssl_http_keystore_filepath: 'centos111-keystore.jks'
+  #     # SSL_searchguard_ssl_http_keystore_password: 'xxx'
+  #     # SSL_searchguard_ssl_http_truststore_filepath: 'truststore.jks'
+  #     # SSL_searchguard_ssl_http_truststore_password: 'xxx'
+  #     # SSL_searchguard_authcz_admin_dn: 'CN=sgadmin'
+  #   ports:
+  #     - "9300:9300"
+  #   volumes:
+  #     - ${WORK_PATH}/elasticsearch/apps:/apps
+  #     - ${WORK_PATH}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  #     - ${WORK_PATH}/data/elasticsearch/:/usr/share/elasticsearch/data/
+  #     - ${WORK_PATH}/logs/elasticsearch/:/usr/share/elasticsearch/logs/
+  #     - ${WORK_PATH}/certs/elasticsearch/truststore.jks:/usr/share/elasticsearch/config/truststore.jks
+  #     - ${WORK_PATH}/certs/elasticsearch/server/elasticsearch-keystore.jks:/usr/share/elasticsearch/config/server.jks
+  #     - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:/usr/share/elasticsearch/config/sgadmin.jks
+  #   networks:
+  #     cwiz_network:
+  #       ipv4_address: 172.19.0.8
+  #   entrypoint: /apps/docker-entrypoint-es.sh
+
+  nginx:
+    image: nginx:1.16.1
+    container_name: nginx
+    hostname: nginx
+    restart: always
+    env_file:
+      - ./hadoop.env
+    volumes:
+      - ${WORK_PATH}/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ${WORK_PATH}/nginx/:${WORK_PATH}/nginx/
+      - ${WORK_PATH}/logs/nginx/:${WORK_PATH}/logs/nginx/
+      - ${WORK_PATH}/certs/:${WORK_PATH}/certs/
+    ports:
+      - 3308:3308
+      - 8080:8080
+      - 4343:4343
+      - 80:80
+      - 443:443
+      - 5044:5044
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.9
+    extra_hosts:
+      namenode: 172.19.0.2
+      datanode: 172.19.0.3
+      zookeeper: 172.19.0.4
+      hbase-master: 172.19.0.5
+      hbase-regionserver: 172.19.0.6
+      mysql-server: 172.19.0.7
+      elasticsearch: 172.19.0.8
+      nginx: 172.19.0.9
+      kafka: 172.19.0.10
+      metric-proxy: 172.19.0.11
+      opentsdb: 172.19.0.12
+      cmservice: 172.19.0.13
+      log_processor: 172.19.0.14
+      webfront: 172.19.0.15
+      cloudwiz_user: 172.19.0.16
+      permission: 172.19.0.17
+      log_analysis: 172.19.0.18
+      chartservice: 172.19.0.19
+      log_pp: 172.19.0.20
+      alertd: 172.19.0.22
+      umanage: 172.19.0.23
+      python_daemon: 172.19.0.25
+      #### No such service now
+      oneagent: 172.19.0.21
+      hbase_thrift: 172.19.0.233
+    depends_on:
+      - mysql-server
+
+  # kafka:
+  #   image: cloudwiz/kafka-kerberos:2.11-1.0.2
+  #   container_name: kafka
+  #   hostname: kafka
+  #   restart: always
+  #   env_file:
+  #     - ./hadoop.env
+  #   ports:
+  #     - 9092:9092
+  #   extra_hosts:
+  #     - "zookeeper:172.19.0.4"
+  #   networks:
+  #     cwiz_network:
+  #       ipv4_address: 172.19.0.10
+  #   environment:
+  #     KAFKA_LISTENERS: SASL_PLAINTEXT://kafka:9092
+  #     KAFKA_ADVERTISED_HOST_NAME: kafka
+  #     KAFKA_ADVERTISED_LISTENERS: SASL_PLAINTEXT://kafka:9092
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M" 
+  #   volumes:
+  #     - ${WORK_PATH}/data/kafka/:/kafka/kafka-logs-kafka/
+  #     - ${WORK_PATH}/logs/kafka/:/opt/kafka_2.11-1.0.2/logs
+  #     - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
+  #     - ${WORK_PATH}/kerberos:/kerberos
+  #   depends_on:
+  #     - zookeeper
+
+  kafka:
+    image: cloudwiz/kafka-kerberos:2.11-1.0.2
+    container_name: kafka
+    hostname: kafka
+    restart: always
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 9092:9092
+    extra_hosts:
+      - "zookeeper:172.19.0.4"
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.10
+    environment:
+      KAFKA_LISTENERS: SASL_PLAINTEXT://kafka:9093,SSL://kafka:9092
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_LISTENERS: SASL_PLAINTEXT://kafka:9092,SSL://kafka:9093
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M"
+      KAFKA_SSL_MECHANISM_INTER_BROKER_PROTOCOL: SSL
+      KAFKA_ssl_enabled_mechanisms: SSL
+      KAFKA_ssl_keystore_location: /certs/server.jks
+      KAFKA_ssl_keystore_password: Cwiz_123
+      KAFKA_ssl_key_password: Cwiz_123
+      KAFKA_ssl_truststore_location: /certs/serverTrust.jks
+      KAFKA_ssl_truststore_password: Cwiz_123
+      KAFKA_ssl_client_auth: required
+      KAFKA_ssl_endpoint_identification_algorithm: ''
+      KAFKA_ssl_enabled_protocols: TLSv1.2,TLSv1.1,TLSv1
+      KAFKA_ssl_truststore_type: JKS
+      KAFKA_ssl_keystore_type: JKS
+    volumes:
+      - ${WORK_PATH}/data/kafka/:/kafka/kafka-logs-kafka/
+      - ${WORK_PATH}/logs/kafka/:/opt/kafka_2.11-1.0.2/logs
+      - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
+      - ${WORK_PATH}/kerberos:/kerberos
+      - ${WORK_PATH}/certs/kafka/kafka:/certs
+    depends_on:
+      - zookeeper
+
+  metric-proxy:
+    image: cloudwiz/metric-proxy:1.0.4
+    container_name: metric-proxy
+    hostname: metric-proxy
+    restart: always
+    env_file:
+      - ./hadoop.env
+    extra_hosts:
+      - "kafka:172.19.0.11"
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.11
+    volumes:
+      - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+      - ${WORK_PATH}/metric-proxy/bin/start.sh:${WORK_PATH}/metric-proxy/bin/start.sh
+      - ${WORK_PATH}/metric-proxy/config/application.yml:${WORK_PATH}/metric-proxy/config/application.yml
+      - ${WORK_PATH}/metric-proxy/config/log4j.properties:${WORK_PATH}/metric-proxy/config/log4j.properties
+      - ${WORK_PATH}/logs/metric-proxy/:${WORK_PATH}/logs/metric-proxy/
+      - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/metric-proxy/:${WORK_PATH}/certs/metric-proxy/
+      - ${WORK_PATH}/certs/kafka/kafka/client.jks:${WORK_PATH}/certs/kafka/client.jks
+      - ${WORK_PATH}/certs/kafka/kafka/clientTrust.jks:${WORK_PATH}/certs/kafka/truststore.jks
+    depends_on:
+      - kafka
+
+  opentsdb:
+    image: cloudwiz/opentsdb-kerberos:2.3.0
+    container_name: opentsdb
+    hostname: opentsdb
+    restart: always
+    env_file:
+    - ./hadoop.env
+    extra_hosts:
+      - "zookeeper:172.19.0.4"
+      - "hbase-regionserver:172.19.0.6"
+      - "nginx:172.19.0.9"
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.12
+    volumes:
+      - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+      - ${WORK_PATH}/opentsdb/bin/start.sh:${WORK_PATH}/opentsdb/bin/start.sh
+      - ${WORK_PATH}/opentsdb/conf/opentsdb.conf:${WORK_PATH}/opentsdb/conf/opentsdb.conf
+      - ${WORK_PATH}/opentsdb/conf/logback.xml:${WORK_PATH}/opentsdb/conf/logback.xml
+      - ${WORK_PATH}/startup:${WORK_PATH}/startup
+      - ${WORK_PATH}/logs/opentsdb/:${WORK_PATH}/logs/opentsdb/
+      - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
+      - ${WORK_PATH}/kerberos:/kerberos
+    depends_on:
+      - hbase-regionserver
+
+  alertd:
+    image: cloudwiz/alertd-kerberos:1.1.13
+    container_name: alertd
+    hostname: alertd
+    restart: always
+    extra_hosts:
+      - "zookeeper:172.19.0.4"
+      - "hbase-master:172.19.0.5"
+      - "hbase-regionserver:172.19.0.6"
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.22
+    volumes:
+      - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+      - ${WORK_PATH}/alertd/bin/start.sh:${WORK_PATH}/alertd/bin/start.sh
+      - ${WORK_PATH}/alertd/conf/:${WORK_PATH}/alertd/conf/
+      - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
+      - ${WORK_PATH}/logs/alertd/:${WORK_PATH}/logs/alertd/
+      - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/alertd/:${WORK_PATH}/certs/alertd/
+      - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
+      - ${WORK_PATH}/kerberos:/opt/cwiz/certs/kerberos
+    depends_on:
+      - mysql-server
+      - namenode
+      - opentsdb
+
+volumes:
+  hadoop_namenode: 
+  hadoop_datanode: 
+  elasticsearch:
+  zookeeper:
+  nginx:
+  kafka:
+
+networks:
+  cwiz_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.19.0.0/24"
