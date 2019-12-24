@@ -150,54 +150,54 @@ services:
     container_name: mysql-server
     restart: always
     volumes:
-    - ${WORK_PATH}/opt/cwiz/tools/mysql/sql/:/sql
+    - ${WORK_PATH}/tools/mysql/sql/:/sql
     - ${WORK_PATH}/data/mysql/:/var/lib/mysql
     - ${WORK_PATH}/logs/mysql/:/var/log/mysql
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.7
 
-  # elasticsearch:
-  #   image: elasticsearch:5.4.3
-  #   container_name: elasticsearch
-  #   hostname: elasticsearch
-  #   restart: always
-  #   ulimits:
-  #     memlock:
-  #       soft: -1
-  #       hard: -1
-  #   env_file:
-  #   - ./hadoop.env
-  #   environment:
-  #     SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
-  #     ES_JAVA_OPTS: "-Xms1g -Xmx1g"
-  #     # 需要安装的插件列表,分割多个插件
-  #     ELASTICSEARCH_PLUGINS: https://repo1.maven.org/maven2/com/floragunn/search-guard-5/5.4.3-16/search-guard-5-5.4.3-16.zip
-  #     # SSL_searchguard_ssl_transport_keystore_filepath: 'centos111-keystore.jks'
-  #     # SSL_searchguard_ssl_transport_keystore_password: 'xxx'
-  #     # SSL_searchguard_ssl_transport_truststore_filepath: 'truststore.jks'
-  #     # SSL_searchguard_ssl_transport_truststore_password: 'xxx'
-  #     # SSL_searchguard_ssl_transport_enforce_hostname_verification: 'false'
-  #     # SSL_searchguard_ssl_http_enabled: 'true'
-  #     # SSL_searchguard_ssl_http_keystore_filepath: 'centos111-keystore.jks'
-  #     # SSL_searchguard_ssl_http_keystore_password: 'xxx'
-  #     # SSL_searchguard_ssl_http_truststore_filepath: 'truststore.jks'
-  #     # SSL_searchguard_ssl_http_truststore_password: 'xxx'
-  #     # SSL_searchguard_authcz_admin_dn: 'CN=sgadmin'
-  #   ports:
-  #     - "9300:9300"
-  #   volumes:
-  #     - ${WORK_PATH}/elasticsearch/apps:/apps
-  #     - ${WORK_PATH}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-  #     - ${WORK_PATH}/data/elasticsearch/:/usr/share/elasticsearch/data/
-  #     - ${WORK_PATH}/logs/elasticsearch/:/usr/share/elasticsearch/logs/
-  #     - ${WORK_PATH}/certs/elasticsearch/truststore.jks:/usr/share/elasticsearch/config/truststore.jks
-  #     - ${WORK_PATH}/certs/elasticsearch/server/elasticsearch-keystore.jks:/usr/share/elasticsearch/config/server.jks
-  #     - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:/usr/share/elasticsearch/config/sgadmin.jks
-  #   networks:
-  #     cwiz_network:
-  #       ipv4_address: 172.19.0.8
-  #   entrypoint: /apps/docker-entrypoint-es.sh
+  elasticsearch:
+    image: elasticsearch:5.4.3
+    container_name: elasticsearch
+    hostname: elasticsearch
+    restart: always
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    env_file:
+    - ./hadoop.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 zookeeper:2181 hbase-master:16010"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+      # 需要安装的插件列表,分割多个插件
+      ELASTICSEARCH_PLUGINS: https://repo1.maven.org/maven2/com/floragunn/search-guard-5/5.4.3-16/search-guard-5-5.4.3-16.zip
+      # SSL_searchguard_ssl_transport_keystore_filepath: 'centos111-keystore.jks'
+      # SSL_searchguard_ssl_transport_keystore_password: 'xxx'
+      # SSL_searchguard_ssl_transport_truststore_filepath: 'truststore.jks'
+      # SSL_searchguard_ssl_transport_truststore_password: 'xxx'
+      # SSL_searchguard_ssl_transport_enforce_hostname_verification: 'false'
+      # SSL_searchguard_ssl_http_enabled: 'true'
+      # SSL_searchguard_ssl_http_keystore_filepath: 'centos111-keystore.jks'
+      # SSL_searchguard_ssl_http_keystore_password: 'xxx'
+      # SSL_searchguard_ssl_http_truststore_filepath: 'truststore.jks'
+      # SSL_searchguard_ssl_http_truststore_password: 'xxx'
+      # SSL_searchguard_authcz_admin_dn: 'CN=sgadmin'
+    ports:
+      - "9300:9300"
+    volumes:
+      - ${WORK_PATH}/elasticsearch/apps:/apps
+      - ${WORK_PATH}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ${WORK_PATH}/data/elasticsearch/:/usr/share/elasticsearch/data/
+      - ${WORK_PATH}/logs/elasticsearch/:/usr/share/elasticsearch/logs/
+      - ${WORK_PATH}/certs/elasticsearch/truststore.jks:/usr/share/elasticsearch/config/truststore.jks
+      - ${WORK_PATH}/certs/elasticsearch/server/elasticsearch-keystore.jks:/usr/share/elasticsearch/config/server.jks
+      - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:/usr/share/elasticsearch/config/sgadmin.jks
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.8
+    entrypoint: /apps/docker-entrypoint-es.sh
 
   nginx:
     image: nginx:1.16.1
