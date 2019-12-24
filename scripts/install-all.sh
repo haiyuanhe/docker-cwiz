@@ -471,5 +471,6 @@ sed -i "/^WORK_PATH=/cWORK_PATH=${install_root}" ../.env
 bash $install_root/agent/bin/repackage.sh
 chown -R 101:101 $install_root/nginx/
 bash $install_root/tools/certs/create-ssl-all-x.sh
+bash $install_root/tools/certs/create-mysql-ssl.sh
 touch $install_root/etc/krb5.conf
 exit 0
