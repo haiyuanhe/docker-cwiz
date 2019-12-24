@@ -9,4 +9,30 @@
   <description>A list of the compression codec classes that can be used
   for compression/decompression.</description>
  </property>
+ <!-- kerberos -->
+    <property>
+        <name>hadoop.security.authentication</name>
+        <value>kerberos</value>
+    </property>
+    <property>
+        <name>hadoop.security.authorization</name>
+        <value>true</value>
+    </property>
+    <property>
+    <name>hadoop.security.auth_to_local</name>
+    <value>
+        RULE:[2:$1@$0](hbase@.*)s/.*/root/
+        RULE:[2:$1@$0](hdfs@.*)s/.*/root/
+        DEFAULT
+    </value>
+    </property>
+    <property>
+    <name>hadoop.proxyuser.root.hosts</name>
+    <value>*</value>
+    </property>
+    <property>
+    <name>hadoop.proxyuser.root.groups</name>
+    <value>*</value>
+    </property>
+
 </configuration>
