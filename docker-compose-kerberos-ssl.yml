@@ -371,7 +371,7 @@ services:
       - hbase-regionserver
 
   alertd:
-    image: cloudwiz/alertd-kerberos:1.1.13
+    image: cloudwiz/alertd-kerberos-ssl:1.1.13
     container_name: alertd
     hostname: alertd
     restart: always
