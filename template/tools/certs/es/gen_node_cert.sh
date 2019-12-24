@@ -59,10 +59,11 @@ keytool -certreq \
 #oid:1.2.3.4.5.5 denote this a server node certificate for search guard
 
 echo "Sign certificate request with CA"
+cd $CERT_ROOT
 openssl ca \
-    -in $NODE_NAME.csr \
+    -in $CERT_PATH/$NODE_NAME.csr \
     -notext \
-    -out $NODE_NAME-signed.pem \
+    -out $CERT_PATH/$NODE_NAME-signed.pem \
     -config $WORK_HOME/etc/signing-ca.conf \
     -extensions v3_req \
     -batch \
@@ -71,6 +72,7 @@ openssl ca \
 
 echo "Import back to keystore (including CA chain)"
 
+cd $CERT_PATH
 cat $CERT_ROOT/ca/chain-ca.pem $NODE_NAME-signed.pem | keytool \
     -importcert \
     -keystore $NODE_NAME-keystore.jks \

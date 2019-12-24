@@ -2,7 +2,7 @@
 
 set -x
 
-export keytool=<:install_root:>/jdk/bin/keytool
+export PATH=$PATH:<:install_root:>/encrypt/jdk/bin
 
 . <:install_root:>/tools/crypt/utils.sh
 decrypt_SSLPass
@@ -14,7 +14,7 @@ fi
 
 WORK_HOME=$(cd `dirname $0`; pwd)
 CERT_ROOT=<:install_root:>/certs/elasticsearch
-ES_NODES=( <:es_nodes:> )
+ES_NODES=( elasticsearch )
 
 # clean old certs
 ./clean.sh
@@ -30,8 +30,8 @@ do
   $WORK_HOME/gen_node_cert.sh "$node" "$STOREPASS" "$STOREPASS"
 done
 
-# # generate client certs
-# # ./gen_client_node_cert.sh cwiz "$STOREPASS" "$STOREPASS"
+# generate client certs
+# ./gen_client_node_cert.sh cwiz "$STOREPASS" "$STOREPASS"
 $WORK_HOME/gen_client_node_cert.sh sgadmin "$STOREPASS" "$STOREPASS"
 
 # update config: elasticsearch.yml

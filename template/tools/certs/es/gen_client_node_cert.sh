@@ -46,10 +46,11 @@ keytool -certreq \
         -dname "CN=$CLIENT_NAME, OU=client, O=client, L=Test, C=DE"
 
 echo "Sign certificate request with CA"
+cd $CERT_ROOT
 openssl ca \
-    -in $CLIENT_NAME.csr \
+    -in $CERT_PATH/$CLIENT_NAME.csr \
     -notext \
-    -out $CLIENT_NAME-signed.pem \
+    -out $CERT_PATH/$CLIENT_NAME-signed.pem \
     -config $WORK_HOME/etc/signing-ca.conf \
     -extensions v3_req \
     -batch \
@@ -58,6 +59,7 @@ openssl ca \
 
 echo "Import back to keystore (including CA chain)"
 
+cd $CERT_PATH
 cat $CERT_ROOT/ca/chain-ca.pem $CLIENT_NAME-signed.pem | keytool \
     -importcert \
     -keystore $CLIENT_NAME-keystore.jks \

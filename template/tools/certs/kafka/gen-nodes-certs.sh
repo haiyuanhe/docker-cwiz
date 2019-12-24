@@ -8,7 +8,7 @@ else
     STOREPASS=$1
 fi
 
-export keytool=<:install_root:>/jdk/bin/keytool
+export keytool=<:install_root:>/encrypt/jdk/bin/keytool
 
 mkdir -p <:install_root:>/certs/kafka
 ROOT_CERT_PATH=<:install_root:>/certs/kafka
@@ -69,10 +69,10 @@ function updateConfig() {
     echo "[Configuring] '$key' in '$file'"
 
     # If config exists in file, replace it. Otherwise, append to file.
-    if grep -E -q "^#?$key:" "$file"; then
-        sed -r -i "s@^#?$key:.*@$key=$value@g" "$file" #note that no config values may contain an '@' char
+    if grep -E -q "^#?$key=" "$file"; then
+        sed -r -i "s@^#?$key=.*@$key=$value@g" "$file" #note that no config values may contain an '@' char
     else
-        echo "$key: $value" >> "$file"
+        echo "$key=$value" >> "$file"
     fi
 }
 CONFIG=<:install_root:>/kafka/config/server.properties
