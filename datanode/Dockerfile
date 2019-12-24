@@ -1,4 +1,4 @@
-FROM cloudwiz/hadoop-base-kerberos:2.7.7
+FROM cloudwiz/hadoop-base-kerberos:1.0.0
 MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 
 ARG INSTALL_ROOT

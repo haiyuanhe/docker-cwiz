@@ -53,6 +53,7 @@ build:
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/log-analysis:${LOG_ANALYSIS} ./log-analysis
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/chartservice:${CHARTSERVICE} ./chartservice
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/log-pp:${LOG_PP} ./log-pp
-	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/alertd:${CWIZ_DAEMON} ./alertd
+	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/alertd-kerberos-ssl:${CWIZ_DAEMON} ./alertd
+	# docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/alertd:${CWIZ_DAEMON} ./alertd
 	#docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/umanager:${UMANGER} ./umanager
 	docker build -t cloudwiz/mysql:${MYSQL} ./mysql

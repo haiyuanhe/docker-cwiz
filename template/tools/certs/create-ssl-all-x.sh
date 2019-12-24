@@ -75,3 +75,7 @@ echo y | $keytool_path -import -alias clientTrust -keystore clientTrust.jks -sto
 echo y | $keytool_path -import -alias serverTrust -keystore serverTrust.jks -storepass $store_pass -file client.crt
 cd ../
 done
+
+# es kafka ssl
+$(dirname $0)/es/gen-nodes-certs.sh
+$(dirname $0)/kafka/gen-nodes-certs.sh

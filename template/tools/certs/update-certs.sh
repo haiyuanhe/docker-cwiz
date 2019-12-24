@@ -71,11 +71,9 @@ if [ "$ans" = "y" ]; then
     sed -i "s%${ssl_old_password}%${encrypt_ssl_pass}%g" <:install_root:>/permission/config/application.yml
     sed -i "s%${ssl_old_password}%${encrypt_ssl_pass}%g" <:install_root:>/tools/crypt/utils.sh
 
-
+    # es kafka ssl
+    $(dirname $0)/es/gen-nodes-certs.sh
+    $(dirname $0)/kafka/gen-nodes-certs.sh
 else
     exit 0
 fi
-
-
-
-

@@ -2,10 +2,13 @@
 
 KERBEROS_REALM=${KERBEROS_REALM:-'CWIZ.COM'}
 KERBEROS_HABSE_CLIENT_PRIMARY=${KERBEROS_HABSE_CLIENT_PRIMARY:-'hbase'}
+KERBEROS_ZOOKEEPER_CLIENT_PRIMARY=${KERBEROS_HABSE_CLIENT_PRIMARY:-'root'}
 HBASE_ZK_QUORUM=${HBASE_ZK_QUORUM}
 
+OPENTSDB_HOME="$INSTALL_ROOT/opentsdb"
+
 # Enable sasl
-echo "" >> "$INSTALL_ROOT/conf/opentsdb.conf"
+echo "" >> "$OPENTSDB_HOME/conf/opentsdb.conf"
 
 (
     function updateConfig() {
@@ -25,17 +28,34 @@ echo "" >> "$INSTALL_ROOT/conf/opentsdb.conf"
     }
 
     if [[ ! -z "$HBASE_ZK_QUORUM" ]]; then
-        updateConfig "tsd.storage.hbase.zk_quorum" "${HBASE_ZK_QUORUM}" "$INSTALL_ROOT/conf/opentsdb.conf"
+        updateConfig "tsd.storage.hbase.zk_quorum" "${HBASE_ZK_QUORUM}" "$OPENTSDB_HOME/conf/opentsdb.conf"
     fi
-    updateConfig "hbase.security.auth.enable" "true" "$INSTALL_ROOT/conf/opentsdb.conf"
-    updateConfig "hbase.security.authentication" "kerberos" "$INSTALL_ROOT/conf/opentsdb.conf"
-    updateConfig "hbase.kerberos.regionserver.principal" "${KERBEROS_HABSE_CLIENT_PRIMARY}/_HOST@${KERBEROS_REALM}" "$INSTALL_ROOT/conf/opentsdb.conf"
-    updateConfig "hbase.sasl.clientconfig" "HBaseClient" "$INSTALL_ROOT/conf/opentsdb.conf"
-    sed -i '/^export JVMFLAGS="-Djava.security.auth.login.config=.*\/jaas.conf/d' $INSTALL_ROOT/bin/start.sh
-    sed -i 's/enablesystemassertions $JVMFLAGS/enablesystemassertions/' $INSTALL_ROOT/bin/start.sh
-    sed -i '/^OPENTSDB_HOME=/a\export JVMFLAGS="-Djava.security.auth.login.config=$OPENTSDB_HOME/conf/jaas.conf"' $INSTALL_ROOT/bin/start.sh
-    sed -i 's/enablesystemassertions/& $JVMFLAGS/' $INSTALL_ROOT/bin/start.sh
+    updateConfig "hbase.security.auth.enable" "true" "$OPENTSDB_HOME/conf/opentsdb.conf"
+    updateConfig "hbase.security.authentication" "kerberos" "$OPENTSDB_HOME/conf/opentsdb.conf"
+    updateConfig "hbase.kerberos.regionserver.principal" "${KERBEROS_HABSE_CLIENT_PRIMARY}/_HOST@${KERBEROS_REALM}" "$OPENTSDB_HOME/conf/opentsdb.conf"
+    updateConfig "hbase.sasl.clientconfig" "HBaseClient" "$OPENTSDB_HOME/conf/opentsdb.conf"
+    sed -i '/^export JVMFLAGS="-Djava.security.auth.login.config=.*\/jaas.conf/d' $OPENTSDB_HOME/bin/start.sh
+    sed -i 's/enablesystemassertions $JVMFLAGS/enablesystemassertions/' $OPENTSDB_HOME/bin/start.sh
+    sed -i '/^OPENTSDB_HOME=/a\export JVMFLAGS="-Djava.security.auth.login.config=$OPENTSDB_HOME/conf/jaas.conf"' $OPENTSDB_HOME/bin/start.sh
+    sed -i 's/enablesystemassertions/& $JVMFLAGS/' $OPENTSDB_HOME/bin/start.sh
 }
+
+cat > "$OPENTSDB_HOME/conf/jaas.conf" << EOF
+HBaseClient {
+    com.sun.security.auth.module.Krb5LoginModule required
+    useKeyTab=true
+    storeKey=true
+    keyTab="/kerberos/hbase.keytab"
+    principal="${KERBEROS_HABSE_CLIENT_PRIMARY}/`hostname -f`@${KERBEROS_REALM}";
+};
+Client {
+    com.sun.security.auth.module.Krb5LoginModule required
+    useKeyTab=true
+    storeKey=true
+    keyTab="/kerberos/centos.keytab"
+    principal="${KERBEROS_ZOOKEEPER_CLIENT_PRIMARY}/`hostname -f`@${KERBEROS_REALM}";
+};
+EOF
 
 # make sure HMaster is ready
 echo "Waiting for HMaster to get ready"
