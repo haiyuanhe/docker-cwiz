@@ -201,7 +201,7 @@ services:
     depends_on:
     - mysql-server
     logging:
-      driver: local
+      driver: none
       options:
         max-size: 50m
 
@@ -345,7 +345,7 @@ services:
     depends_on:
     - mysql-server
     logging:
-      driver: local
+      driver: none
       options:
         max-size: 50m
 
