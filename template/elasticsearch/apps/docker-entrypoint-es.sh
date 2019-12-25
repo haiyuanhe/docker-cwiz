@@ -1,5 +1,9 @@
 #!/bin/bash
 
+TS_PASS=${TS_PASS:-'Cwiz_p0c'}
+KS_PASS=${KS_PASS:-'Cwiz_p0c'}
+CLUSTER_NAME=${CLUSTER_NAME:-'cloudwiz'}
+
 install_plugins() {
     read -r -a plugins_list <<< "$(tr ',;' ' ' <<< "$ELASTICSEARCH_PLUGINS")"
     echo "Installing plugins: ${plugins_list[*]}"
@@ -59,4 +63,11 @@ if [[ ! -z "$ELASTICSEARCH_PLUGINS" ]]; then
     install_plugins
 fi
 
-exec /docker-entrypoint.sh elasticsearch
+# exec /docker-entrypoint.sh elasticsearch
+/docker-entrypoint.sh elasticsearch &
+
+# init ssl
+cd /usr/share/elasticsearch/plugins/search-guard-5/tools
+sh ./sgadmin.sh -ts ../../../config/truststore.jks -tspass $TS_PASS \
+   -ks ../../../config/sgadmin.jks -kspass $KS_PASS -cn $CLUSTER_NAME \
+   -nhnv -cd ../sgconfig/ -h `hostname -f`

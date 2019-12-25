@@ -4,6 +4,7 @@ PKG_URL=161.189.24.242:8989/new_pkgs
 INSTALL_ROOT=/opt/cwiz
 
 OPENJDK=1.0.0
+ZOOKEEPER=3.4.10
 HADOOP_BASE=1.0.0
 HBASE_BASE=1.0.0
 HADOOP=2.7.7
@@ -34,6 +35,7 @@ build:
 	# docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-datanode:${HADOOP} ./datanode
 	# docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-master:${HBASE} ./hmaster
 	# docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-regionserver:${HBASE} ./hregionserver
+	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/zookeeper-kerberos:${ZOOKEEPER} ./zookeeper
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-base-kerberos:${HADOOP_BASE} ./hadoop-base
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-base-kerberos:${HBASE_BASE} ./hbase-base
 	docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-namenode-kerberos:${HADOOP} ./namenode

@@ -55,3 +55,7 @@ updateConfig "searchguard.ssl.transport.keystore_password" "$STOREPASS" "$CONFIG
 updateConfig "searchguard.ssl.transport.truststore_password" "$STOREPASS" "$CONFIG"
 updateConfig "searchguard.ssl.http.keystore_password" "$STOREPASS" "$CONFIG"
 updateConfig "searchguard.ssl.http.truststore_password" "$STOREPASS" "$CONFIG"
+
+ENTRYPOINT_SCRIPT=<:install_root:>/elasticsearch/apps/docker-entrypoint-es.sh
+sed -r -i "s@^#?TS_PASS=.*@TS_PASS=\'$STOREPASS\'@g" "$ENTRYPOINT_SCRIPT"
+sed -r -i "s@^#?KS_PASS=.*@KS_PASS=\'$STOREPASS\'@g" "$ENTRYPOINT_SCRIPT"
