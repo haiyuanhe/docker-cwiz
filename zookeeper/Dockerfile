@@ -35,6 +35,7 @@ RUN set -eux; \
 # Verify that gosu binary works
     gosu nobody true
 
+ARG PKG_URL
 ARG GPG_KEY=C823E3E5B12AF29C67F81976F5CECB3CB5E9BD2D
 ARG DISTRO_NAME=zookeeper-3.4.10
 
@@ -46,6 +47,7 @@ RUN set -eux; \
         local success=; \
         local distUrl=; \
         for distUrl in \
+            "${PKG_URL:-http://download.cloudwiz.cn/package}/" \
             'https://www.apache.org/dyn/closer.cgi?action=download&filename=' \
             https://www-us.apache.org/dist/ \
             https://www.apache.org/dist/ \
