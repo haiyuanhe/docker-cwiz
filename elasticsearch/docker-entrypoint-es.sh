@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TS_PASS=${TS_PASS:-'Cwiz_p0c'}
-KS_PASS=${KS_PASS:-'Cwiz_p0c'}
+TS_PASS=${TS_PASS:-'Cwiz_123'}
+KS_PASS=${KS_PASS:-'Cwiz_123'}
 CLUSTER_NAME=${CLUSTER_NAME:-'cloudwiz'}
 
 install_plugins() {
@@ -63,11 +63,30 @@ if [[ ! -z "$ELASTICSEARCH_PLUGINS" ]]; then
     install_plugins
 fi
 
-#exec /docker-entrypoint.sh elasticsearch
+# exec /docker-entrypoint.sh elasticsearch
 /docker-entrypoint.sh elasticsearch &
 
+# get start ready
+echo "Waiting for Elasticsearch to get ready..."
+while [ 1 ]
+do
+    _es_url="http://192.168.21.62:9200/_cluster/health"
+    curl -s "$_es_url" | grep "green"
+
+    if [ $? -eq 0 ]; then
+        echo "Elasticsearch is ready"
+        sleep 2
+        break
+    else
+        echo "Elasticsearch is not ready"
+        sleep 10
+    fi
+done
+
 # init ssl
+sleep 20
 cd /usr/share/elasticsearch/plugins/search-guard-5/tools
-sh ./sgadmin.sh -ts ../../../config/truststore.jks -tspass $TS_PASS \
+chmod a+x sgadmin.sh
+./sgadmin.sh -ts ../../../config/truststore.jks -tspass $TS_PASS \
    -ks ../../../config/sgadmin.jks -kspass $KS_PASS -cn $CLUSTER_NAME \
    -nhnv -cd ../sgconfig/ -h `hostname -f`

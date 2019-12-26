@@ -36,26 +36,26 @@ $keytool -keystore $CERT_PATH/server.jks -alias $HOSTNAME -validity 3650 -genkey
 echo "y" | $keytool -keystore $CERT_PATH/serverTrust.jks -alias CARoot -import -file $ROOT_CERT_PATH/ca-cert -storepass $STOREPASS
 echo "y" | $keytool -keystore $CERT_PATH/clientTrust.jks -alias CARoot -import -file $ROOT_CERT_PATH/ca-cert -storepass $STOREPASS
 # 导出服务端证书
-$keytool -keystore $CERT_PATH/server.jks -alias $HOSTNAME -certreq -file $CERT_PATH/server/server.cert-file -storepass $STOREPASS
+$keytool -keystore $CERT_PATH/server.jks -alias $HOSTNAME -certreq -file $CERT_PATH/server.cert-file -storepass $STOREPASS
 # 使用CA证书签名
-openssl x509 -req -CA $ROOT_CERT_PATH/ca-cert -CAkey $ROOT_CERT_PATH/ca-key -in $CERT_PATH/server/server.cert-file -out $CERT_PATH/server/server.cert-signed -days 3650 -CAcreateserial -passin pass:$STOREPASS
+openssl x509 -req -CA $ROOT_CERT_PATH/ca-cert -CAkey $ROOT_CERT_PATH/ca-key -in $CERT_PATH/server.cert-file -out $CERT_PATH/server.cert-signed -days 3650 -CAcreateserial -passin pass:$STOREPASS
 # 将根CA证书导入到服务端keystore
 echo "y" | $keytool -keystore $CERT_PATH/server.jks -alias CARoot -import -file $ROOT_CERT_PATH/ca-cert -storepass $STOREPASS
 # 将服务端CA证书导入到keystore
-echo "y" | $keytool -keystore $CERT_PATH/server.jks -alias $HOSTNAME -import -file $CERT_PATH/server/server.cert-signed -storepass $STOREPASS
+echo "y" | $keytool -keystore $CERT_PATH/server.jks -alias $HOSTNAME -import -file $CERT_PATH/server.cert-signed -storepass $STOREPASS
 
 # 3.Client
 # 生成客户端 keystore
 $keytool -keystore $CERT_PATH/client.jks -alias $HOSTNAME -validity 3650 -genkey -keypass $STOREPASS -keyalg RSA -dname "CN=$HOSTNAME,OU=Cloudwiz,O=Cloudwiz,L=Beijing,S=Beijing,C=CN" -storepass $STOREPASS -ext SAN=DNS:$HOSTNAME
 # 导出客户端证书
-$keytool -keystore $CERT_PATH/client.jks -alias $HOSTNAME -certreq -file $CERT_PATH/client/client.cert-file -storepass $STOREPASS
+$keytool -keystore $CERT_PATH/client.jks -alias $HOSTNAME -certreq -file $CERT_PATH/client.cert-file -storepass $STOREPASS
 # 使用CA证书签名
-openssl x509 -req -CA $ROOT_CERT_PATH/ca-cert -CAkey $ROOT_CERT_PATH/ca-key -in $CERT_PATH/client/client.cert-file -out $CERT_PATH/client/client.cert-signed -days 3650 -CAcreateserial -passin pass:$STOREPASS
+openssl x509 -req -CA $ROOT_CERT_PATH/ca-cert -CAkey $ROOT_CERT_PATH/ca-key -in $CERT_PATH/client.cert-file -out $CERT_PATH/client.cert-signed -days 3650 -CAcreateserial -passin pass:$STOREPASS
 # 将根CA证书导入到客户端keystore
 echo "y" | $keytool -keystore $CERT_PATH/client.jks -alias CARoot -import -file $ROOT_CERT_PATH/ca-cert -storepass $STOREPASS
 # 将已签名证书导入到客户端keystore
-echo "y" | $keytool -keystore $CERT_PATH/client.jks -alias $HOSTNAME -import -file $CERT_PATH/client/client.cert-signed -storepass $STOREPASS
-#echo "y" | $keytool -keystore $CERT_PATH/client.jks -alias $HOSTNAME -import -file $CERT_PATH/server/server.cert-signed -storepass $STOREPASS
+echo "y" | $keytool -keystore $CERT_PATH/client.jks -alias $HOSTNAME -import -file $CERT_PATH/client.cert-signed -storepass $STOREPASS
+#echo "y" | $keytool -keystore $CERT_PATH/client.jks -alias $HOSTNAME -import -file $CERT_PATH/server.cert-signed -storepass $STOREPASS
 
 done
 
