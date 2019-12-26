@@ -24,6 +24,7 @@ LOG_PP=1.0.1
 CWIZ_DAEMON=1.1.13
 UMANGER=1.0.0
 MYSQL=5.7.28
+KERBEROS=1.0.0
 
 build:
 	cp -f ./base/wait-for-it.sh ./webfront
@@ -35,6 +36,7 @@ build:
 	# docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-datanode:${HADOOP} ./datanode
 	# docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-master:${HBASE} ./hmaster
 	# docker build --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-regionserver:${HBASE} ./hregionserver
+	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/kerberos:${KERBEROS} ./kerberos
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/zookeeper-kerberos:${ZOOKEEPER} ./zookeeper
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hadoop-base-kerberos:${HADOOP_BASE} ./hadoop-base
 	docker build --build-arg PKG_URL=${PKG_URL} --build-arg INSTALL_ROOT=${INSTALL_ROOT} -t cloudwiz/hbase-base-kerberos:${HBASE_BASE} ./hbase-base
