@@ -66,25 +66,8 @@ fi
 # exec /docker-entrypoint.sh elasticsearch
 /docker-entrypoint.sh elasticsearch &
 
-# get start ready
-echo "Waiting for Elasticsearch to get ready..."
-while [ 1 ]
-do
-    _es_url="http://192.168.21.62:9200/_cluster/health"
-    curl -s "$_es_url" | grep "green"
-
-    if [ $? -eq 0 ]; then
-        echo "Elasticsearch is ready"
-        sleep 2
-        break
-    else
-        echo "Elasticsearch is not ready"
-        sleep 10
-    fi
-done
-
 # init ssl
-sleep 20
+sleep 30
 cd /usr/share/elasticsearch/plugins/search-guard-5/tools
 chmod a+x sgadmin.sh
 ./sgadmin.sh -ts ../../../config/truststore.jks -tspass $TS_PASS \
