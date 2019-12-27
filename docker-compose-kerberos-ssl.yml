@@ -250,34 +250,6 @@ services:
     depends_on:
       - mysql-server
 
-  # kafka:
-  #   image: cloudwiz/kafka-kerberos:2.11-1.0.2
-  #   container_name: kafka
-  #   hostname: kafka
-  #   restart: always
-  #   env_file:
-  #     - ./hadoop.env
-  #   ports:
-  #     - 9092:9092
-  #   extra_hosts:
-  #     - "zookeeper:172.19.0.4"
-  #   networks:
-  #     cwiz_network:
-  #       ipv4_address: 172.19.0.10
-  #   environment:
-  #     KAFKA_LISTENERS: SASL_PLAINTEXT://kafka:9092
-  #     KAFKA_ADVERTISED_HOST_NAME: kafka
-  #     KAFKA_ADVERTISED_LISTENERS: SASL_PLAINTEXT://kafka:9092
-  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #     KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M" 
-  #   volumes:
-  #     - ${WORK_PATH}/data/kafka/:/kafka/kafka-logs-kafka/
-  #     - ${WORK_PATH}/logs/kafka/:/opt/kafka_2.11-1.0.2/logs
-  #     - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
-  #     - ${WORK_PATH}/kerberos:/kerberos
-  #   depends_on:
-  #     - zookeeper
-
   kafka:
     image: cloudwiz/kafka-kerberos:2.11-1.0.2
     container_name: kafka
