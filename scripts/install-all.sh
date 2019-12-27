@@ -469,4 +469,5 @@ echo "repackage agent..."
 bash $install_root/agent/bin/repackage.sh &> /dev/null
 chown -R 101:101 $install_root/nginx/
 bash $install_root/tools/certs/create-ssl-all-x.sh
+echo "Config init successfully..."
 exit 0
