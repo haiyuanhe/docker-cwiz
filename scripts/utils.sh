@@ -775,6 +775,7 @@ function encrypt_SSLPass()
     local crypt_jar="${install_root}/encrypt/${local_encrypt_jar}"
     local java_class="com.cloudwiz.crypt.AesCrypt"
 
+    export kafka_ssl_password=${ssl_password}
     encrypt_pass=$(${java_path} -cp ${crypt_jar} ${java_class} ${secret_key} encrypt ${ssl_password})
     export ssl_password=${encrypt_pass}
 }

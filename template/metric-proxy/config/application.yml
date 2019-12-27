@@ -59,7 +59,7 @@ opentsdb:
 
 
 kafka:
-  socket: <:nginx_ip:>:9094
+  socket: <:nginx_ip:>:9092
   partition: 4
   producerRetries: 3
   pollMaxRecord: 500

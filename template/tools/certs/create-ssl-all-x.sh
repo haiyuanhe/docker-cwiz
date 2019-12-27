@@ -55,7 +55,8 @@ openssl pkcs12 -export -in server.crt -inkey server.key -out server.p12 -passout
 openssl pkcs8 -in server.key -topk8 -nocrypt -out server.p8
 #生成服务器端keystore(server.jks)。使用keytool的importkeystore指令。pkcs12转jks。需要pkcs12密码和jks密码。
 $keytool_path -importkeystore -srckeystore server.p12 -srcstoretype pkcs12 -srcstorepass $store_pass -destkeystore server.jks -deststoretype pkcs12 -deststorepass $store_pass
-
+#将CA证书导入server证书中
+echo y | $keytool_path -keystore server.jks -alias CARoot -import -file ca.crt -storepass $store_pass
 
 #生成客户端证书
 openssl genrsa -out client.key 2048
@@ -67,12 +68,17 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAserial serial -days
 openssl pkcs12 -export -in client.crt -inkey client.key -out client.p12 -passout pass:$store_pass
 #生成客户端keystore(client.jks)。使用keytool的importkeystore指令。pkcs12转jks。需要pkcs12密码和jks密码。
 $keytool_path -importkeystore -srckeystore client.p12 -srcstoretype pkcs12 -srcstorepass $store_pass -destkeystore client.jks -deststoretype pkcs12 -deststorepass $store_pass
-
+#将CA证书导入client证书中
+echo y | $keytool_path -keystore client.jks -alias CARoot -import -file ca.crt -storepass $store_pass
 
 #将服务端证书导入到客户端trustkeystore
 echo y | $keytool_path -import -alias clientTrust -keystore clientTrust.jks -storepass $store_pass -file server.crt
 #将客户端证书导入服务端trustkeystore
 echo y | $keytool_path -import -alias serverTrust -keystore serverTrust.jks -storepass $store_pass -file client.crt
+
+# 生成CA信任证书
+echo y | $keytool_path -keystore truststore.jks -alias CARoot -import -file ca.crt -storepass $store_pass
+
 cd ../
 done
 

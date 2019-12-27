@@ -338,6 +338,7 @@ services:
       - ${WORK_PATH}/metric-proxy/config/log4j.properties:${WORK_PATH}/metric-proxy/config/log4j.properties
       - ${WORK_PATH}/logs/metric-proxy/:${WORK_PATH}/logs/metric-proxy/
       - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
       - ${WORK_PATH}/certs/metric-proxy/:${WORK_PATH}/certs/metric-proxy/
       - ${WORK_PATH}/certs/kafka/kafka/client.jks:${WORK_PATH}/certs/kafka/client.jks
       - ${WORK_PATH}/certs/kafka/kafka/clientTrust.jks:${WORK_PATH}/certs/kafka/truststore.jks
@@ -364,6 +365,7 @@ services:
       - ${WORK_PATH}/opentsdb/conf/opentsdb.conf:${WORK_PATH}/opentsdb/conf/opentsdb.conf
       - ${WORK_PATH}/opentsdb/conf/logback.xml:${WORK_PATH}/opentsdb/conf/logback.xml
       - ${WORK_PATH}/startup:${WORK_PATH}/startup
+      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
       - ${WORK_PATH}/logs/opentsdb/:${WORK_PATH}/logs/opentsdb/
       - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
       - ${WORK_PATH}/kerberos:/kerberos
@@ -386,6 +388,7 @@ services:
       - ${WORK_PATH}/log-processor/config/:${WORK_PATH}/log-processor/config/
       - ${WORK_PATH}/logs/log-processor/:${WORK_PATH}/logs/log-processor/
       - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
       - ${WORK_PATH}/certs/log-processor/:${WORK_PATH}/certs/log-processor/
       - ${WORK_PATH}/certs/elasticsearch/truststore.jks:${WORK_PATH}/certs/elasticsearch/truststore.jks
       - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:${WORK_PATH}/certs/elasticsearch/sgadmin.jks
@@ -407,6 +410,7 @@ services:
       - ${WORK_PATH}/log-analysis/config/log4j.properties:${WORK_PATH}/log-analysis/config/log4j.properties
       - ${WORK_PATH}/logs/log-analysis/:${WORK_PATH}/logs/log-analysis/
       - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
       - ${WORK_PATH}/certs/log-analysis/:${WORK_PATH}/certs/log-analysis/
       - ${WORK_PATH}/certs/elasticsearch/truststore.jks:${WORK_PATH}/certs/elasticsearch/truststore.jks
       - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:${WORK_PATH}/certs/elasticsearch/sgadmin.jks
@@ -432,6 +436,7 @@ services:
       - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
       - ${WORK_PATH}/logs/alertd/:${WORK_PATH}/logs/alertd/
       - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
       - ${WORK_PATH}/certs/alertd/:${WORK_PATH}/certs/alertd/
       - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
       - ${WORK_PATH}/kerberos:/opt/cwiz/certs/kerberos

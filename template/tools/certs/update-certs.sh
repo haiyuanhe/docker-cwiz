@@ -70,10 +70,11 @@ if [ "$ans" = "y" ]; then
     sed -i "s%${ssl_old_password}%${encrypt_ssl_pass}%g" <:install_root:>/metric-proxy/config/application.yml
     sed -i "s%${ssl_old_password}%${encrypt_ssl_pass}%g" <:install_root:>/permission/config/application.yml
     sed -i "s%${ssl_old_password}%${encrypt_ssl_pass}%g" <:install_root:>/tools/crypt/utils.sh
+    sed -i "s%${kafka_ssl_password}%${ssl_pass}%g" <:install_root:>/kafka/conf/server.properties
 
     # es kafka ssl
     $(dirname $0)/es/gen-nodes-certs.sh
-    $(dirname $0)/kafka/gen-nodes-certs.sh
+    #$(dirname $0)/kafka/gen-nodes-certs.sh
 else
     exit 0
 fi
