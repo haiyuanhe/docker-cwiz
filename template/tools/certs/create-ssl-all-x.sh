@@ -78,4 +78,4 @@ done
 
 # es kafka ssl
 $(dirname $0)/es/gen-nodes-certs.sh
-$(dirname $0)/kafka/gen-nodes-certs.sh
+$(dirname $0)/kafka/update-cert-conf.sh
