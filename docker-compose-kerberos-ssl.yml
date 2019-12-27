@@ -188,7 +188,7 @@ services:
       - "9200:9200"
     volumes:
       - ${WORK_PATH_TEMP}/elasticsearch/apps:/apps
-      - ${WORK_PATH_TEMP}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ${WORK_PATH_TEMP}/elasticsearch/config/elasticsearch.yml:/config/elasticsearch.yml
       - ${WORK_PATH_TEMP}/data/elasticsearch/:/usr/share/elasticsearch/data/
       - ${WORK_PATH_TEMP}/logs/elasticsearch/:/usr/share/elasticsearch/logs/
       - ${WORK_PATH_TEMP}/certs/elasticsearch/truststore.jks:/usr/share/elasticsearch/config/truststore.jks

@@ -102,6 +102,9 @@ if [[ -z "$KAFKA_ADVERTISED_HOST_NAME$KAFKA_LISTENERS" ]]; then
 fi
 
 #Issue newline to config file in case there is not one already
+if [[ -f /config/server.properties ]]; then
+    cp -pr "/config/server.properties" "$KAFKA_HOME/config/server.properties"
+fi
 echo "" >> "$KAFKA_HOME/config/server.properties"
 
 (

@@ -19,9 +19,13 @@ install_plugins() {
     done
 }
 
+# If use extra-config-file do this.
 CONFIG="/usr/share/elasticsearch/config/elasticsearch.yml"
+if [[ -f /config/elasticsearch.yml ]]; then
+    cp -pr "/config/elasticsearch.yml" "$CONFIG"
+fi
+echo "" >> "$CONFIG"
 
-#Issue newline to config file in case there is not one already
 (
     function updateConfig() {
         key=$1
