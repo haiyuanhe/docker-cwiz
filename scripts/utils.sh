@@ -815,5 +815,6 @@ function install_es_plugin()
     tar -xf ${local_pkg_dir}/${local_es_plugin} -C ${install_root}/elasticsearch/plugins/
 
     log_info "Unpacking ${_DATA}/elasticsearch.tar.gz"
+    mkdir -p ${install_root}/data/
     tar -xf ${_DATA}/elasticsearch.tar.gz -C ${install_root}/data/
 }
