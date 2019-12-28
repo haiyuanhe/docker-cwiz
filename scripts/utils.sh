@@ -806,3 +806,10 @@ function check_nginx_ssl()
         use_nginx_ssl_conf
     fi
 }
+
+function install_es_plugin()
+{
+    log_info "Unpacking ${local_pkg_dir}/${local_es_plugin}... "
+    mkdir -p ${install_root}/elasticsearch/plugins/
+    tar -xf ${local_pkg_dir}/${local_es_plugin} -C ${install_root}/elasticsearch/plugins/
+}

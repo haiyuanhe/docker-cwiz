@@ -455,6 +455,7 @@ do
 
 done
 
+install_es_plugin
 sed -i 's/daemon off;/#daemon off;/' $install_root/nginx/conf/nginx.conf
 sed -i '/^current_node_name =/ccurrent_node_name = alertd' $install_root/alertd/conf/cloudmon.alerting.conf
 sed -i '/^http_server_host =/chttp_server_host = alertd' $install_root/alertd/conf/cloudmon.alerting.conf

@@ -144,6 +144,7 @@ services:
       ES_JAVA_OPTS: "-Xms1g -Xmx1g"
     volumes:
     - ${WORK_PATH}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    - ${WORK_PATH}/elasticsearch/plugins/ik:/usr/share/elasticsearch/plugins/ik/
     - ${WORK_PATH}/data/elasticsearch/:/usr/share/elasticsearch/data/
     - ${WORK_PATH}/logs/elasticsearch/:/usr/share/elasticsearch/logs
     networks:
