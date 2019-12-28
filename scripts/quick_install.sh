@@ -19,9 +19,18 @@ case $input in
 esac
 read -p "Please input the CloudOps local url: " huawei_url
 read -p "Please input the CloudOps virtual url: " huawei_vurl
-read -p "Please input the CloudOps access key [468f917903df145ee2e9]: " ak
-read -p "Please input the CloudOps secret key [1297d4cbc503fbf25d36335b2e4e3993]: " sk
-
+read -p "Please input the CloudOps access key [468f917903df145ee2e9]: " akinput
+if [ ! -n "$akinput" ]; then
+    ak=468f917903df145ee2e9
+else
+    ak=$akinput
+fi
+read -p "Please input the CloudOps secret key [1297d4cbc503fbf25d36335b2e4e3993]: " skinput
+if [ ! -n "$skinput" ]; then
+    sk=1297d4cbc503fbf25d36335b2e4e3993
+else
+    sk=$skinput
+fi
 
 echo "local ip:             ${local_ip}"
 echo "external IP (EIP):    ${eip}"
