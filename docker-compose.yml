@@ -8,6 +8,7 @@ services:
     restart: always
     volumes:
     - ${WORK_PATH}/data/hadoop/dfs/name:/hadoop/dfs/name
+    - ${WORK_PATH}/data/hadoop/dfs/name_temp:/hadoop/dfs/name_temp
     - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hadoop-2.7.7/logs
     environment:
     - CLUSTER_NAME=prod
@@ -494,14 +495,6 @@ services:
 #    - ${WORK_PATH}/logs/umanager/:${WORK_PATH}/logs/umanager/
 #    depends_on:
 #    - mysql-server
-
-volumes:
-  hadoop_namenode: 
-  hadoop_datanode: 
-  elasticsearch:
-  zookeeper:
-  nginx:
-  kafka:
 
 networks:
   cwiz_network:
