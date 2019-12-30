@@ -819,5 +819,5 @@ function install_es_plugin()
     tar -xf ${_DATA}/elasticsearch.tar.gz -C ${install_root}/data/
 
     log_info "chmod elasticsearch.yml"
-    chmod 666 ${install_root}/elasticsearch/elasticsearch.yml
+    chmod 666 ${install_root}/elasticsearch/config/elasticsearch.yml
 }
