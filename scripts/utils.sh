@@ -817,4 +817,7 @@ function install_es_plugin()
     log_info "Unpacking ${_DATA}/elasticsearch.tar.gz"
     mkdir -p ${install_root}/data/
     tar -xf ${_DATA}/elasticsearch.tar.gz -C ${install_root}/data/
+
+    log_info "chmod elasticsearch.yml"
+    chmod 666 ${install_root}/elasticsearch/elasticsearch.yml
 }
