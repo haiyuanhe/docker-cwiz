@@ -185,15 +185,15 @@ services:
       # SSL_searchguard_ssl_http_truststore_password: 'xxx'
       # SSL_searchguard_authcz_admin_dn: 'CN=sgadmin'
     ports:
-      - "9300:9300"
+      - "9200:9200"
     volumes:
-      - ${WORK_PATH}/elasticsearch/apps:/apps
-      - ${WORK_PATH}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ${WORK_PATH}/data/elasticsearch/:/usr/share/elasticsearch/data/
-      - ${WORK_PATH}/logs/elasticsearch/:/usr/share/elasticsearch/logs/
-      - ${WORK_PATH}/certs/elasticsearch/truststore.jks:/usr/share/elasticsearch/config/truststore.jks
-      - ${WORK_PATH}/certs/elasticsearch/server/elasticsearch-keystore.jks:/usr/share/elasticsearch/config/server.jks
-      - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:/usr/share/elasticsearch/config/sgadmin.jks
+      - ${WORK_PATH_TEMP}/elasticsearch/apps:/apps
+      - ${WORK_PATH_TEMP}/elasticsearch/config/elasticsearch.yml:/config/elasticsearch.yml
+      - ${WORK_PATH_TEMP}/data/elasticsearch/:/usr/share/elasticsearch/data/
+      - ${WORK_PATH_TEMP}/logs/elasticsearch/:/usr/share/elasticsearch/logs/
+      - ${WORK_PATH_TEMP}/certs/elasticsearch/truststore.jks:/usr/share/elasticsearch/config/truststore.jks
+      - ${WORK_PATH_TEMP}/certs/elasticsearch/server/elasticsearch-keystore.jks:/usr/share/elasticsearch/config/server.jks
+      - ${WORK_PATH_TEMP}/certs/elasticsearch/client/sgadmin-keystore.jks:/usr/share/elasticsearch/config/sgadmin.jks
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.8
@@ -250,34 +250,6 @@ services:
     depends_on:
       - mysql-server
 
-  # kafka:
-  #   image: cloudwiz/kafka-kerberos:2.11-1.0.2
-  #   container_name: kafka
-  #   hostname: kafka
-  #   restart: always
-  #   env_file:
-  #     - ./hadoop.env
-  #   ports:
-  #     - 9092:9092
-  #   extra_hosts:
-  #     - "zookeeper:172.19.0.4"
-  #   networks:
-  #     cwiz_network:
-  #       ipv4_address: 172.19.0.10
-  #   environment:
-  #     KAFKA_LISTENERS: SASL_PLAINTEXT://kafka:9092
-  #     KAFKA_ADVERTISED_HOST_NAME: kafka
-  #     KAFKA_ADVERTISED_LISTENERS: SASL_PLAINTEXT://kafka:9092
-  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #     KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M" 
-  #   volumes:
-  #     - ${WORK_PATH}/data/kafka/:/kafka/kafka-logs-kafka/
-  #     - ${WORK_PATH}/logs/kafka/:/opt/kafka_2.11-1.0.2/logs
-  #     - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
-  #     - ${WORK_PATH}/kerberos:/kerberos
-  #   depends_on:
-  #     - zookeeper
-
   kafka:
     image: cloudwiz/kafka-kerberos:2.11-1.0.2
     container_name: kafka
@@ -298,24 +270,13 @@ services:
       KAFKA_ADVERTISED_LISTENERS: SASL_PLAINTEXT://kafka:9092,SSL://kafka:9093
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M"
-      KAFKA_SSL_MECHANISM_INTER_BROKER_PROTOCOL: SSL
-      KAFKA_ssl_enabled_mechanisms: SSL
-      KAFKA_ssl_keystore_location: /certs/server.jks
-      KAFKA_ssl_keystore_password: Cwiz_123
-      KAFKA_ssl_key_password: Cwiz_123
-      KAFKA_ssl_truststore_location: /certs/serverTrust.jks
-      KAFKA_ssl_truststore_password: Cwiz_123
-      KAFKA_ssl_client_auth: required
-      KAFKA_ssl_endpoint_identification_algorithm: ''
-      KAFKA_ssl_enabled_protocols: TLSv1.2,TLSv1.1,TLSv1
-      KAFKA_ssl_truststore_type: JKS
-      KAFKA_ssl_keystore_type: JKS
     volumes:
+      - ${WORK_PATH}/kafka/config/server.properties:/opt/kafka_2.11-1.0.2/config/server.properties
       - ${WORK_PATH}/data/kafka/:/kafka/kafka-logs-kafka/
       - ${WORK_PATH}/logs/kafka/:/opt/kafka_2.11-1.0.2/logs
       - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
       - ${WORK_PATH}/kerberos:/kerberos
-      - ${WORK_PATH}/certs/kafka/kafka:/certs
+      - ${WORK_PATH}/certs/kafka:/certs
     depends_on:
       - zookeeper
 
@@ -440,6 +401,7 @@ services:
       - ${WORK_PATH}/certs/alertd/:${WORK_PATH}/certs/alertd/
       - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
       - ${WORK_PATH}/kerberos:/opt/cwiz/certs/kerberos
+      - ${WORK_PATH}/alertd/conf/jaas.conf:/opt/cwiz/alertd/conf/jaas.conf
     depends_on:
       - mysql-server
       - namenode
