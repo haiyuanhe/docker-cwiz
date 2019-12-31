@@ -301,8 +301,7 @@ services:
       - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
       - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
       - ${WORK_PATH}/certs/metric-proxy/:${WORK_PATH}/certs/metric-proxy/
-      - ${WORK_PATH}/certs/kafka/kafka/client.jks:${WORK_PATH}/certs/kafka/client.jks
-      - ${WORK_PATH}/certs/kafka/kafka/clientTrust.jks:${WORK_PATH}/certs/kafka/truststore.jks
+      - ${WORK_PATH}/certs/kafka/:${WORK_PATH}/certs/kafka/
     depends_on:
       - kafka
 
@@ -350,6 +349,7 @@ services:
       - ${WORK_PATH}/logs/log-processor/:${WORK_PATH}/logs/log-processor/
       - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
       - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
+      - ${WORK_PATH}/certs/kafka:${WORK_PATH}/certs/kafka/
       - ${WORK_PATH}/certs/log-processor/:${WORK_PATH}/certs/log-processor/
       - ${WORK_PATH}/certs/elasticsearch/truststore.jks:${WORK_PATH}/certs/elasticsearch/truststore.jks
       - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:${WORK_PATH}/certs/elasticsearch/sgadmin.jks
@@ -372,6 +372,7 @@ services:
       - ${WORK_PATH}/logs/log-analysis/:${WORK_PATH}/logs/log-analysis/
       - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
       - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
+      - ${WORK_PATH}/certs/kafka:${WORK_PATH}/certs/kafka/
       - ${WORK_PATH}/certs/log-analysis/:${WORK_PATH}/certs/log-analysis/
       - ${WORK_PATH}/certs/elasticsearch/truststore.jks:${WORK_PATH}/certs/elasticsearch/truststore.jks
       - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:${WORK_PATH}/certs/elasticsearch/sgadmin.jks
