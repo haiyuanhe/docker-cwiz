@@ -71,27 +71,23 @@ fi
 # exec /docker-entrypoint.sh elasticsearch
 /docker-entrypoint.sh elasticsearch &
 
-# get start ready
-echo "Waiting for Elasticsearch to get ready..."
-while [ 1 ]
-do
-    _es_url="http://192.168.21.62:9200/_cluster/health"
-    curl -s "$_es_url" | grep "green"
-
-    if [ $? -eq 0 ]; then
-        echo "Elasticsearch is ready"
-        sleep 2
-        break
-    else
-        echo "Elasticsearch is not ready"
-        sleep 10
-    fi
-done
-
 # init ssl
-sleep 20
+sleep 30
 cd /usr/share/elasticsearch/plugins/search-guard-5/tools
 chmod a+x sgadmin.sh
-./sgadmin.sh -ts ../../../config/truststore.jks -tspass $TS_PASS \
-   -ks ../../../config/sgadmin.jks -kspass $KS_PASS -cn $CLUSTER_NAME \
-   -nhnv -cd ../sgconfig/ -h `hostname -f`
+while [[ 1 ]]; do
+    echo "Wait for elasticsearch ready..."
+    ./sgadmin.sh -ts ../../../config/truststore.jks -tspass $TS_PASS \
+      -ks ../../../config/sgadmin.jks -kspass $KS_PASS -cn $CLUSTER_NAME \
+      -nhnv -cd ../sgconfig/ -h `hostname -f`
+    if [[ $? -eq 0 ]]; then  
+        echo "elasticsearch is ready."
+        break
+    fi
+    sleep 3
+done
+
+# docker can has multi backend-processes,but must keep a process in webfront, Keep it running in webfront
+while [[ 1 ]]; do
+    sleep 60
+done
