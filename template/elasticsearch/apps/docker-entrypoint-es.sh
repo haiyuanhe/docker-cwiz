@@ -74,6 +74,19 @@ fi
 sleep 30
 cd /usr/share/elasticsearch/plugins/search-guard-5/tools
 chmod a+x sgadmin.sh
-./sgadmin.sh -ts ../../../config/truststore.jks -tspass $TS_PASS \
-   -ks ../../../config/sgadmin.jks -kspass $KS_PASS -cn $CLUSTER_NAME \
-   -nhnv -cd ../sgconfig/ -h `hostname -f`
+while [[ 1 ]]; do
+    echo "Wait for elasticsearch ready..."
+    ./sgadmin.sh -ts ../../../config/truststore.jks -tspass $TS_PASS \
+      -ks ../../../config/sgadmin.jks -kspass $KS_PASS -cn $CLUSTER_NAME \
+      -nhnv -cd ../sgconfig/ -h `hostname -f`
+    if [[ $? -eq 0 ]]; then  
+        echo "elasticsearch is ready."
+        break
+    fi
+    sleep 3
+done
+
+# docker can has multi backend-processes,but must keep a process in webfront, Keep it running in webfront
+while [[ 1 ]]; do
+    sleep 60
+done
