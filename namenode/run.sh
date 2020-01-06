@@ -1,8 +1,6 @@
 #!/bin/bash
 
-set -x
-
-namedir="/data/dfs/namenode"
+namedir=`echo $CORE_CONF_hadoop_tmp_dir | perl -pe 's#file://##'`
 if [ ! -d $namedir ]; then
   echo "Namenode name directory not found: $namedir"
   exit 2

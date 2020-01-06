@@ -455,10 +455,8 @@ do
 
 done
 
+install_es_plugin
 sed -i 's/daemon off;/#daemon off;/' $install_root/nginx/conf/nginx.conf
-sed -i '/^CMService.HttpHost =/cCMService.HttpHost = 0.0.0.0' $install_root/cmservice/conf/cmservice.properties
-sed -i '/^LogClustering.HttpHost =/cLogClustering.HttpHost = 0.0.0.0' $install_root/log-analysis/config/log.analysis.properties
-sed -i '/^HttpHost =/cHttpHost = 0.0.0.0' $install_root/chartservice/conf/chartservice.properties
 sed -i '/^current_node_name =/ccurrent_node_name = alertd' $install_root/alertd/conf/cloudmon.alerting.conf
 sed -i '/^http_server_host =/chttp_server_host = alertd' $install_root/alertd/conf/cloudmon.alerting.conf
 sed -i '/^network.host:/cnetwork.host: elasticsearch' $install_root/elasticsearch/config/elasticsearch.yml
@@ -468,9 +466,15 @@ sed -i "/^var server =/cvar server = 'http:\/\/chartservice:5012\/chart';"  $ins
 sed -i "/^tmpFolder=/ctmpFolder=${install_root}\/report_tmp" $install_root/alertd/conf/cloudmon.alerting.conf
 sed -i 's/asynchbase-1.7.2.jar/asynchbase-1.8.2.jar/' $install_root/opentsdb/bin/start.sh
 sed -i "/^WORK_PATH=/cWORK_PATH=${install_root}" ../.env
-bash $install_root/agent/bin/repackage.sh
+echo "Repackage agent..."
+bash $install_root/agent/bin/repackage.sh &> /dev/null
 chown -R 101:101 $install_root/nginx/
 bash $install_root/tools/certs/create-ssl-all-x.sh
-bash $install_root/tools/certs/create-mysql-ssl.sh
 mkdir -p $install_root/etc && touch $install_root/etc/krb5.conf
+echo "Enable docker auto restart"
+systemctl enable docker
+echo "Enable docker-compose auto restart"
+echo "pushd $PWD/../" >> /etc/rc.d/rc.local
+echo "docker-compose -f docker-compose.yml up -d" >> /etc/rc.d/rc.local
+echo "Config init successfully..."
 exit 0

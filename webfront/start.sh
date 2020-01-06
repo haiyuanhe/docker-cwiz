@@ -1,7 +1,7 @@
 #!/bin/bash
 
 while true;do
-    curl mysql-server:3306
+    curl mysql-server:3306 &> /dev/null
     if [[ $? -eq 0 ]];then
         break
     fi

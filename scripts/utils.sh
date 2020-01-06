@@ -5,6 +5,7 @@
 _AS_ROOT=0
 _DEBUG=0
 _STEP=0
+_DATA=../data
 
 COLORS=$(tput colors 2> /dev/null)
 if [ $? -eq 0 ] && [ $COLORS -gt 2 ]; then
@@ -806,4 +807,18 @@ function check_nginx_ssl()
         log_info "ssl is enabled , use nginx.ssl.conf..."
         use_nginx_ssl_conf
     fi
+}
+
+function install_es_plugin()
+{
+    log_info "Unpacking ${local_pkg_dir}/${local_es_plugin}... "
+    mkdir -p ${install_root}/elasticsearch/plugins/
+    tar -xf ${local_pkg_dir}/${local_es_plugin} -C ${install_root}/elasticsearch/plugins/
+
+    log_info "Unpacking ${_DATA}/elasticsearch.tar.gz"
+    mkdir -p ${install_root}/data/
+    tar -xf ${_DATA}/elasticsearch.tar.gz -C ${install_root}/data/
+
+    log_info "chmod elasticsearch.yml"
+    chmod 666 ${install_root}/elasticsearch/config/elasticsearch.yml
 }

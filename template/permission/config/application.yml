@@ -24,6 +24,7 @@ spring:
     checkTemplateLocation: false
 
 server:
+  address: permission
   port: 4123
   ssl:
     key-store: <:install_root:>/certs/permission/server.jks

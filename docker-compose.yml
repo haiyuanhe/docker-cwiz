@@ -24,7 +24,8 @@ services:
     ports:
       - "50070:50070"
     volumes:
-      - ${WORK_PATH}/data/hadoop/dfs/name:/data/dfs/namenode
+      - ${WORK_PATH}/data/hadoop/dfs/name:/hadoop/dfs/name
+      - ${WORK_PATH}/data/hadoop/dfs/name_temp:/hadoop/dfs/name_temp
       - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hadoop-2.7.7/logs
       - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
       - ${WORK_PATH}/kerberos:/kerberos
@@ -42,6 +43,10 @@ services:
         ipv4_address: 172.19.0.2
     depends_on:
       - kerberos
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   datanode:
     image: cloudwiz/hadoop-datanode:2.7.7
@@ -68,6 +73,10 @@ services:
     depends_on:
       - namenode
       - kerberos
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   zookeeper:
     image: cloudwiz/zookeeper:3.4.10
@@ -76,7 +85,7 @@ services:
     restart: always
     environment:
       ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=0.0.0.0:2888:3888
+      ZOO_SERVERS: server.1=172.19.0.4:2888:3888
     volumes:
       - ${WORK_PATH}/data/zookeeper/:/data
       - ${WORK_PATH}/data/zookeeper/datalog:/datalog
@@ -86,6 +95,10 @@ services:
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.4
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   hbase-master:
     image: cloudwiz/hbase-master:1.4.10
@@ -116,6 +129,10 @@ services:
       - namenode
       - datanode
       - zookeeper
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   hbase-regionserver:
     image: cloudwiz/hbase-regionserver:1.4.10
@@ -148,6 +165,10 @@ services:
       - datanode
       - zookeeper
       - hbase-master
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   mysql-server:
     image: cloudwiz/mysql:5.7.28
@@ -157,9 +178,14 @@ services:
     - ${WORK_PATH}/tools/mysql/sql/:/sql
     - ${WORK_PATH}/data/mysql/:/var/lib/mysql
     - ${WORK_PATH}/logs/mysql/:/var/log/mysql
+    - ${WORK_PATH}/data/binlog/:/logs/binlog
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.7
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   elasticsearch:
     image: elasticsearch:5.4.3
@@ -181,7 +207,8 @@ services:
     volumes:
       - ${WORK_PATH}/elasticsearch/apps:/apps
       - ${WORK_PATH}/elasticsearch/plugins:/plugins
-      - ${WORK_PATH}/elasticsearch/config/elasticsearch.yml:/config/elasticsearch.yml
+      - ${WORK_PATH}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ${WORK_PATH}/elasticsearch/plugins/ik:/usr/share/elasticsearch/plugins/ik/
       - ${WORK_PATH}/data/elasticsearch/:/usr/share/elasticsearch/data/
       - ${WORK_PATH}/logs/elasticsearch/:/usr/share/elasticsearch/logs/
       - ${WORK_PATH}/certs/elasticsearch/truststore.jks:/usr/share/elasticsearch/config/truststore.jks
@@ -191,6 +218,10 @@ services:
        cwiz_network:
          ipv4_address: 172.19.0.8
     entrypoint: /apps/docker-entrypoint-es.sh
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   nginx:
     image: nginx:1.16.1
@@ -242,6 +273,10 @@ services:
       hbase_thrift: 172.19.0.233
     depends_on:
       - mysql-server
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   kafka:
     image: cloudwiz/kafka:2.11-1.0.2
@@ -273,6 +308,10 @@ services:
       - ${WORK_PATH}/certs/kafka:${WORK_PATH}/certs/kafka/
     depends_on:
       - zookeeper
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   metric-proxy:
     image: cloudwiz/metric-proxy:1.0.4
@@ -298,6 +337,10 @@ services:
       - ${WORK_PATH}/certs/kafka/:${WORK_PATH}/certs/kafka/
     depends_on:
       - kafka
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   opentsdb:
     image: cloudwiz/opentsdb:2.3.0
@@ -325,6 +368,10 @@ services:
       - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
     depends_on:
       - hbase-regionserver
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   cmservice:
     image: cloudwiz/cmservice:1.4.2
@@ -347,6 +394,10 @@ services:
       - ${WORK_PATH}/certs/cmservice/:${WORK_PATH}/certs/cmservice/
     depends_on:
       - mysql-server
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   log_processor:
     image: cloudwiz/log-processor:1.0.2
@@ -374,6 +425,10 @@ services:
     depends_on:
       - kafka
       - elasticsearch
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   webfront:
     image: cloudwiz/webfront:3.5.10
@@ -391,22 +446,26 @@ services:
       - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
     depends_on:
       - mysql-server
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
-  cloudwiz_user:
-    image: cloudwiz/cloudwiz-user:1.1.7
-    container_name: cloudwiz_user
-    hostname: cloudwiz_user
-    restart: always
-    networks:
-      cwiz_network:
-        ipv4_address: 172.19.0.16
-    volumes:
-      - ${WORK_PATH}/cloudwiz-user/web.config.js:${WORK_PATH}/cloudwiz-user/web.config.js
-      - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
-      - ${WORK_PATH}/certs/cloudwiz-user/:${WORK_PATH}/certs/cloudwiz-user/
-      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
-    depends_on:
-      - permission
+  # cloudwiz_user:
+  #   image: cloudwiz/cloudwiz-user:1.1.7
+  #   container_name: cloudwiz_user
+  #   hostname: cloudwiz_user
+  #   restart: always
+  #   networks:
+  #     cwiz_network:
+  #       ipv4_address: 172.19.0.16
+  #   volumes:
+  #     - ${WORK_PATH}/cloudwiz-user/web.config.js:${WORK_PATH}/cloudwiz-user/web.config.js
+  #     - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+  #     - ${WORK_PATH}/certs/cloudwiz-user/:${WORK_PATH}/certs/cloudwiz-user/
+  #     - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
+  #   depends_on:
+  #     - permission
 
   permission:
     image: cloudwiz/permission:1.0.10
@@ -428,6 +487,10 @@ services:
     depends_on:
       - mysql-server
       - webfront
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   log_analysis:
     image: cloudwiz/log-analysis:1.0.5
@@ -435,6 +498,7 @@ services:
     hostname: log_analysis
     extra_hosts:
       - "nginx:172.19.0.9"
+    restart: always
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.18
@@ -452,6 +516,10 @@ services:
       - ${WORK_PATH}/certs/elasticsearch/client/sgadmin-keystore.jks:${WORK_PATH}/certs/elasticsearch/sgadmin.jks
     depends_on:
       - mysql-server
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   chartservice:
     image: cloudwiz/chartservice:1.0.0
@@ -468,6 +536,10 @@ services:
       - ${WORK_PATH}/chartservice/conf/log4j.properties:${WORK_PATH}/chartservice/conf/log4j.properties
       - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
       - ${WORK_PATH}/logs/chartservice/:${WORK_PATH}/logs/chartservice/
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   log_pp:
     image: cloudwiz/log-pp:1.0.1
@@ -491,6 +563,10 @@ services:
     depends_on:
       - kafka
       - opentsdb
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
   alertd:
     image: cloudwiz/alertd:1.1.13
@@ -522,29 +598,25 @@ services:
       - mysql-server
       - namenode
       - opentsdb
+    logging:
+      driver: none
+      options:
+        max-size: 50m
 
-  umanager:
-    image: cloudwiz/umanager:1.0.0
-    container_name: umanager
-    hostname: umanager
-    restart: always
-    networks:
-      cwiz_network:
-        ipv4_address: 172.19.0.23
-    volumes:
-    - ${WORK_PATH}/umanager/:${WORK_PATH}/umanager/
-    - ${WORK_PATH}/nginx/download/release/singles/:${WORK_PATH}/nginx/download/release/singles/
-    - ${WORK_PATH}/logs/umanager/:${WORK_PATH}/logs/umanager/
-    depends_on:
-    - mysql-server
-
-volumes:
-  hadoop_namenode: 
-  hadoop_datanode: 
-  elasticsearch:
-  zookeeper:
-  nginx:
-  kafka:
+#  umanager:
+#    image: cloudwiz/umanager:1.0.0
+#    container_name: umanager
+#    hostname: umanager
+#    restart: always
+#    networks:
+#      cwiz_network:
+#        ipv4_address: 172.19.0.23
+#    volumes:
+#    - ${WORK_PATH}/umanager/:${WORK_PATH}/umanager/
+#    - ${WORK_PATH}/nginx/download/release/singles/:${WORK_PATH}/nginx/download/release/singles/
+#    - ${WORK_PATH}/logs/umanager/:${WORK_PATH}/logs/umanager/
+#    depends_on:
+#    - mysql-server
 
 networks:
   cwiz_network:
