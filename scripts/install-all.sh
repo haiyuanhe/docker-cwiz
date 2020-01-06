@@ -466,9 +466,15 @@ sed -i "/^var server =/cvar server = 'http:\/\/chartservice:5012\/chart';"  $ins
 sed -i "/^tmpFolder=/ctmpFolder=${install_root}\/report_tmp" $install_root/alertd/conf/cloudmon.alerting.conf
 sed -i 's/asynchbase-1.7.2.jar/asynchbase-1.8.2.jar/' $install_root/opentsdb/bin/start.sh
 sed -i "/^WORK_PATH=/cWORK_PATH=${install_root}" ../.env
-echo "repackage agent..."
+echo "Repackage agent..."
 bash $install_root/agent/bin/repackage.sh &> /dev/null
 chown -R 101:101 $install_root/nginx/
 bash $install_root/tools/certs/create-ssl-all-x.sh
+echo "Enable docker auto restart"
+systemctl enable docker
+echo "Enable docker-compose auto restart"
+cp ../docker-compose.ymli /opt/cwiz
+echo "#!/bin/bash" >> /etc/profile.d/docker-compose.sh
+echo "docker-compose -f /opt/cwiz/docker-compose.yml up -d" >> /etc/profile.d/docker-compose.sh
 echo "Config init successfully..."
 exit 0
