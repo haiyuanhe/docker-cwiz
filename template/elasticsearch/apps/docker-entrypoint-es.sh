@@ -5,18 +5,17 @@ KS_PASS=${KS_PASS:-'Cwiz_123'}
 CLUSTER_NAME=${CLUSTER_NAME:-'cloudwiz'}
 
 install_plugins() {
-    read -r -a plugins_list <<< "$(tr ',;' ' ' <<< "$ELASTICSEARCH_PLUGINS")"
-    echo "Installing plugins: ${plugins_list[*]}"
-    for plugin in "${plugins_list[@]}"; do
-            grep "$plugin" /install_plugins
-            if [[ $? -ne 0 ]]; then
-                elasticsearch-plugin install -b -v "$plugin"
-                # elasticsearch-plugin install -b -v "$plugin" >/dev/null 2>&1
-                if [[ $? -eq 0 ]]; then
-                    echo "$plugin" >> /install_plugins
+    if [[ -d /plugins ]]; then
+        for plugin in `ls /plugins`; do
+                grep "$plugin" /install_plugins
+                if [[ $? -ne 0 ]]; then
+                    elasticsearch-plugin install -b -v file:///plugins/$plugin
+                    if [[ $? -eq 0 ]]; then
+                        echo "$plugin" >> /install_plugins
+                    fi
                 fi
-            fi
-    done
+        done
+    fi
 }
 
 # If use extra-config-file do this.
