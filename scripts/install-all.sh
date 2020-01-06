@@ -473,7 +473,7 @@ bash $install_root/tools/certs/create-ssl-all-x.sh
 echo "Enable docker auto restart"
 systemctl enable docker
 echo "Enable docker-compose auto restart"
-cp ../docker-compose.ymli /opt/cwiz
+cp ../docker-compose.yml /opt/cwiz
 echo "#!/bin/bash" >> /etc/profile.d/docker-compose.sh
 echo "docker-compose -f /opt/cwiz/docker-compose.yml up -d" >> /etc/profile.d/docker-compose.sh
 echo "Config init successfully..."
