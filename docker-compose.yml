@@ -394,6 +394,7 @@ services:
     image: cloudwiz/log-analysis:1.0.3
     container_name: log_analysis
     hostname: log_analysis
+    restart: always
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.18
