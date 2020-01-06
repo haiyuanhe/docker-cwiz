@@ -493,7 +493,7 @@ services:
       - opentsdb
 
   alertd:
-    image: cloudwiz/alertd-kerberos-ssl:1.1.13
+    image: cloudwiz/alertd:1.1.13
     container_name: alertd
     hostname: alertd
     restart: always
