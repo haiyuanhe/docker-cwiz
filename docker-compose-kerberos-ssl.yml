@@ -4,8 +4,8 @@ services:
   kerberos:
     image: cloudwiz/kerberos:1.0.0
     restart: always
-    container_name: kerberos01
-    hostname: kerberos01
+    container_name: kerberos
+    hostname: kerberos
     volumes: 
       - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
       - ${WORK_PATH}/kerberos:/kerberos
@@ -36,6 +36,7 @@ services:
       - "datanode:172.19.0.3"
       - "hbase-master:172.19.0.5"
       - "hbase-regionserver:172.19.0.6"
+      - "nginx:172.19.0.9"
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.2
@@ -60,6 +61,7 @@ services:
       - "namenode:172.19.0.2"
       - "hbase-master:172.19.0.5"
       - "hbase-regionserver:172.19.0.6"
+      - "nginx:172.19.0.9"
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.3
@@ -105,6 +107,7 @@ services:
       - "datanode:172.19.0.3"
       - "zookeeper:172.19.0.4"
       - "hbase-regionserver:172.19.0.6"
+      - "nginx:172.19.0.9"
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.5
@@ -135,6 +138,7 @@ services:
       - "datanode:172.19.0.3"
       - "zookeeper:172.19.0.4"
       - "hbase-master:172.19.0.5"
+      - "nginx:172.19.0.9"
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.6
@@ -186,6 +190,7 @@ services:
       # SSL_searchguard_authcz_admin_dn: 'CN=sgadmin'
     ports:
       - "9200:9200"
+      - "9300:9300"
     volumes:
       - ${WORK_PATH_TEMP}/elasticsearch/apps:/apps
       - ${WORK_PATH_TEMP}/elasticsearch/config/elasticsearch.yml:/config/elasticsearch.yml
@@ -261,13 +266,14 @@ services:
       - 9092:9092
     extra_hosts:
       - "zookeeper:172.19.0.4"
+      - "nginx:172.19.0.9"
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.10
     environment:
       KAFKA_LISTENERS: SASL_PLAINTEXT://kafka:9093,SSL://kafka:9092
       KAFKA_ADVERTISED_HOST_NAME: kafka
-      KAFKA_ADVERTISED_LISTENERS: SASL_PLAINTEXT://kafka:9092,SSL://kafka:9093
+      KAFKA_ADVERTISED_LISTENERS: SASL_PLAINTEXT://kafka:9093,SSL://kafka:9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M"
     volumes:
@@ -276,7 +282,7 @@ services:
       - ${WORK_PATH}/logs/kafka/:/opt/kafka_2.11-1.0.2/logs
       - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
       - ${WORK_PATH}/kerberos:/kerberos
-      - ${WORK_PATH}/certs/kafka:/certs
+      - ${WORK_PATH}/certs/kafka:${WORK_PATH}/certs/kafka/
     depends_on:
       - zookeeper
 
@@ -332,6 +338,28 @@ services:
     depends_on:
       - hbase-regionserver
 
+  cmservice:
+    image: cloudwiz/cmservice:1.4.2
+    container_name: cmservice
+    hostname: cmservice
+    restart: always
+    env_file:
+      - ./hadoop.env
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.13
+    volumes:
+      - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+      - ${WORK_PATH}/cmservice/bin/start.sh:${WORK_PATH}/cmservice/bin/start.sh
+      - ${WORK_PATH}/cmservice/conf/cmservice.properties:${WORK_PATH}/cmservice/conf/cmservice.properties
+      - ${WORK_PATH}/cmservice/conf/log4j.properties:${WORK_PATH}/cmservice/conf/log4j.properties
+      - ${WORK_PATH}/logs/cmservice/:${WORK_PATH}/logs/cmservice/
+      - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
+      - ${WORK_PATH}/certs/cmservice/:${WORK_PATH}/certs/cmservice/
+    depends_on:
+      - mysql-server
+
   log_processor:
     image: cloudwiz/log-processor:1.0.1
     container_name: log_processor
@@ -379,6 +407,99 @@ services:
     depends_on:
       - mysql-server
 
+  webfront:
+    image: cloudwiz/webfront:3.5.10
+    container_name: webfront
+    hostname: webfront
+    restart: always
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.15
+    volumes:
+      - ${WORK_PATH}/webfront/conf/defaults.ini:${WORK_PATH}/webfront/conf/defaults.ini
+      - ${WORK_PATH}/logs/webfront/:${WORK_PATH}/logs/webfront
+      - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/webfront/:${WORK_PATH}/certs/webfront/
+      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
+    depends_on:
+      - mysql-server
+
+  cloudwiz_user:
+    image: cloudwiz/cloudwiz-user:1.1.7
+    container_name: cloudwiz_user
+    hostname: cloudwiz_user
+    restart: always
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.16
+    volumes:
+      - ${WORK_PATH}/cloudwiz-user/web.config.js:${WORK_PATH}/cloudwiz-user/web.config.js
+      - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/cloudwiz-user/:${WORK_PATH}/certs/cloudwiz-user/
+      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
+    depends_on:
+      - permission
+  
+  permission:
+    image: cloudwiz/permission:1.0.10
+    container_name: permission
+    hostname: permission
+    restart: always
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.17
+    volumes:
+      - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+      - ${WORK_PATH}/permission/bin/start.sh:${WORK_PATH}/permission/bin/start.sh
+      - ${WORK_PATH}/permission/config/application.yml:${WORK_PATH}/permission/config/application.yml
+      - ${WORK_PATH}/permission/config/log4j2.yml:${WORK_PATH}/permission/config/log4j2.yml
+      - ${WORK_PATH}/logs/permission/:${WORK_PATH}/logs/permission
+      - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/permission/:${WORK_PATH}/certs/permission/
+      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
+    depends_on:
+      - mysql-server
+      - webfront
+
+  chartservice:
+    image: cloudwiz/chartservice:1.0.0
+    container_name: chartservice
+    hostname: chartservice
+    restart: always
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.19
+    volumes:
+    - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+    - ${WORK_PATH}/chartservice/bin/start.sh:${WORK_PATH}/chartservice/bin/start.sh
+    - ${WORK_PATH}/chartservice/conf/chartservice.properties:${WORK_PATH}/chartservice/conf/chartservice.properties
+    - ${WORK_PATH}/chartservice/conf/log4j.properties:${WORK_PATH}/chartservice/conf/log4j.properties
+    - ${WORK_PATH}/report_tmp/:${WORK_PATH}/report_tmp/
+    - ${WORK_PATH}/logs/chartservice/:${WORK_PATH}/logs/chartservice/
+    
+  log_pp:
+    image: cloudwiz/log-pp:1.0.1
+    container_name: log_pp
+    hostname: log_pp
+    restart: always
+    networks:
+      cwiz_network:
+        ipv4_address: 172.19.0.20
+    volumes:
+      - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
+      - ${WORK_PATH}/log-pp/bin/start.sh:${WORK_PATH}/log-pp/bin/start.sh
+      - ${WORK_PATH}/log-pp/config/log.pp.properties:${WORK_PATH}/log-pp/config/log.pp.properties
+      - ${WORK_PATH}/log-pp/config/log4j.properties:${WORK_PATH}/log-pp/config/log4j.properties
+      - ${WORK_PATH}/log-pp/config/patterns/:${WORK_PATH}/log-pp/config/patterns/
+      - ${WORK_PATH}/logs/log-pp/:${WORK_PATH}/logs/log-pp/
+      - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
+      - ${WORK_PATH}/certs/kafka:${WORK_PATH}/certs/kafka/
+      - ${WORK_PATH}/certs/log-pp/:${WORK_PATH}/certs/log-pp/
+      - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
+    depends_on:
+      - kafka
+      - opentsdb
+  
   alertd:
     image: cloudwiz/alertd-kerberos-ssl:1.1.13
     container_name: alertd
@@ -388,6 +509,7 @@ services:
       - "zookeeper:172.19.0.4"
       - "hbase-master:172.19.0.5"
       - "hbase-regionserver:172.19.0.6"
+      - "nginx:172.19.0.9"
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.22
