@@ -66,10 +66,25 @@ kafka:
   pollMaxRecord: 500
   consumerNum: 2
   pollIntervalMs: 5000
+  ssl:
+    enabled: false
+    keystore-location: <:install_root:>/certs/kafka/client.jks
+    key-password: ENC(739k8fjr6MtDzlg0vYjspvCjlUUsjVEC87jYoFUmHgVvNIYA1lRzcHktguqTlchY99sXn/AhH+errgJl)
+    keystore-password: ENC(739k8fjr6MtDzlg0vYjspvCjlUUsjVEC87jYoFUmHgVvNIYA1lRzcHktguqTlchY99sXn/AhH+errgJl)
+    truststore-location: <:install_root:>/certs/kafka/clientTrust.jks
+    truststore-password: ENC(739k8fjr6MtDzlg0vYjspvCjlUUsjVEC87jYoFUmHgVvNIYA1lRzcHktguqTlchY99sXn/AhH+errgJl)
 
 
 mysql:
-  grafana_name: <:grafana_database:>
+  grafanaName: grafana
+  cluster: "*"
+  ssl:
+    enabled: true
+    keyStore: <:install_root:>/certs/mysql/client.jks
+    keyStorePassword: ENC(739k8fjr6MtDzlg0vYjspvCjlUUsjVEC87jYoFUmHgVvNIYA1lRzcHktguqTlchY99sXn/AhH+errgJl)
+    trustStore: <:install_root:>/certs/mysql/truststore.jks
+    trustStorePassword: ENC(739k8fjr6MtDzlg0vYjspvCjlUUsjVEC87jYoFUmHgVvNIYA1lRzcHktguqTlchY99sXn/AhH+errgJl)
+
 
 zuul:
   sensitiveHeaders: Authorization
