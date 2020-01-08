@@ -29,6 +29,7 @@ servers=("nginx" "opentsdb" "cloudwiz-user" "alertd" "kafka" "python-deamon" "cl
 for server in ${servers[@]}
 do
 mkdir $server
+chmod 700 $server
 cd $server
 
 #生成ca证书
@@ -78,6 +79,9 @@ echo y | $keytool_path -import -alias serverTrust -keystore serverTrust.jks -sto
 
 # 生成CA信任证书
 echo y | $keytool_path -keystore truststore.jks -alias CARoot -import -file ca.crt -storepass $store_pass
+
+# 修改文件权限
+chmod 600 *
 
 cd ../
 done
