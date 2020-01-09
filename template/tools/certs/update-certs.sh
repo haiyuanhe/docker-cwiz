@@ -52,7 +52,6 @@ if [ "$ans" = "y" ]; then
 
     # es kafka ssl
     $(dirname $0)/es/gen-nodes-certs.sh  ${new_pass}
-    $(dirname $0)/create-mysql-ssl.sh  ${new_pass}
     #$(dirname $0)/kafka/gen-nodes-certs.sh
 
     # encrypt new pass
