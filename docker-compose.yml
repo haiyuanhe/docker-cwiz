@@ -176,10 +176,10 @@ services:
     restart: always
     volumes:
     - ${WORK_PATH}/tools/mysql/sql/:/sql
-    - ${WORK_PATH}/tools/certs/create-mysql-ssl.sh:/tmp/create-mysql-ssl.sh
     - ${WORK_PATH}/data/mysql/:/var/lib/mysql
     - ${WORK_PATH}/logs/mysql/:/var/log/mysql
     - ${WORK_PATH}/data/binlog/:/logs/binlog
+    - ${WORK_PATH}/certs/mysql/:/etc/mysql/ssl/
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.7
@@ -207,7 +207,7 @@ services:
       - "9300:9300"
     volumes:
       - ${WORK_PATH}/elasticsearch/apps:/apps
-      - ${WORK_PATH}/elasticsearch/plugins:/plugins
+      - ${WORK_PATH}/elasticsearch/plugins/guard:/plugins
       - ${WORK_PATH}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ${WORK_PATH}/elasticsearch/plugins/ik:/usr/share/elasticsearch/plugins/ik/
       - ${WORK_PATH}/data/elasticsearch/:/usr/share/elasticsearch/data/
