@@ -474,7 +474,12 @@ mkdir -p $install_root/etc && touch $install_root/etc/krb5.conf
 echo "Enable docker auto restart"
 systemctl enable docker
 echo "Enable docker-compose auto restart"
-echo "pushd $PWD/../" >> /etc/rc.d/rc.local
-echo "docker-compose -f docker-compose.yml up -d" >> /etc/rc.d/rc.local
+if cat  /etc/rc.d/rc.local | grep "docker-compose" > /dev/null 2>&1
+then
+    echo "already config"
+else
+    echo "pushd $PWD/../" >> /etc/rc.d/rc.local
+    echo "docker-compose -f docker-compose.yml up -d" >> /etc/rc.d/rc.local
+fi
 echo "Config init successfully..."
 exit 0

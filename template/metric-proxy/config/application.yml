@@ -76,7 +76,8 @@ kafka:
 
 
 mysql:
-  grafana_name: <:grafana_database:>
+  grafanaName: <:grafana_database:>
+  cluster: "*"
   ssl:
     enabled: <:ssl_enable:>
     keyStore: <:install_root:>/certs/mysql/client.jks
