@@ -21,6 +21,4 @@ $MYSQL_CLIENT --host <:mysql_master_ip:> --port <:mysql_port:> -u <:mysql_userna
 _password=
 unset decrypt_pass
 
-<:install_root:>/tools/certs/create-mysql-ssl.sh
-
 exit 0

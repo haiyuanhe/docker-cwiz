@@ -18,6 +18,7 @@ keytool_path=<:install_root:>/encrypt/jdk/bin/keytool
 
 unset ssl_decrypt_pass
 
+rm -rf <:install_root:>/certs/mysql
 mkdir -p <:install_root:>/certs/mysql
 chmod 700 <:install_root:>/certs/mysql
 cp <:install_root:>/data/mysql/*.pem <:install_root:>/certs/mysql/

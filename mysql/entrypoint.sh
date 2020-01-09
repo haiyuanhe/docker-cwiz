@@ -258,6 +258,9 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 
 		echo "import done!"
 
+		# create mysql cert
+		/tmp/create-mysql-ssl.sh
+
 		if ! kill -s TERM "$pid" || ! wait "$pid"; then
 			echo >&2 'MySQL init process failed.'
 			exit 1

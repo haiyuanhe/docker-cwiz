@@ -176,6 +176,7 @@ services:
     restart: always
     volumes:
     - ${WORK_PATH}/tools/mysql/sql/:/sql
+    - ${WORK_PATH}/tools/certs/create-mysql-ssl.sh:/tmp/create-mysql-ssl.sh
     - ${WORK_PATH}/data/mysql/:/var/lib/mysql
     - ${WORK_PATH}/logs/mysql/:/var/log/mysql
     - ${WORK_PATH}/data/binlog/:/logs/binlog
