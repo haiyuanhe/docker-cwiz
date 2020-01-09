@@ -7,13 +7,13 @@ CLUSTER_NAME=${CLUSTER_NAME:-'cloudwiz'}
 install_plugins() {
     if [[ -d /plugins ]]; then
         for plugin in `ls /plugins`; do
-                grep "$plugin" /install_plugins
-                if [[ $? -ne 0 ]]; then
-                    elasticsearch-plugin install -b -v file:///plugins/$plugin
-                    if [[ $? -eq 0 ]]; then
-                        echo "$plugin" >> /install_plugins
-                    fi
+            grep "$plugin" /install_plugins
+            if [[ $? -ne 0 ]]; then
+                elasticsearch-plugin install -b -v file:///plugins/$plugin
+                if [[ $? -eq 0 ]]; then
+                    echo "$plugin" >> /install_plugins
                 fi
+            fi
         done
     fi
 }
@@ -59,7 +59,7 @@ echo "" >> "$CONFIG"
     done
 )
 
-if [[ ! -z "$ELASTICSEARCH_PLUGINS" ]]; then
+if [[ -d /plugins ]]; then
     if [[ ! -f /install_plugins ]]; then
         touch /install_plugins
     fi
