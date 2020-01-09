@@ -7,6 +7,10 @@ datadir		= /var/lib/mysql
 log-error	= /var/log/mysql/error.log
 symbolic-links=0
 
+ssl-ca=/etc/mysql/ssl/ca.crt
+ssl-cert=/etc/mysql/ssl/server.crt
+ssl-key=/etc/mysql/ssl/server.key
+
 local-infile=0
 server-id=1
 log_bin=/logs/binlog/mysql-bin
