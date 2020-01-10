@@ -26,6 +26,7 @@ Configuration:
       - name: ROLLING_FILE
         ignoreExceptions: false
         fileName: ${log.path}/${project.name}.log
+        filePermission: rw-r-----
         filePattern: "${log.path}/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log.gz"
         PatternLayout:
           pattern: "%d{yyyy-MM-dd HH:mm:ss,SSS}:%5p %20t [%50F:%3L] - %m%n"
