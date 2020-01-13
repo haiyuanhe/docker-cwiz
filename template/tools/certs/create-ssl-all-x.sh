@@ -25,7 +25,7 @@ unset ssl_decrypt_pass
 mkdir -p <:install_root:>/certs
 cd <:install_root:>/certs
 
-servers=("nginx" "opentsdb" "mysql" "cloudwiz-user" "alertd" "kafka" "python-deamon" "cloudwiz-agent" "cmservice" "log-analysis" "log-pp" "log-processor" "metric-proxy" "permission" "webfront" "hbase" "zookeeper")
+servers=("nginx" "opentsdb" "mysql" "cloudwiz-user" "alertd" "kafka" "cmservice" "log-analysis" "log-pp" "log-processor" "metric-proxy" "permission" "webfront")
 for server in ${servers[@]}
 do
 mkdir $server
