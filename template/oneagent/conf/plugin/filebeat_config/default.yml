@@ -4,7 +4,7 @@
   - /default/default.log
   fields.orgid: 2
   fields.sysid: 15
-  fields.token: 0f320e7db4a2d8ba0a3229753bf7c90d821479da
+  fields.token:
   fields_under_root: True
   tail_files: True
   encoding: plain
