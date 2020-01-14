@@ -317,7 +317,8 @@ function allocate_services()
         if [ "$_h" == "$host_ip" ]; then
             ALL_SERVICES="$ALL_SERVICES \"log-processor\""
         fi
-        LOG_PROCESSOR_SERVERS="${LOG_PROCESSOR_SERVERS} server ${_h}:9500;"
+#        LOG_PROCESSOR_SERVERS="${LOG_PROCESSOR_SERVERS} server ${_h}:9500;"
+        LOG_PROCESSOR_SERVERS="${LOG_PROCESSOR_SERVERS} server ${_h}:443;"
     done
 
 
