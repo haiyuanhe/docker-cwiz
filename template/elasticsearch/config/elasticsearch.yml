@@ -20,3 +20,14 @@ rest.action.multi.allow_explicit_index: true
 http.cors.enabled: true
 http.cors.allow-origin: "*"
 
+searchguard.ssl.transport.keystore_filepath: server.jks
+searchguard.ssl.transport.keystore_password: xxx
+searchguard.ssl.transport.truststore_filepath: truststore.jks
+searchguard.ssl.transport.truststore_password: xxx
+searchguard.ssl.transport.enforce_hostname_verification: false
+searchguard.ssl.http.enabled: <:ssl_enable:>
+searchguard.ssl.http.keystore_filepath: server.jks
+searchguard.ssl.http.keystore_password: xxx
+searchguard.ssl.http.truststore_filepath: truststore.jks
+searchguard.ssl.http.truststore_password: xxx
+searchguard.authcz.admin_dn: CN=sgadmin

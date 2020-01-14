@@ -14,4 +14,77 @@
         <value>file:///var/hadoop/namenode/</value>
         <description>NameNode directory for namespace and transaction logs storage.</description>
     </property>
+    <!-- secondarynamenode checkpoint tmp data -->
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>file:///data/hadoop/tmp</value>
+    </property>
+    <!-- kerberos -->
+    <property>
+        <name>dfs.cluster.administrators</name>
+        <value>root</value>
+    </property>
+    <!-- secondarynamenode need this port -->
+    <property>
+        <name>dfs.namenode.rpc-address</name>
+        <value>namenode:9000</value>
+    </property>
+    <property>
+        <name>dfs.block.access.token.enable</name>
+        <value>true</value>
+    </property>
+    <property>  
+        <name>dfs.datanode.data.dir.perm</name>  
+        <value>700</value>  
+    </property>
+    <property>
+        <name>dfs.namenode.keytab.file</name>
+        <value><:install_root:>/certs/kerberos/hdfs.keytab</value>
+    </property>
+    <property>
+        <name>dfs.namenode.kerberos.principal</name>
+        <value>hdfs/_HOST@CWIZ.COM</value>
+    </property>
+    <property>
+        <name>dfs.secondary.namenode.keytab.file</name>
+        <value><:install_root:>/certs/kerberos/hdfs.keytab</value>
+    </property>
+    <property>
+        <name>dfs.secondary.namenode.kerberos.principal</name>
+        <value>hdfs/_HOST@CWIZ.COM</value>
+    </property>
+    <property>
+        <name>dfs.datanode.keytab.file</name>
+        <value><:install_root:>/certs/kerberos/hdfs.keytab</value>
+    </property>
+    <property>
+        <name>dfs.datanode.kerberos.principal</name>
+        <value>hdfs/_HOST@CWIZ.COM</value>
+    </property>
+    <property>
+        <name>dfs.datanode.address</name>
+        <value>0.0.0.0:61004</value>
+    </property>
+    <property>
+        <name>dfs.datanode.http.address</name>
+        <value>0.0.0.0:61006</value>
+    </property>
+    <!-- webhdfs secure -->
+    <property>
+        <name>dfs.webhdfs.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.web.authentication.kerberos.principal</name>
+        <value>HTTP/_HOST@CWIZ.COM</value>
+    </property>
+    <property>
+        <name>dfs.web.authentication.kerberos.keytab</name>
+        <value><:install_root:>/certs/kerberos/HTTP.keytab</value>
+    </property>
+    <property>
+        <name>ignore.secure.ports.for.testing</name>
+        <value>true</value>
+    </property>
+
 </configuration>

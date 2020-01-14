@@ -1,6 +1,9 @@
 #!/bin/bash
 
+set -x
+
 # Set some sensible defaults
+KERBEROS_REALM=${KERBEROS_REALM:-'CWIZ.COM'}
 export CORE_CONF_fs_defaultFS=${CORE_CONF_fs_defaultFS:-hdfs://`hostname -f`:8020}
 
 function addProperty() {
@@ -30,6 +33,11 @@ function configure() {
         addProperty /etc/hadoop/$module-site.xml $name "$value"
     done
 }
+
+# Init default config.
+sed -i "s/{{user}}/$USER/g" /etc/hadoop/core-site.xml
+sed -i "s/{{user}}/$USER/g" /etc/hadoop/hdfs-site.xml
+sed -i "s/{{kerberos_realm}}/$KERBEROS_REALM/g" /etc/hadoop/hdfs-site.xml
 
 configure /etc/hadoop/core-site.xml core CORE_CONF
 configure /etc/hadoop/hdfs-site.xml hdfs HDFS_CONF

@@ -11,7 +11,7 @@ spring:
   profiles:
     active: dev
   datasource:
-        url: jdbc:mysql://<:nginx_ip:>:3308/oneagent?useUnicode=true&characterEncoding=utf-8
+        url: jdbc:mysql://<:nginx_ip:>:3308/oneagent?useUnicode=true&characterEncoding=utf-8&useSSL=<:ssl_enable:>
         username: <:mysql_username:>
         password: ENC(<:mysql_password:>)
         initial-size: 10
@@ -67,24 +67,23 @@ kafka:
   consumerNum: 2
   pollIntervalMs: 5000
   ssl:
-    enabled: false
+    enabled: <:ssl_enable:>
     keystore-location: <:install_root:>/certs/kafka/client.jks
-    key-password: ENC(739k8fjr6MtDzlg0vYjspvCjlUUsjVEC87jYoFUmHgVvNIYA1lRzcHktguqTlchY99sXn/AhH+errgJl)
-    keystore-password: ENC(739k8fjr6MtDzlg0vYjspvCjlUUsjVEC87jYoFUmHgVvNIYA1lRzcHktguqTlchY99sXn/AhH+errgJl)
-    truststore-location: <:install_root:>/certs/kafka/clientTrust.jks
-    truststore-password: ENC(739k8fjr6MtDzlg0vYjspvCjlUUsjVEC87jYoFUmHgVvNIYA1lRzcHktguqTlchY99sXn/AhH+errgJl)
+    key-password: ENC(<:ssl_password:>)
+    keystore-password: ENC(<:ssl_password:>)
+    truststore-location: <:install_root:>/certs/kafka/truststore.jks
+    truststore-password: ENC(<:ssl_password:>)
 
 
 mysql:
-  grafanaName: grafana
+  grafanaName: <:grafana_database:>
   cluster: "*"
   ssl:
-    enabled: true
+    enabled: <:ssl_enable:>
     keyStore: <:install_root:>/certs/mysql/client.jks
-    keyStorePassword: ENC(739k8fjr6MtDzlg0vYjspvCjlUUsjVEC87jYoFUmHgVvNIYA1lRzcHktguqTlchY99sXn/AhH+errgJl)
+    keyStorePassword: ENC(<:ssl_password:>)
     trustStore: <:install_root:>/certs/mysql/truststore.jks
-    trustStorePassword: ENC(739k8fjr6MtDzlg0vYjspvCjlUUsjVEC87jYoFUmHgVvNIYA1lRzcHktguqTlchY99sXn/AhH+errgJl)
-
+    trustStorePassword: ENC(<:ssl_password:>)
 
 zuul:
   sensitiveHeaders: Authorization

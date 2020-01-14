@@ -776,6 +776,7 @@ function encrypt_SSLPass()
     local crypt_jar="${install_root}/encrypt/${local_encrypt_jar}"
     local java_class="com.cloudwiz.crypt.AesCrypt"
 
+    export kafka_ssl_password=${ssl_password}
     encrypt_pass=$(${java_path} -cp ${crypt_jar} ${java_class} ${secret_key} encrypt ${ssl_password})
     export ssl_password=${encrypt_pass}
 }
@@ -814,9 +815,9 @@ function install_es_plugin()
     mkdir -p ${install_root}/elasticsearch/plugins/
     tar -xf ${local_pkg_dir}/${local_es_plugin} -C ${install_root}/elasticsearch/plugins/
 
-    log_info "Unpacking ${_DATA}/elasticsearch.tar.gz"
-    mkdir -p ${install_root}/data/
-    tar -xf ${_DATA}/elasticsearch.tar.gz -C ${install_root}/data/
+    #log_info "Unpacking ${_DATA}/elasticsearch.tar.gz"
+    #mkdir -p ${install_root}/data/
+    #tar -xf ${_DATA}/elasticsearch.tar.gz -C ${install_root}/data/
 
     log_info "chmod elasticsearch.yml"
     chmod 666 ${install_root}/elasticsearch/config/elasticsearch.yml

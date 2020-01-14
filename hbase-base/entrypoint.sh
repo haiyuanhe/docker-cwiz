@@ -1,5 +1,11 @@
 #!/bin/bash
 
+set -x
+
+KERBEROS_REALM=${KERBEROS_REALM:-'CWIZ.COM'}
+KERBEROS_HBASE_CLIENT_PRIMARY=${KERBEROS_HBASE_CLIENT_PRIMARY:-'hbase'}
+KERBEROS_ZOOKEEPER_CLIENT_PRIMARY=${KERBEROS_ZOOKEEPER_CLIENT_PRIMARY:-'root'}
+
 function addProperty() {
   local path=$1
   local name=$2
@@ -27,6 +33,19 @@ function configure() {
         addProperty /etc/hbase/$module-site.xml $name "$value"
     done
 }
+
+# Init default config.
+sed -i "s/{{kerberos_realm}}/$KERBEROS_REALM/g" /etc/hbase/hbase-site.xml
+
+cat > /etc/hbase/jaas.conf << EOF
+Client {
+  com.sun.security.auth.module.Krb5LoginModule required
+  useKeyTab=true
+  storeKey=true
+  keyTab="/kerberos/${KERBEROS_ZOOKEEPER_CLIENT_PRIMARY}.keytab"
+  principal="${KERBEROS_ZOOKEEPER_CLIENT_PRIMARY}/`hostname -f`@${KERBEROS_REALM}";
+};
+EOF
 
 configure /etc/hbase/hbase-site.xml hbase HBASE_CONF
 

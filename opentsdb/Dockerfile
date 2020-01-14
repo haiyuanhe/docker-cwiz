@@ -9,6 +9,11 @@ ENV OPENTSDB_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/opentsdb.tar.gz
 ENV JAVA_HOME /usr/lib/jvm/java
 ENV USER=root
 
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get -y update && apt-get install -y krb5-user \
+    && apt-get clean all \
+    && rm -rf /var/cache/
+
 RUN set -x \
     && curl -fSL "$OPENTSDB_URL" -o /tmp/opentsdb.tar.gz \
     && mkdir -p ${INSTALL_ROOT} \

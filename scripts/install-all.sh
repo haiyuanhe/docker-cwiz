@@ -470,6 +470,7 @@ echo "Repackage agent..."
 bash $install_root/agent/bin/repackage.sh &> /dev/null
 chown -R 101:101 $install_root/nginx/
 bash $install_root/tools/certs/create-ssl-all-x.sh
+mkdir -p $install_root/etc && touch $install_root/etc/krb5.conf
 echo "Enable docker auto restart"
 systemctl enable docker
 echo "Enable docker-compose auto restart"

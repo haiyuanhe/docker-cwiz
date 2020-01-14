@@ -31,7 +31,8 @@ if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
     export KAFKA_HEAP_OPTS="-Xmx$KAFKA_HEAP_SIZE_MAX -Xms$KAFKA_HEAP_SIZE_MIN"
 fi
 
-export KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -javaagent:<:install_root:>/alertd/bin/jolokia-jvm-1.3.6-agent.jar=host=127.0.0.1,port=8778,maxCollectionSize=0 "
+KAFKA_KERBEROS_OPTS="-Djava.security.auth.login.config=$base_dir/../config/jaas.conf"
+export KAFKA_JMX_OPTS="$KAFKA_KERBEROS_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -javaagent:<:install_root:>/alertd/bin/jolokia-jvm-1.3.6-agent.jar=host=0.0.0.0,port=8778,maxCollectionSize=0 "
 
 export LOG_DIR=<:log_root:>/kafka
 EXTRA_ARGS=${EXTRA_ARGS-'-name kafkaServer -loggc'}

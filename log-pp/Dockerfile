@@ -19,4 +19,4 @@ ENV USER=root
 
 EXPOSE 5045
 
-CMD ${INSTALL_ROOT}/log-pp/bin/start.sh
+CMD /wait-for-it.sh mysql:3306 --timeout=5 -- ${INSTALL_ROOT}/log-pp/bin/start.sh

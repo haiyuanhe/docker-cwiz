@@ -4,12 +4,14 @@ MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 ARG PKG_URL
 ARG INSTALL_ROOT
 ENV INSTALL_ROOT ${INSTALL_ROOT}
+ENV KEYTAB_DIR=/kerberos
 
 ENV HADOOP_VERSION  2.7.7
 ENV HADOOP_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/hadoop-$HADOOP_VERSION.tar.gz
 ENV JAVA_HOME ${INSTALL_ROOT}/jdk
 
-RUN apt-get -y update && apt-get install -y net-tools netcat perl \
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get -y update && apt-get install -y net-tools netcat perl krb5-user \
     && apt-get clean all \
     && rm -rf /var/cache/
 
@@ -22,9 +24,10 @@ RUN set -x \
 
 RUN ln -s ${INSTALL_ROOT}/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
 RUN cp /etc/hadoop/mapred-site.xml.template /etc/hadoop/mapred-site.xml
-RUN mkdir -p ${INSTALL_ROOT}/hadoop-$HADOOP_VERSION/logs
+RUN mkdir -p ${INSTALL_ROOT}/hadoop-$HADOOP_VERSION/logs \
+    && mkdir -p /data/dfs/{namenode,datanode,tmp}
 
-RUN mkdir /hadoop-data
+RUN mkdir /hadoop-data && mkdir -p $KEYTAB_DIR
 
 ENV HADOOP_PREFIX=${INSTALL_ROOT}/hadoop-$HADOOP_VERSION
 ENV HADOOP_CONF_DIR=/etc/hadoop
@@ -32,6 +35,9 @@ ENV MULTIHOMED_NETWORK=1
 
 ENV USER=root
 ENV PATH $HADOOP_PREFIX/bin/:$PATH
+
+COPY conf/core-site.xml $HADOOP_CONF_DIR/core-site.xml
+COPY conf/hdfs-site.xml $HADOOP_CONF_DIR/hdfs-site.xml
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh

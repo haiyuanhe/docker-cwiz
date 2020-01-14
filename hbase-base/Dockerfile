@@ -4,12 +4,14 @@ MAINTAINER haiyuan he <haiyuan.he@cloudwiz.cn>
 ARG PKG_URL
 ARG INSTALL_ROOT
 ENV INSTALL_ROOT ${INSTALL_ROOT}
+ENV KEYTAB_DIR=/kerberos
 
 ENV HBASE_VERSION  1.4.10
 ENV HBASE_URL ${PKG_URL:-http://download.cloudwiz.cn/package}/hbase-$HBASE_VERSION-bin.tar.gz
 ENV JAVA_HOME ${INSTALL_ROOT}/jdk
 
-RUN apt-get -y update && apt-get install -y net-tools netcat perl \
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get -y update && apt-get install -y net-tools netcat perl krb5-user \
     && apt-get clean all \
     && rm -rf /var/cache/
 
@@ -21,9 +23,14 @@ RUN set -x \
     && rm -rf /tmp/hbase.tar.gz*
 
 RUN ln -s ${INSTALL_ROOT}/hbase-$HBASE_VERSION/conf /etc/hbase
-RUN mkdir ${INSTALL_ROOT}/hbase-$HBASE_VERSION/logs
+RUN mkdir ${INSTALL_ROOT}/hbase-$HBASE_VERSION/logs \
+    && mkdir -p $KEYTAB_DIR
 
 RUN mkdir /hadoop-data
+
+COPY conf/core-site.xml /etc/hbase/core-site.xml
+COPY conf/hbase-site.xml /etc/hbase/hbase-site.xml
+COPY conf/hbase-env.sh /etc/hbase/hbase-env.sh
 
 ENV HBASE_PREFIX=${INSTALL_ROOT}/hbase-$HBASE_VERSION
 ENV HBASE_CONF_DIR=/etc/hbase
