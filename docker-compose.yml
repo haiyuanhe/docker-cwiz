@@ -54,7 +54,7 @@ services:
     hostname: datanode
     restart: always
     volumes:
-      - ${WORK_PATH}/data/hadoop/dfs/data:/data/dfs/datanode
+      - ${WORK_PATH}/data/hadoop/dfs/data:/hadoop/dfs/data
       - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hadoop-2.7.7/logs
       - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
       - ${WORK_PATH}/kerberos:/kerberos
