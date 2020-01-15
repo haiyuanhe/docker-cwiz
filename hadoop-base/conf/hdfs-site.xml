@@ -1,26 +1,4 @@
 <configuration>
-    <property>
-        <!-- This is the total number of copies. -->
-        <name>dfs.replication</name>
-        <value>2</value>
-    </property>
-    <property>
-        <!-- This can be a comma-separated list of directories. -->
-        <name>dfs.datanode.data.dir</name>
-        <value>file:///hadoop/dfs/data</value>
-        <description>DataNode directory for storing data chunks.</description>
-    </property>
-    <property>
-        <!-- This can be a comma-separated list of directories. -->
-        <name>dfs.namenode.name.dir</name>
-        <value>file:///hadoop/dfs/name</value>
-        <description>NameNode directory for namespace and transaction logs storage.</description>
-    </property>
-    <!-- secondarynamenode checkpoint tmp data -->
-    <property>
-        <name>hadoop.tmp.dir</name>
-        <value>file:///hadoop/dfs/name_temp</value>
-    </property>
     <!-- kerberos -->
     <property>
         <name>dfs.cluster.administrators</name>

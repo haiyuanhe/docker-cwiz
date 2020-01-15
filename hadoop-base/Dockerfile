@@ -24,8 +24,7 @@ RUN set -x \
 
 RUN ln -s ${INSTALL_ROOT}/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
 RUN cp /etc/hadoop/mapred-site.xml.template /etc/hadoop/mapred-site.xml
-RUN mkdir -p ${INSTALL_ROOT}/hadoop-$HADOOP_VERSION/logs \
-    && mkdir -p /hadoop/dfs/{name,data,name_tmp}
+RUN mkdir -p ${INSTALL_ROOT}/hadoop-$HADOOP_VERSION/logs
 
 RUN mkdir /hadoop-data && mkdir -p $KEYTAB_DIR
 
