@@ -580,6 +580,7 @@ services:
       - "hbase-master:172.19.0.5"
       - "hbase-regionserver:172.19.0.6"
       - "nginx:172.19.0.9"
+      - "chartservice: 172.19.0.19"
     networks:
       cwiz_network:
         ipv4_address: 172.19.0.22
@@ -604,8 +605,6 @@ services:
       driver: none
       options:
         max-size: 50m
-    extra_hosts:
-      chartservice: 172.19.0.19
 
 #  umanager:
 #    image: cloudwiz/umanager:1.0.0
