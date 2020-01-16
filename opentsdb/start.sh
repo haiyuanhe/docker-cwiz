@@ -45,14 +45,14 @@ HBaseClient {
     com.sun.security.auth.module.Krb5LoginModule required
     useKeyTab=true
     storeKey=true
-    keyTab="/kerberos/hbase.keytab"
+    keyTab="/kerberos/${KERBEROS_HABSE_CLIENT_PRIMARY}.keytab"
     principal="${KERBEROS_HABSE_CLIENT_PRIMARY}/`hostname -f`@${KERBEROS_REALM}";
 };
 Client {
     com.sun.security.auth.module.Krb5LoginModule required
     useKeyTab=true
     storeKey=true
-    keyTab="/kerberos/centos.keytab"
+    keyTab="/kerberos/${KERBEROS_ZOOKEEPER_CLIENT_PRIMARY}.keytab"
     principal="${KERBEROS_ZOOKEEPER_CLIENT_PRIMARY}/`hostname -f`@${KERBEROS_REALM}";
 };
 EOF
