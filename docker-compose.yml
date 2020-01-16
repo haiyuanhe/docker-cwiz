@@ -366,6 +366,7 @@ services:
       - ${WORK_PATH}/logs/opentsdb/:${WORK_PATH}/logs/opentsdb/
       - ${WORK_PATH}/etc/krb5.conf:/etc/krb5.conf
       - ${WORK_PATH}/kerberos:/kerberos
+      - ${WORK_PATH}/certs/opentsdb/:${WORK_PATH}/certs/opentsdb/
       - ${WORK_PATH}/certs/mysql/:${WORK_PATH}/certs/mysql/
     depends_on:
       - hbase-regionserver
