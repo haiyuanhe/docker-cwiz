@@ -455,7 +455,7 @@ do
 
 done
 
-replace_tags_in_file  ../.env
+replace_tags_in_file  ../docker-compose.yml
 install_es_plugin
 sed -i 's/daemon off;/#daemon off;/' $install_root/nginx/conf/nginx.conf
 sed -i '/^current_node_name =/ccurrent_node_name = alertd' $install_root/alertd/conf/cloudmon.alerting.conf
