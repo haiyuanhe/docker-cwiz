@@ -150,7 +150,7 @@ CREATE PROCEDURE add_all_metrics()
     call add_metric('iostat.disk.msec_total', '系统', 'io', 'Time in msec doing I/O', 'ms', Null, '["dev", "host"]', False, 'counter');
     call add_metric('iostat.disk.msec_weighted_total', '系统', 'io', 'Weighted time doing I/O (multiplied by ios_in_progress)', 'ms', Null, '["dev", "host"]', False, 'counter');
     call add_metric('iostat.disk.msec_write', '系统', 'io', 'Time in msec spent writing', 'ms', Null, '["dev", "host"]', False, 'counter');
-    call add_metric('iostat.disk.r_await', '系统', 'io', 'The average time (in milliseconds) for read requests issued to the device to be served. This includes the time spent by the requests in queue and the time spent servicing them', 'ms', Null, '["dev", "host"]', False, 'counter');
+    call add_metric('iostat.disk.r_await', '系统', 'io', 'The average time (in milliseconds) for read requests issued to the device to be served. ', 'ms', Null, '["dev", "host"]', False, 'counter');
     call add_metric('iostat.disk.read_merged', '系统', 'io', 'Number of reads merged', 'short', Null, '["dev", "host"]', False, 'counter');
     call add_metric('iostat.disk.read_requests', '系统', 'io', 'Number of reads completed', 'short', Null, '["dev", "host"]', False, 'counter');
     call add_metric('iostat.disk.read_sectors', '系统', 'io', 'Number of sectors read', 'short', Null, '["dev", "host"]', False, 'counter');
@@ -158,7 +158,7 @@ CREATE PROCEDURE add_all_metrics()
 
     call add_metric('iostat.avgqu-sz', '系统', 'io', '是平均请求队列的长度。毫无疑问，队列长度越短越好。', 'short', Null, '["device", "host"]', True, 'regular');
     call add_metric('iostat.avgrq-sz', '系统', 'io', '平均每次设备I/O操作的数据大小', 'short', Null, '["device", "host"]', True, 'regular');
-    call add_metric('iostat.await', '系统', 'io', '每一个IO请求的处理的平均时间（单位是微秒毫秒）。这里可以理解为IO的响应时间，一般地系统IO响应时间应该低于5ms，如果大于10ms就比较大了。这个时间包括了队列时间和服务时间，也就是说，一般情况下，await大于svctm，它们的差值越小，则说明队列时间越短，反之差值越大，队列时间越长，说明系统出了问题。', 'ms', Null, '["device", "host"]', True, 'regular');
+    call add_metric('iostat.await', '系统', 'io', '每一个IO请求的处理的平均时间（单位是微秒毫秒）。', 'ms', Null, '["device", "host"]', True, 'regular');
     call add_metric('iostat.bytes_per_s', '系统', 'io', '平均每秒读写字节数', 'bytes', Null, '["host"]', True, 'regular');
     call add_metric('iostat.r/s', '系统', 'io', '每秒完成的读 I/O 设备次数', 'short', Null, '["device", "host"]', True, 'regular');
     call add_metric('iostat.r_await', '系统', 'io', '读的IO请求的处理的平均时间', 'ms', Null, '["device", "host"]', True, 'regular');
@@ -169,7 +169,7 @@ CREATE PROCEDURE add_all_metrics()
     call add_metric('iostat.w/s', '系统', 'io', '每秒完成的写I/O 设备次数', 'short', Null, '["device", "host"]', True, 'regular');
     call add_metric('iostat.wkB/s', '系统', 'io', '每秒写K字节数。是 rsect/s 的一半因为每扇区大小为512字节。', 'kbytes', Null, '["device", "host"]', True, 'regular');
     call add_metric('iostat.wrqm/s', '系统', 'io', '每秒进行 merge 的写操作数目', 'short', Null, '["device", "host"]', True, 'regular');
-    call add_metric('iostat.percentage_util', '系统', 'io', '在统计时间内所有处理IO时间除以总共统计时间。例如如果统计间隔1秒该 设备有0.8秒在处理IO而0.2秒闲置那么该设备的%util = 0.8/1 = 80%所以该参数暗示了设备的繁忙程度。一般地如果该参数是100%表示设备已经接近满负荷运行了当然如果是多磁盘即使%util是100%因 为磁盘的并发能力所以磁盘使用未必就到了瓶颈', 'percent', Null, '["device", "host"]', True, 'regular');
+    call add_metric('iostat.percentage_util', '系统', 'io', '在统计时间内所有处理IO时间除以总共统计时间', 'percent', Null, '["device", "host"]', True, 'regular');
 
     call add_metric('net.sockstat.ipfragqueues', '系统', 'net', '等待重新组装的IP流数量', 'short', Null, '["host"]', False, 'regular');
     call add_metric('net.sockstat.memory', '系统', 'net', '分配给该socket类型的内存大小', 'bytes', Null, '["host", "type"]', True, 'regular');
@@ -218,7 +218,7 @@ CREATE PROCEDURE add_all_metrics()
     call add_metric('proc.meminfo.inactive', '系统', 'memory', '不经常使用的高速缓冲存储器页面文件大小', 'kbytes', Null, '["host"]', False, 'regular');
     call add_metric('proc.meminfo.kernelstack', '系统', 'memory', 'The memory the kernel stack uses. This is not reclaimable.', 'kbytes', Null, '["host"]', False, 'regular');
     call add_metric('proc.meminfo.mapped', '系统', 'memory', '设备和文件映射的大小', 'kbytes', Null, '["host"]', False, 'regular');
-    call add_metric('proc.meminfo.memavailable', '系统', 'memory', 'An estimate of how much memory is available for starting new applications, without swapping. Calculated from MemFree, SReclaimable, the size of the file LRU lists, and the low watermarks in each zone. The estimate takes into account that the system needs some page cache to function well, and that not all reclaimable slab will be reclaimable, due to items being in use. The impact of those factors will vary from system to system.', 'kbytes', Null, '["host"]', True, 'regular');
+    call add_metric('proc.meminfo.memavailable', '系统', 'memory', '可用内存', 'kbytes', Null, '["host"]', True, 'regular');
     call add_metric('proc.meminfo.memfree', '系统', 'memory', '空闲内存', 'kbytes', Null, '["host"]', False, 'regular');
     call add_metric('proc.meminfo.memtotal', '系统', 'memory', '总内存', 'kbytes', Null, '["host"]', False, 'regular');
     call add_metric('proc.meminfo.mlocked', '系统', 'memory', 'Pages locked to memory using the mlock() system call. Mlocked pages are also Unevictable.', 'kbytes', Null, '["host"]', False, 'regular');
@@ -710,7 +710,7 @@ CREATE PROCEDURE add_all_metrics()
     call add_metric('apache.performance.busy_workers', '服务', 'apache', '正在运行的进程数','none','linux,windows', '["host"]', True,'regular');
     call add_metric('apache.performance.cpu_load', '服务', 'apache', 'apache负荷','none','linux,windows', '["host"]', False,'regular');
     call add_metric('apache.performance.idle_workers', '服务', 'apache', '空闲的进程数','none','linux,windows', '["host"]', True,'regular');
-    call add_metric('apache.performance.uptime', '服务', 'apache', '运行时间,自服务器启动以来，正常运行时间通常以秒为单位。正常运行时间的意外下降可能表示服务器的计划外停机或重新启动。','none','linux,windows', '["host"]', False,'regular');
+    call add_metric('apache.performance.uptime', '服务', 'apache', '运行时间','none','linux,windows', '["host"]', False,'regular');
 
     call add_metric('docker.status', '服务', 'docker', '','none','linux', '["host"]', False,'regular');
 
