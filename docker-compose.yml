@@ -16,7 +16,7 @@ services:
     - ./hadoop.env
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.2
+        ipv4_address: <:subnet_prefix:>.0.2
     logging:
       driver: none
       options:
@@ -36,7 +36,7 @@ services:
     - ./hadoop.env
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.3
+        ipv4_address: <:subnet_prefix:>.0.3
     depends_on:
     - namenode
     logging:
@@ -51,14 +51,14 @@ services:
     restart: always
     environment:
       ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=172.19.0.4:2888:3888
+      ZOO_SERVERS: server.1=<:subnet_prefix:>.0.4:2888:3888
     volumes:
     - ${WORK_PATH}/data/zookeeper/:/data
     - ${WORK_PATH}/data/zookeeper/datalog:/datalog
     - ${WORK_PATH}/logs/zookeeper:/logs/zookeeper.log
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.4
+        ipv4_address: <:subnet_prefix:>.0.4
     logging:
       driver: none
       options:
@@ -77,7 +77,7 @@ services:
     - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hbase-1.4.10/logs
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.5
+        ipv4_address: <:subnet_prefix:>.0.5
     depends_on:
     - namenode
     - datanode
@@ -101,7 +101,7 @@ services:
     - ${WORK_PATH}/logs/hadoop/:${WORK_PATH}/hbase-1.4.10/logs
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.6
+        ipv4_address: <:subnet_prefix:>.0.6
     depends_on:
     - namenode
     - datanode
@@ -123,7 +123,7 @@ services:
     - ${WORK_PATH}/data/binlog/:/logs/binlog
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.7
+        ipv4_address: <:subnet_prefix:>.0.7
     logging:
       driver: none
       options:
@@ -150,7 +150,7 @@ services:
     - ${WORK_PATH}/logs/elasticsearch/:/usr/share/elasticsearch/logs
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.8
+        ipv4_address: <:subnet_prefix:>.0.8
     logging:
       driver: none
       options:
@@ -173,33 +173,33 @@ services:
     - 5044:5044
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.9
+        ipv4_address: <:subnet_prefix:>.0.9
     extra_hosts:
-      namenode: 172.19.0.2
-      datanode: 172.19.0.3
-      zookeeper: 172.19.0.4
-      hbase-master: 172.19.0.5
-      hbase-regionserver: 172.19.0.6
-      mysql-server: 172.19.0.7
-      elasticsearch: 172.19.0.8
-      nginx: 172.19.0.9
-      kafka: 172.19.0.10
-      metric-proxy: 172.19.0.11
-      opentsdb: 172.19.0.12
-      cmservice: 172.19.0.13
-      log_processor: 172.19.0.14
-      webfront: 172.19.0.15
-      cloudwiz_user: 172.19.0.16
-      permission: 172.19.0.17
-      log_analysis: 172.19.0.18
-      chartservice: 172.19.0.19
-      log_pp: 172.19.0.20
-      alertd: 172.19.0.22
-      umanage: 172.19.0.23
-      python_daemon: 172.19.0.25
+      namenode: <:subnet_prefix:>.0.2
+      datanode: <:subnet_prefix:>.0.3
+      zookeeper: <:subnet_prefix:>.0.4
+      hbase-master: <:subnet_prefix:>.0.5
+      hbase-regionserver: <:subnet_prefix:>.0.6
+      mysql-server: <:subnet_prefix:>.0.7
+      elasticsearch: <:subnet_prefix:>.0.8
+      nginx: <:subnet_prefix:>.0.9
+      kafka: <:subnet_prefix:>.0.10
+      metric-proxy: <:subnet_prefix:>.0.11
+      opentsdb: <:subnet_prefix:>.0.12
+      cmservice: <:subnet_prefix:>.0.13
+      log_processor: <:subnet_prefix:>.0.14
+      webfront: <:subnet_prefix:>.0.15
+      cloudwiz_user: <:subnet_prefix:>.0.16
+      permission: <:subnet_prefix:>.0.17
+      log_analysis: <:subnet_prefix:>.0.18
+      chartservice: <:subnet_prefix:>.0.19
+      log_pp: <:subnet_prefix:>.0.20
+      alertd: <:subnet_prefix:>.0.22
+      umanage: <:subnet_prefix:>.0.23
+      python_daemon: <:subnet_prefix:>.0.25
       #### No such service now
-      oneagent: 172.19.0.21
-      hbase_thrift: 172.19.0.233
+      oneagent: <:subnet_prefix:>.0.21
+      hbase_thrift: <:subnet_prefix:>.0.233
     depends_on:
     - mysql-server
     logging:
@@ -216,7 +216,7 @@ services:
     - ./hadoop.env
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.10
+        ipv4_address: <:subnet_prefix:>.0.10
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -240,7 +240,7 @@ services:
     - ./hadoop.env
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.11
+        ipv4_address: <:subnet_prefix:>.0.11
     volumes:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/metric-proxy/bin/start.sh:${WORK_PATH}/metric-proxy/bin/start.sh
@@ -265,7 +265,7 @@ services:
     - ./hadoop.env
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.12
+        ipv4_address: <:subnet_prefix:>.0.12
     volumes:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/opentsdb/bin/start.sh:${WORK_PATH}/opentsdb/bin/start.sh
@@ -289,7 +289,7 @@ services:
     - ./hadoop.env
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.13
+        ipv4_address: <:subnet_prefix:>.0.13
     volumes:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/cmservice/bin/start.sh:${WORK_PATH}/cmservice/bin/start.sh
@@ -314,7 +314,7 @@ services:
     - ./hadoop.env
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.14
+        ipv4_address: <:subnet_prefix:>.0.14
     volumes:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/log-processor/bin/start.sh:${WORK_PATH}/log-processor/bin/start.sh
@@ -337,7 +337,7 @@ services:
     restart: always
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.15
+        ipv4_address: <:subnet_prefix:>.0.15
     volumes:
     #- /tmp/webfront:${WORK_PATH}/webfront
     - ${WORK_PATH}/webfront/conf/defaults.ini:${WORK_PATH}/webfront/conf/defaults.ini
@@ -358,7 +358,7 @@ services:
 #    restart: always
 #    networks:
 #      cwiz_network:
-#        ipv4_address: 172.19.0.16
+#        ipv4_address: <:subnet_prefix:>.0.16
 #    volumes:
 #    - ${WORK_PATH}/cloudwiz-user/web.config.js:${WORK_PATH}/cloudwiz-user/web.config.js
 #    - ${WORK_PATH}/certs/nginx/:${WORK_PATH}/certs/nginx/
@@ -373,7 +373,7 @@ services:
     restart: always
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.17
+        ipv4_address: <:subnet_prefix:>.0.17
     volumes:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/permission/bin/start.sh:${WORK_PATH}/permission/bin/start.sh
@@ -397,7 +397,7 @@ services:
     restart: always
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.18
+        ipv4_address: <:subnet_prefix:>.0.18
     volumes:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/log-analysis/bin/start.sh:${WORK_PATH}/log-analysis/bin/start.sh
@@ -420,7 +420,7 @@ services:
     restart: always
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.19
+        ipv4_address: <:subnet_prefix:>.0.19
     volumes:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/chartservice/bin/start.sh:${WORK_PATH}/chartservice/bin/start.sh
@@ -440,7 +440,7 @@ services:
     restart: always
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.20
+        ipv4_address: <:subnet_prefix:>.0.20
     volumes:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/log-pp/bin/start.sh:${WORK_PATH}/log-pp/bin/start.sh
@@ -465,7 +465,7 @@ services:
     restart: always
     networks:
       cwiz_network:
-        ipv4_address: 172.19.0.22
+        ipv4_address: <:subnet_prefix:>.0.22
     volumes:
     - ${WORK_PATH}/startup/envs.sh:${WORK_PATH}/startup/envs.sh
     - ${WORK_PATH}/alertd/bin/start.sh:${WORK_PATH}/alertd/bin/start.sh
@@ -483,7 +483,7 @@ services:
       options:
         max-size: 50m
     extra_hosts:
-      chartservice: 172.19.0.19
+      chartservice: <:subnet_prefix:>.0.19
 
 #  umanager:
 #    image: cloudwiz/umanager:1.0.0
@@ -492,7 +492,7 @@ services:
 #    restart: always
 #    networks:
 #      cwiz_network:
-#        ipv4_address: 172.19.0.23
+#        ipv4_address: <:subnet_prefix:>.0.23
 #    volumes:
 #    - ${WORK_PATH}/umanager/:${WORK_PATH}/umanager/
 #    - ${WORK_PATH}/nginx/download/release/singles/:${WORK_PATH}/nginx/download/release/singles/
@@ -505,4 +505,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: "172.19.0.0/24"
+        - subnet: "<:subnet_prefix:>.0.0/24"
