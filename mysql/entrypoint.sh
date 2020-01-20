@@ -225,12 +225,12 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 			echo "$MYSQL_ROOT_PASSWORD"
 			"${mysql[@]}" <<-EOSQL
 				CREATE USER 'admin'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
-				CREATE USER 'CloudInsight'@'172.%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
+				CREATE USER 'CloudInsight'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
 				ALTER USER 'admin'@'localhost' PASSWORD EXPIRE INTERVAL 9999 DAY;
-				ALTER USER 'CloudInsight'@'172.%' PASSWORD EXPIRE INTERVAL 9999 DAY;
-				GRANT ALL ON *.* TO 'CloudInsight'@'172.%';
+				ALTER USER 'CloudInsight'@'%' PASSWORD EXPIRE INTERVAL 9999 DAY;
+				GRANT ALL ON *.* TO 'CloudInsight'@'%';
 				GRANT ALL ON *.* TO 'admin'@'localhost';
-				REVOKE SUPER ON *.* FROM 'CloudInsight'@'172.%';
+				REVOKE SUPER ON *.* FROM 'CloudInsight'@'%';
                                 set names utf8;
                                 set names utf8;
 				source /sql/0010_dump.sql;
