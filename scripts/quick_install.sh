@@ -1,6 +1,4 @@
 #!/bin/bash
-ak=468f917903df145ee2e9
-sk=1297d4cbc503fbf25d36335b2e4e3993
 read -p "Please input the local ip: " local_ip
 read -r -p "Is the local IP the same as the external IP (EIP) ? [y/N] " input
 case $input in
@@ -18,18 +16,8 @@ case $input in
 	;;
 esac
 read -p "Please input the CloudOps virtual url: " huawei_url
-read -p "Please input the CloudOps access key [468f917903df145ee2e9]: " akinput
-if [ ! -n "$akinput" ]; then
-    ak=468f917903df145ee2e9
-else
-    ak=$akinput
-fi
-read -p "Please input the CloudOps secret key [1297d4cbc503fbf25d36335b2e4e3993]: " skinput
-if [ ! -n "$skinput" ]; then
-    sk=1297d4cbc503fbf25d36335b2e4e3993
-else
-    sk=$skinput
-fi
+read -p "Please input the CloudOps access key : " ak
+read -p "Please input the CloudOps secret key : " sk
 
 echo "local ip:             ${local_ip}"
 echo "external IP (EIP):    ${eip}"
