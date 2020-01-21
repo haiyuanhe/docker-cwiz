@@ -17,8 +17,7 @@ case $input in
 	exit 1
 	;;
 esac
-read -p "Please input the CloudOps local url: " huawei_url
-read -p "Please input the CloudOps virtual url: " huawei_vurl
+read -p "Please input the CloudOps virtual url: " huawei_url
 read -p "Please input the CloudOps access key [468f917903df145ee2e9]: " akinput
 if [ ! -n "$akinput" ]; then
     ak=468f917903df145ee2e9
@@ -34,13 +33,11 @@ fi
 
 echo "local ip:             ${local_ip}"
 echo "external IP (EIP):    ${eip}"
-echo "CloudOps local URL:   ${huawei_url}"
-echo "CloudOps virtual URL: ${huawei_vurl}"
+echo "CloudOps virtual URL: ${huawei_url}"
 echo "CloudOps access key:  ${ak}"
 echo "CloudOps secret key:  ${sk}"
 
 sed -i "/^huawei_url =/chuawei_url = ${huawei_url}" ./install.ini
-sed -i "/^huawei_vurl =/chuawei_vurl = ${huawei_vurl}" ./install.ini
 sed -i "/^huawei_ak =/chuawei_ak = ${ak}" ./install.ini
 sed -i "/^huawei_sk =/chuawei_sk = ${sk}" ./install.ini
 sed -i "/^nginx_ext_ip =/cnginx_ext_ip = ${eip}" ./install.ini
